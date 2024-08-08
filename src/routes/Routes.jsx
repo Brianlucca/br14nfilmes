@@ -1,26 +1,31 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AuthContext } from "../contexts/authContext/AuthContext";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
 import AdminPage from "../pages/admin/AdminPage";
 import HomePage from "../pages/home/HomePage";
 import MovieDetailsPage from "../pages/movieDetails/MovieDetailsPage";
-import Login from "../components/auth/Login";
-import Register from "../components/auth/Register";
-import { useContext } from "react";
-import { AuthContext } from "../contexts/authContext/AuthContext";
+import AdminRoute from "./AdminRoute";
+import Loading from "../components/loading/Loading"; 
+import Recommendations from "../pages/recommendation/Recommendation";
 
 function RenderRoutes() {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={user ? <HomePage /> : <Navigate to="/cadastro" />}
-        />
+        <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={user ? <Navigate to="/" /> : <Register />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
         <Route path="/movie/:id" element={<MovieDetailsPage />} />
+        <Route path="/recommendations" element={<Recommendations />} />
       </Routes>
     </BrowserRouter>
   );
