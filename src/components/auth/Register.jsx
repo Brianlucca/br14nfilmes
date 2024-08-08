@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../../services/authService/AuthService";
 
 const Register = () => {
@@ -12,7 +12,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await registerUser(email, password);
-      navigate("/login"); // Redireciona para a página de login após o registro
+      navigate("/login");
     } catch (error) {
       setError("Erro ao registrar. Tente novamente.");
       console.error("Erro ao registrar", error);
@@ -60,6 +60,9 @@ const Register = () => {
             Registrar
           </button>
         </form>
+        <p className="mt-4 text-center">
+          Já tem uma conta? <Link to="/login" className="text-blue-500 hover:underline">Faça login</Link>
+        </p>
       </div>
     </div>
   );
