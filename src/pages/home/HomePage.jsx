@@ -1,19 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
+import Footer from "../../components/footer/Footer";
 import MovieList from "../../components/movies/MovieList";
-import { AuthContext } from "../../contexts/authContext/AuthContext";
-import { Navigate } from "react-router-dom";
+import Sidebar from "../../components/sidebar/Sidebar";
+import RecommendationPreview from "../../components/recommendationPreview/RecommendationPreview";
 
 const HomePage = () => {
-  const { user } = useContext(AuthContext);
-
-  // if (!user) {
-  //   return <Navigate to="/login" />;
-  // }
 
   return (
     <div>
-      <h1>Lista de Filmes</h1>
-      <MovieList />
+      <Sidebar />
+      <main>
+        <MovieList />
+        <RecommendationPreview />
+      </main>
+      <Footer />
     </div>
   );};
 
