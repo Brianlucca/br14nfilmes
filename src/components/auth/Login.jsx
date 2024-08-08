@@ -1,18 +1,29 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../services/authService/AuthService";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/authContext/AuthContext";
+import { loginUser, loginAdmin } from "../../services/authService/AuthService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const { isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await loginUser(email, password);
-      navigate("/");
+      if (email === import.meta.env.VITE_ADMIN_EMAIL) {
+        await loginAdmin();
+      } else {
+        await loginUser(email, password);
+      }
+      if (isAdmin) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       setError("Email ou senha incorretos. Tente novamente.");
       console.error("Erro ao fazer login", error);
@@ -59,6 +70,12 @@ const Login = () => {
           >
             Login
           </button>
+          <p className="text-center mt-4">
+            Não tem uma conta?{" "}
+            <Link to="/cadastro" className="text-blue-500 hover:underline">
+              Registrar
+            </Link>
+          </p>
         </form>
       </div>
     </div>
