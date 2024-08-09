@@ -9,6 +9,7 @@ import MovieDetailsPage from "../pages/movieDetails/MovieDetailsPage";
 import AdminRoute from "./AdminRoute";
 import Loading from "../components/loading/Loading"; 
 import Recommendations from "../pages/recommendation/Recommendation";
+import UpdateProfile from "../pages/updateProfile/UpdateProfile";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
@@ -24,8 +25,9 @@ function RenderRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={user ? <Navigate to="/" /> : <Register />} />
         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
-        <Route path="/movie/:id" element={<MovieDetailsPage />} />
+        <Route path="/movie/:id" element={user ? <MovieDetailsPage /> : <Navigate to="/login" />} />
         <Route path="/recommendations" element={<Recommendations />} />
+        <Route path="/profile" element={user ? <UpdateProfile /> : <Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>
   );
