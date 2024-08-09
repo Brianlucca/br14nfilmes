@@ -20,14 +20,14 @@ const MovieList = () => {
   }, []);
 
   const movieItems = movies.map(([id, movie]) => (
-    <div key={id} className="w-60 flex-shrink-0">
+    <div key={id} className="w-40 sm:w-60 flex-shrink-0">
       <MovieItem movie={movie} id={id} />
     </div>
   ));
 
   return (
-    <div className="ml-16 lg:ml-20 p-4">
-      <h1 className="text-2xl font-bold mb-4">Lista de Filmes</h1>
+    <div className=" sm:ml-16 lg:ml-20 p-2 sm:p-4">
+      <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">Lista de Filmes</h1>
       <Carousel items={movieItems} />
     </div>
   );
