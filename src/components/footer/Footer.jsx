@@ -4,11 +4,11 @@ const Footer = () => {
       <div className="container mx-auto text-center">
         <p>&copy; 2024 AinzOoal Films</p>
         <p>
-          <a href="/terms" className="hover:underline">
+          <a href="/" className="hover:underline">
             Termos de Serviço
           </a>{" "}
           |{" "}
-          <a href="/privacy" className="hover:underline">
+          <a href="/" className="hover:underline">
             Política de Privacidade
           </a>
         </p>
