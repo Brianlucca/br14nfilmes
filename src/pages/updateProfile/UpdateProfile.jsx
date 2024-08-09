@@ -13,7 +13,6 @@ const UpdateProfile = () => {
 
   const handleUpdateProfile = async () => {
     if (!user) {
-      console.error("Usuário não autenticado");
       return <Navigate to='/cadastro' />;
     } 
 
@@ -23,7 +22,6 @@ const UpdateProfile = () => {
       await update(userRef, { nickname });
       toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
-      console.error("Erro ao atualizar perfil:", error);
       toast.error("Erro ao atualizar perfil!");
     }
   };

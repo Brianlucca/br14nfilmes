@@ -15,7 +15,6 @@ const Register = () => {
       navigate("/login");
     } catch (error) {
       setError("Erro ao registrar. Tente novamente.");
-      console.error("Erro ao registrar", error);
     }
   };
 
