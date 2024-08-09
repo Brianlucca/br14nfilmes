@@ -20,7 +20,7 @@ const AddMovieForm = () => {
       const db = getDatabase();
       const userId = user.uid;
 
-      get(ref(db, 'roles/' + userId)).then((snapshot) => {
+      get(ref(db, `users/${userId}/role`)).then((snapshot) => {
         const role = snapshot.val();
         setIsUserAdmin(role === 'admin');
       }).catch((error) => {
@@ -60,15 +60,17 @@ const AddMovieForm = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">Adicionar Filme</h2>
+    <div className="flex flex-col items-center min-h-screen bg-gray-50 py-10 px-4">
+      <div className="w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-xl p-8 bg-white shadow-xl rounded-lg border border-gray-200">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900 text-center">Adicionar Filme</h2>
         
-        {successMessage && <p className="text-green-500 text-center mb-4">{successMessage}</p>}
+        {successMessage && (
+          <p className="text-green-500 text-center mb-6 font-medium">{successMessage}</p>
+        )}
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700 text-sm font-medium mb-2">Nome do Filme</label>
+            <label htmlFor="name" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Nome do Filme</label>
             <input
               id="name"
               name="name"
@@ -76,12 +78,12 @@ const AddMovieForm = () => {
               value={movieData.name}
               onChange={handleChange}
               placeholder="Nome do Filme"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           
           <div className="mb-4">
-            <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-medium mb-2">Link da Imagem</label>
+            <label htmlFor="imageUrl" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Link da Imagem</label>
             <input
               id="imageUrl"
               name="imageUrl"
@@ -89,24 +91,25 @@ const AddMovieForm = () => {
               value={movieData.imageUrl}
               onChange={handleChange}
               placeholder="Link da Imagem"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           
           <div className="mb-4">
-            <label htmlFor="youtubeLink" className="block text-gray-700 text-sm font-medium mb-2">Link do Trailer</label>
+            <label htmlFor="youtubeLink" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Link do Trailer</label>
             <input
               id="youtubeLink"
               name="youtubeLink"
+              type="text"
               value={movieData.youtubeLink}
               onChange={handleChange}
               placeholder="Link do Trailer"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           
           <div className="mb-4">
-            <label htmlFor="description" className="block text-gray-700 text-sm font-medium mb-2">Descrição</label>
+            <label htmlFor="description" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Descrição</label>
             <textarea
               id="description"
               name="description"
@@ -114,12 +117,12 @@ const AddMovieForm = () => {
               onChange={handleChange}
               placeholder="Descrição"
               rows="4"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             ></textarea>
           </div>
           
           <div className="mb-6">
-            <label htmlFor="rating" className="block text-gray-700 text-sm font-medium mb-2">Avaliação</label>
+            <label htmlFor="rating" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Avaliação</label>
             <input
               id="rating"
               name="rating"
@@ -127,13 +130,13 @@ const AddMovieForm = () => {
               value={movieData.rating}
               onChange={handleChange}
               placeholder="Avaliação"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Adicionar Filme
           </button>
