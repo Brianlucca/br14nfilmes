@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getDatabase, ref, onValue } from "firebase/database";
+import Carousel from "../carousel/Carousel"; 
 
 const RecommendationPreview = () => {
   const [recommendations, setRecommendations] = useState([]);
@@ -17,23 +18,24 @@ const RecommendationPreview = () => {
     return () => unsubscribe();
   }, []);
 
-  return (
-    <div className="ml-16 lg:ml-20 p-4">
-      <h1 className="text-2xl font-bold mb-4">Em Breve</h1>
-      <div className="flex flex-wrap">
-        {recommendations.map((rec, index) => (
-          <div key={index} className="">
-            <div className="w-full">
-              <img
-                src={rec.imageUrl}
-                alt={rec.name}
-                className="w-48 h-72 object-cover rounded-lg m-5"
-              />
-              <h3 className="text-lg font-semibold text-gray-800 mt-2 text-center">{rec.name}</h3>
-            </div>
-          </div>
-        ))}
+  const recommendationItems = recommendations.map((rec, index) => (
+    <div key={index} className="w-40 sm:w-60 flex-shrink-0 p-2">
+      <div className="flex justify-center">
+        <div className="w-full">
+          <img
+            src={rec.imageUrl}
+            alt={rec.name}
+            className="w-36 h-56 sm:w-48 sm:h-72 object-cover rounded-lg"
+          />
+        </div>
       </div>
+    </div>
+  ));
+
+  return (
+    <div className="ml-4 sm:ml-16 lg:ml-20 p-2 sm:p-4">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center sm:text-left">Em Breve</h1>
+      <Carousel items={recommendationItems} />
     </div>
   );
 };
