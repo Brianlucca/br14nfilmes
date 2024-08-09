@@ -8,30 +8,40 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true); // Adicionado para gerenciamento de carregamento
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
-  
+
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         const adminStatus = currentUser.email === adminEmail;
         setIsAdmin(adminStatus);
 
-        if (adminStatus) {
-          const db = getDatabase();
-          const userId = currentUser.uid;
+        const db = getDatabase();
+        const userId = currentUser.uid;
+        const userRef = ref(db, `users/${userId}`);
 
-          try {
-            const snapshot = await get(ref(db, 'roles/' + userId));
-            if (!snapshot.exists()) {
-              await set(ref(db, 'roles/' + userId), 'admin');
-              console.log('Papel de admin definido para o usuário:', userId);
-            }
-          } catch (error) {
-            console.error('Erro ao verificar ou definir papel de admin:', error);
+        try {
+          const snapshot = await get(userRef);
+
+          if (!snapshot.exists()) {
+            const defaultNickname = "Usuario AinzOoal";
+            const role = adminStatus ? "admin" : "user";
+            await set(userRef, {
+              role: role,
+              nickname: defaultNickname,
+            });
+          } else {
+            const userData = snapshot.val();
+            setUser((prevUser) => ({
+              ...prevUser,
+              nickname: userData.nickname,
+              role: userData.role,
+            }));
           }
+        } catch (error) {
         }
       } else {
         setUser(null);
@@ -39,10 +49,10 @@ export const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     });
-  
+
     return () => unsubscribe();
   }, []);
-  
+
   return (
     <AuthContext.Provider value={{ user, isAdmin, loading }}>
       {children}
