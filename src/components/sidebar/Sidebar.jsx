@@ -50,13 +50,13 @@ const Sidebar = () => {
               Home
             </Link>
             <Link
-              to="/about"
+              to="/"
               className="text-lg font-semibold hover:bg-gray-600 p-2 rounded-md w-full text-center"
             >
               Assistir Depois
             </Link>
             <Link
-              to="/contact"
+              to="/"
               className="text-lg font-semibold hover:bg-gray-600 p-2 rounded-md w-full text-center"
             >
               Favoritos
