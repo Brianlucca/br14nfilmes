@@ -12,7 +12,6 @@ const MovieList = () => {
         const moviesData = await fetchMovies();
         setMovies(Object.entries(moviesData));
       } catch (error) {
-        console.error('Erro ao buscar filmes:', error);
       }
     };
 

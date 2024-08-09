@@ -43,7 +43,6 @@ const Recommendations = () => {
       setDescription("");
     } catch (error) {
       toast.error("Erro ao enviar recomendação. Tente novamente.");
-      console.error("Erro ao enviar recomendação", error);
     }
   };
 

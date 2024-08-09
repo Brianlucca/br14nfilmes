@@ -26,7 +26,6 @@ const Login = () => {
       }
     } catch (error) {
       setError("Email ou senha incorretos. Tente novamente.");
-      console.error("Erro ao fazer login", error);
     }
   };
 

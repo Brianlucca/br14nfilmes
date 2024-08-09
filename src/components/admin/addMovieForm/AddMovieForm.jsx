@@ -24,7 +24,6 @@ const AddMovieForm = () => {
         const role = snapshot.val();
         setIsUserAdmin(role === 'admin');
       }).catch((error) => {
-        console.error('Erro ao verificar papel de usuário:', error);
       });
     }
   }, [user]);
@@ -36,7 +35,6 @@ const AddMovieForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user || !isUserAdmin) {
-      console.error("Acesso negado. Apenas administradores podem adicionar filmes.");
       return;
     }
 
@@ -55,7 +53,6 @@ const AddMovieForm = () => {
         rating: ""
       });
     } catch (error) {
-      console.error("Erro ao adicionar filme", error);
     }
   };
 

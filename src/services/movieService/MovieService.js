@@ -7,7 +7,6 @@ export const addMovie = async (movieData) => {
     await set(movieRef, movieData)
     return movieRef.key
   } catch (error) {
-    console.error('Erro ao adicionar filme:', error)
     throw new Error(
       'Não foi possível adicionar o filme. Tente novamente mais tarde.',
     )
@@ -24,7 +23,6 @@ export const fetchMovies = async () => {
       return {}
     }
   } catch (error) {
-    console.error('Erro ao buscar filmes:', error)
     throw new Error(
       'Não foi possível buscar os filmes. Tente novamente mais tarde.',
     )
