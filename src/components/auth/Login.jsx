@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { loginUser, loginAdmin } from "../../services/authService/AuthService";
 
@@ -10,18 +10,17 @@ const Login = () => {
   const { isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (email === import.meta.env.VITE_ADMIN_EMAIL) {
+      const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+      const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
+      if (email === adminEmail && password === adminPassword) {
         await loginAdmin();
-      } else {
-        await loginUser(email, password);
-      }
-      if (isAdmin) {
         navigate("/admin");
       } else {
+        await loginUser(email, password);
         navigate("/");
       }
     } catch (error) {
