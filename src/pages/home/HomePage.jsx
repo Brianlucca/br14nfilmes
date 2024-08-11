@@ -3,6 +3,9 @@ import Footer from "../../components/footer/Footer";
 import MovieList from "../../components/movies/MovieList";
 import Sidebar from "../../components/sidebar/Sidebar";
 import RecommendationPreview from "../../components/recommendationPreview/RecommendationPreview";
+import MusicList from "../../components/musicList/MusicList";
+import AnimeList from "../../components/animeList/AnimeList";
+import SeriesList from "../../components/seriesList/SeriesList";
 
 const HomePage = () => {
 
@@ -11,6 +14,9 @@ const HomePage = () => {
       <Sidebar />
       <main>
         <MovieList />
+        <SeriesList />
+        <AnimeList />
+        <MusicList />
         <RecommendationPreview />
       </main>
       <Footer />
