@@ -7,23 +7,36 @@ const AdminCommentsList = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    const commentsRef = ref(database, `movies`);
-    onValue(commentsRef, (snapshot) => {
-      const moviesData = snapshot.val();
+    const fetchComments = async () => {
       const allComments = [];
 
-      if (moviesData) {
-        Object.entries(moviesData).forEach(([movieId, movieData]) => {
-          if (movieData.comments) {
-            Object.entries(movieData.comments).forEach(([commentId, comment]) => {
-              allComments.push({ movieId, commentId, ...comment });
-            });
-          }
+      const types = ['movies', 'musics', 'animes', 'series'];
+
+      for (const type of types) {
+        const commentsRef = ref(database, type);
+        await new Promise((resolve) => {
+          onValue(commentsRef, (snapshot) => {
+            const data = snapshot.val();
+
+            if (data) {
+              Object.entries(data).forEach(([itemId, itemData]) => {
+                if (itemData.comments) {
+                  Object.entries(itemData.comments).forEach(([commentId, comment]) => {
+                    allComments.push({ type, itemId, commentId, ...comment });
+                  });
+                }
+              });
+            }
+
+            resolve();
+          });
         });
       }
 
       setComments(allComments);
-    });
+    };
+
+    fetchComments();
   }, []);
 
   return (
@@ -37,12 +50,15 @@ const AdminCommentsList = () => {
                 <strong>{comment.userName}:</strong> {comment.text}
               </p>
               <p className="text-sm text-gray-600">
-                Filme: 
+                {comment.type === 'movies' && 'Filme:'}
+                {comment.type === 'musics' && 'Música:'}
+                {comment.type === 'animes' && 'Anime:'}
+                {comment.type === 'series' && 'Série:'}
                 <Link 
-                  to={`/movie/${comment.movieId}`} 
+                  to={`/${comment.type.slice(0, -1)}/${comment.itemId}`} 
                   className="text-blue-500 hover:underline ml-1"
                 >
-                  {comment.movieId}
+                  {comment.itemId}
                 </Link>
               </p>
               <p className="text-sm text-gray-600">
