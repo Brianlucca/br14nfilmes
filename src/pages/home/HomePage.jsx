@@ -10,7 +10,7 @@ import SeriesList from "../../components/seriesList/SeriesList";
 const HomePage = () => {
 
   return (
-    <div>
+    <div className="bg-gray-300">
       <Sidebar />
       <main>
         <MovieList />
