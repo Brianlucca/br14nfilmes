@@ -45,31 +45,31 @@ const Sidebar = () => {
           <>
             <Link
               to="/"
-              className="text-lg font-semibold hover:bg-gray-600 p-2 rounded-md w-full text-center"
+              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
             >
               Home
             </Link>
             <Link
               to="/"
-              className="text-lg font-semibold hover:bg-gray-600 p-2 rounded-md w-full text-center"
+              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
             >
               Assistir Depois
             </Link>
             <Link
               to="/"
-              className="text-lg font-semibold hover:bg-gray-600 p-2 rounded-md w-full text-center"
+              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
             >
               Favoritos
             </Link>
             <Link
               to={isAdmin ? "/admin" : "/recommendations"}
-              className="text-lg font-semibold hover:bg-gray-600 p-2 rounded-md w-full text-center"
+              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
             >
               {isAdmin ? "Admin" : "Recomendações"}
             </Link>
             <button
               onClick={handleLogout}
-              className="text-lg font-semibold hover:bg-gray-600 p-2 rounded-md w-full text-center mt-auto"
+              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center mt-auto"
             >
               Logout
             </button>
