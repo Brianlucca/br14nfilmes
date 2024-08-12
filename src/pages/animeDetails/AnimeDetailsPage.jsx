@@ -1,6 +1,6 @@
 import { get, ref, onValue, remove, push } from "firebase/database";
 import { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
@@ -15,6 +15,8 @@ const AnimeDetailsPage = () => {
   const [comments, setComments] = useState([]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
 
   useEffect(() => {
     const fetchAnimeDetails = async () => {
@@ -58,14 +60,13 @@ const AnimeDetailsPage = () => {
 
     if (!roleData || !roleData.nickname) {
       toast.warn("Por favor, crie um nickname antes de comentar.");
-      navigate("/profile");
+      navigate("/profile", { state: { from: location.pathname } });
       return;
     }
 
     const comment = {
       text: commentText,
       userName: roleData.nickname,
-      userId: user.uid,
       createdAt: new Date().toISOString(),
       replyingToName: replyingTo ? (comments.find(([key]) => key === replyingTo)[1].userName) : null
     };

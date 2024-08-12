@@ -1,26 +1,30 @@
-import { useContext, useState } from "react";
 import { ref, update } from "firebase/database";
-import { database } from "../../services/firebaseConfig/FirebaseConfig";
-import { AuthContext } from "../../contexts/authContext/AuthContext";
-import { Navigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../../components/sidebar/Sidebar";
+import { AuthContext } from "../../contexts/authContext/AuthContext";
+import { database } from "../../services/firebaseConfig/FirebaseConfig";
 
 const UpdateProfile = () => {
   const { user } = useContext(AuthContext);
   const [nickname, setNickname] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleUpdateProfile = async () => {
     if (!user) {
       return <Navigate to='/cadastro' />;
-    } 
+    }
 
     const roleId = user.uid;
     const userRef = ref(database, `users/${user.uid}/updateNick/${roleId}`);
     try {
       await update(userRef, { nickname });
       toast.success("Perfil atualizado com sucesso!");
+      if (location.state?.from) {
+        navigate(location.state.from);
+      }
     } catch (error) {
       toast.error("Erro ao atualizar perfil!");
     }

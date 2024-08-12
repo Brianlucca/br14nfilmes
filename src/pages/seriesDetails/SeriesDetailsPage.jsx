@@ -1,6 +1,6 @@
 import { get, ref, onValue, remove, push } from "firebase/database";
 import { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
@@ -15,6 +15,7 @@ const SeriesDetailsPage = () => {
   const [comments, setComments] = useState([]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchSeriesDetails = async () => {
@@ -58,14 +59,13 @@ const SeriesDetailsPage = () => {
 
     if (!roleData || !roleData.nickname) {
       toast.warn("Por favor, crie um nickname antes de comentar.");
-      navigate("/profile");
+      navigate("/profile", { state: { from: location.pathname } });
       return;
     }
 
     const comment = {
       text: commentText,
       userName: roleData.nickname,
-      userId: user.uid,
       createdAt: new Date().toISOString(),
       replyingToName: replyingTo ? (comments.find(([key]) => key === replyingTo)[1].userName) : null
     };
@@ -105,6 +105,7 @@ const SeriesDetailsPage = () => {
             <h1 className="text-4xl font-bold text-gray-800">{series.name}</h1>
             <p className="text-lg text-gray-700">{series.description}</p>
             <p className="text-lg text-gray-800 font-semibold">Avaliação: {series.rating}</p>
+            <p className="text-lg text-gray-800 font-semibold">Categoria: {series.category}</p>
             {series.youtubeLink && (
               <div className="mt-6">
                 <iframe

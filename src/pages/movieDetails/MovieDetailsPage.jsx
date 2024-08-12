@@ -1,6 +1,6 @@
 import { get, ref, push, onValue, remove } from "firebase/database";
 import { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
@@ -15,6 +15,8 @@ const MovieDetailsPage = () => {
   const [comments, setComments] = useState([]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -58,14 +60,13 @@ const MovieDetailsPage = () => {
 
     if (!roleData || !roleData.nickname) {
       toast.warn("Por favor, crie um nickname antes de comentar.");
-      navigate("/profile");
+      navigate("/profile", { state: { from: location.pathname } });
       return;
     }
 
     const comment = {
       text: commentText,
       userName: roleData.nickname,
-      userId: user.uid,
       createdAt: new Date().toISOString(),
       replyingToName: replyingTo ? (comments.find(([key]) => key === replyingTo)[1].userName) : null
     };
@@ -105,6 +106,7 @@ const MovieDetailsPage = () => {
             <h1 className="text-4xl font-bold text-gray-800">{movie.name}</h1>
             <p className="text-lg text-gray-700">{movie.description}</p>
             <p className="text-lg text-gray-800 font-semibold">Avaliação: {movie.rating}</p>
+            <p className="text-lg text-gray-800 font-semibold">Categoria: {movie.category}</p>
             {movie.youtubeLink && (
               <div className="mt-6">
                 <iframe
