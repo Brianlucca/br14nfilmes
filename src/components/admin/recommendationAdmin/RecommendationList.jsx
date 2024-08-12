@@ -64,7 +64,7 @@ const RecommendationList = () => {
                 Veja o video
               </a>
               <p className="text-gray-800">Link da Imagem: {rec.imageUrl}</p>
-              <p className="text-gray-600">Recomendado por {rec.userEmail}</p>
+              <p className="text-gray-600">Recomendado por {rec.userName}</p>
               <button
                 onClick={() => handleDelete(rec.id)}
                 className="mt-5 w-full bg-red-500 text-white p-1 rounded-sm hover:bg-red-600"
