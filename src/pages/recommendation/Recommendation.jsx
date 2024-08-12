@@ -1,38 +1,58 @@
-import { useState } from "react";
-import { getDatabase, ref, set } from "firebase/database";
+import { useState, useEffect, useContext } from "react";
+import { getDatabase, ref, set, get } from "firebase/database";
 import { auth } from "../../services/firebaseConfig/FirebaseConfig";
 import Footer from "../../components/footer/Footer";
 import Sidebar from "../../components/sidebar/Sidebar";
+import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Recommendations = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      toast.error("Usuário não autenticado.");
+      return;
+    }
+
     try {
       const db = getDatabase();
       const userId = auth.currentUser?.uid;
-      const userEmail = auth.currentUser?.email; 
 
       if (!userId) {
         toast.error("Usuário não autenticado.");
         return;
       }
 
+      const roleRef = ref(db, `users/${userId}/updateNick/${userId}`);
+      const roleSnapshot = await get(roleRef);
+      const roleData = roleSnapshot.val();
+
+      if (!roleData || !roleData.nickname) {
+        toast.warn("Por favor, crie um nickname antes de enviar uma recomendação.");
+        navigate("/profile", { state: { from: location.pathname } });
+        return;
+      }
+
       const recommendationId = Date.now();
 
       await set(ref(db, `recommendations/${recommendationId}`), {
-        userId,
-        userEmail,
         imageUrl,
         videoUrl,
         name,
         description,
+        userName: roleData.nickname,
       });
 
       toast.success("Recomendação enviada com sucesso!");
