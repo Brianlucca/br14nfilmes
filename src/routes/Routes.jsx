@@ -16,6 +16,7 @@ import UpdateProfile from "../pages/updateProfile/UpdateProfile";
 import CreateSession from "../pages/createSession/CreateSession";
 import JoinSession from "../pages/joinSessionPage/JoinSession";
 import WatchSession from "../pages/watchSession/WatchSession";
+import PageNotFound from "../pages/pageNotFound/PageNotFound";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
@@ -40,6 +41,7 @@ function RenderRoutes() {
         <Route path="/create-session/:id" element={user ? <CreateSession /> : <Navigate to="/login" />} />
         <Route path="/Join-session" element={user ? <JoinSession /> : <Navigate to="/login" />} />
         <Route path="/watchsession/:sessionCode" element={user ? <WatchSession /> : <Navigate to="/login" />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );

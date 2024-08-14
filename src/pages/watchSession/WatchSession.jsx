@@ -127,7 +127,8 @@ const WatchSession = () => {
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-          <h1 className="text-4xl font-bold mb-4">{session.sessionName}</h1>
+          <h1 className="text-lg font-bold mb-4 text-gray-700">Sessão criada para assistir - {session.nameContent}</h1>
+          <h1 className="text-4xl font-bold mb-4 text-gray-800">{session.sessionName}</h1>
           <p className="text-lg text-gray-600 mb-4">{session.description}</p>
 
           <div className="mb-6">

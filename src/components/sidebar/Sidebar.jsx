@@ -56,7 +56,7 @@ const Sidebar = () => {
               Assistir em Grupo
             </Link>
             <Link
-              to="/"
+              to="/*"
               className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
             >
               Favoritos
@@ -105,7 +105,7 @@ const Sidebar = () => {
                   {isOpen && <span className="text-lg">Assistir em Grupo</span>}
                 </Link>
                 <Link
-                  to="/contact"
+                  to="/*"
                   className="flex items-center space-x-2 hover:bg-gray-600 p-2 rounded-md transition-all duration-300"
                 >
                   <Heart className="w-6 h-6" />

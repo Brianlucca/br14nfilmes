@@ -89,7 +89,6 @@ const JoinSession = () => {
     <div className="flex flex-col lg:flex-row">
       <Sidebar className="lg:w-1/4" />
       <div className="flex-1 p-4 lg:p-8 space-y-6 lg:space-y-8">
-        {/* Seção do Formulário Geral */}
         <div className="bg-white p-6 shadow-lg rounded-lg w-full max-w-lg mx-auto">
           <h1 className="text-2xl font-bold mb-6 text-center lg:text-left">Entrar na Sessão</h1>
           <form onSubmit={handleJoin}>
@@ -112,7 +111,6 @@ const JoinSession = () => {
           </form>
         </div>
 
-        {/* Seção das Sessões Recentes */}
         <div className="bg-gray-50 p-6 shadow-lg rounded-lg w-full max-w-lg mx-auto">
           <h2 className="text-xl font-semibold mb-4 text-center lg:text-left">Últimas Sessões Criadas</h2>
           <div className="space-y-4">
