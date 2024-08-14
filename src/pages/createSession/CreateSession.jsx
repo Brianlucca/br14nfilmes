@@ -15,7 +15,8 @@ const CreateSession = () => {
   const [episodes, setEpisodes] = useState(0);
   const [content, setContent] = useState(null);
   const [sessionCode, setSessionCode] = useState("");
-  const [imageUrl, setImageUrl] = useState(""); // Add state for imageUrl
+  const [imageUrl, setImageUrl] = useState("");
+  const [nameContent, setNameContent] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +36,8 @@ const CreateSession = () => {
                 setContent(value);
                 setSessionName(value.name);
                 setDescription(value.description);
-                setImageUrl(value.imageUrl || ""); // Set imageUrl
+                setImageUrl(value.imageUrl || "");
+                setNameContent(value.name)
 
                 if (value.type === "serie" || value.type === "anime") {
                   setIsSeries(true);
@@ -91,8 +93,9 @@ const CreateSession = () => {
       sessionCode: generatedSessionCode,
       createdBy: userData.nickname,
       createdAt: new Date().toISOString(),
-      image: imageUrl, // Use imageUrl here
+      image: imageUrl, 
       contentId: id,
+      nameContent: nameContent
     };
 
     try {
@@ -107,7 +110,7 @@ const CreateSession = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="justify-center flex flex-col lg:flex-row">
       <Sidebar className="lg:w-1/4" />
       <div className="flex-1 max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg lg:max-w-4xl lg:mx-6 lg:py-8">
         {content && (
@@ -125,7 +128,7 @@ const CreateSession = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Nome da Sessão
+              Crie o nome da sessão
             </label>
             <input
               type="text"
@@ -137,7 +140,7 @@ const CreateSession = () => {
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Descrição
+              Crie a descrição da sessão
             </label>
             <textarea
               value={description}
