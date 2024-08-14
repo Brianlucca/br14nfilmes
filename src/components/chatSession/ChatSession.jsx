@@ -89,21 +89,24 @@ const ChatSession = ({ sessionCode }) => {
 
   return (
     <div className="flex flex-col h-full p-2 md:p-4">
+      <p className="text-gray-600 text-sm justify-center text-center">Não envie informações sensiveis no chat,site criado somente para estudos.</p>
       <div className="overflow-y-auto h-80 border p-2 bg-gray-50 rounded-lg shadow-md max-h-[calc(100vh-150px)]">
         {messages.length > 0 ? (
           <div className="space-y-2">
             {messages.map((msg) => (
               <div key={msg.id} className="p-2 bg-white rounded-lg shadow-sm">
-                <div className="flex flex-col">
+                <div className="flex">
                   <strong className="font-semibold text-sm md:text-base">
                     {typeof msg.user === 'object' ? msg.user.nickname : msg.user}:
                   </strong>
-                  <p className="text-gray-800 break-words text-sm md:text-base mt-1 ml-1">
-                    {msg.message}
-                  </p>
-                  <div className="text-xs text-gray-500 mt-1 md:text-sm ml-1">
-                    {new Date(msg.timestamp).toLocaleTimeString()}
+                  <div className="flex justify-evenly">
+                    <p className="text-gray-800 break-words text-sm md:text-base ml-1 overflow-hidden">
+                      {msg.message}
+                    </p>
                   </div>
+                </div>
+                <div className="text-xs text-gray-500  md:text-sm ">
+                  {new Date(msg.timestamp).toLocaleTimeString()}
                 </div>
               </div>
             ))}
