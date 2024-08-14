@@ -35,7 +35,7 @@ const Sidebar = () => {
       </div>
 
       <div
-        className={`flex flex-col transition-all duration-300 ${
+        className={`flex flex-col transition-all duration-300 bg-gray-200 ${
           isMobileMenuOpen ? "items-center" : "items-start"
         } md:items-start md:flex md:space-y-4 md:mt-6 ${
           isMobileMenuOpen ? "block" : "hidden md:block"
@@ -50,10 +50,10 @@ const Sidebar = () => {
               Home
             </Link>
             <Link
-              to="/"
+              to="/Join-session"
               className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
             >
-              Assistir Depois
+              Assistir em Grupo
             </Link>
             <Link
               to="/"
@@ -98,11 +98,11 @@ const Sidebar = () => {
                   {isOpen && <span className="text-lg">Home</span>}
                 </Link>
                 <Link
-                  to="/about"
+                  to="/Join-session"
                   className="flex items-center space-x-2 hover:bg-gray-600 p-2 rounded-md transition-all duration-300"
                 >
                   <TvMinimalPlay className="w-6 h-6" />
-                  {isOpen && <span className="text-lg">Assistir Depois</span>}
+                  {isOpen && <span className="text-lg">Assistir em Grupo</span>}
                 </Link>
                 <Link
                   to="/contact"

@@ -1,13 +1,13 @@
-import { get, ref, push, onValue, remove } from "firebase/database";
-import { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { get, onValue, push, ref, remove } from "firebase/database";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import Comments from "../../components/comments/Comments";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { database } from "../../services/firebaseConfig/FirebaseConfig";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
-import { ToastContainer, toast } from "react-toastify";
+import { database } from "../../services/firebaseConfig/FirebaseConfig";
 
 const MovieDetailsPage = () => {
   const { id } = useParams();
@@ -88,6 +88,10 @@ const MovieDetailsPage = () => {
     }
   };
 
+  const handleCreateSession = () => {
+    navigate(`/create-session/${id}`)
+  }
+  
   if (!movie) {
     return <Loading />;
   }
@@ -123,8 +127,10 @@ const MovieDetailsPage = () => {
               <button className="px-4 py-2 bg-red-500 text-white font-semibold rounded-md shadow-md hover:bg-red-600 mb-2 sm:mb-0">
                 ❤️ Favoritos
               </button>
-              <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600">
-                📺 Assistir Mais Tarde
+              <button
+              onClick={handleCreateSession}
+              className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600">
+                📺 Assistir em Grupo
               </button>
             </div>
           </div>
