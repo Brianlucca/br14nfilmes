@@ -36,6 +36,7 @@ const Register = () => {
               placeholder="Digite seu email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
+              autoComplete="email"
             />
           </div>
           <div className="mb-6">
@@ -50,6 +51,7 @@ const Register = () => {
               placeholder="Digite sua senha"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
+              autoComplete="new-password"
             />
           </div>
           <button
