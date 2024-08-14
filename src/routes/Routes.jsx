@@ -13,6 +13,9 @@ import AdminRoute from "./AdminRoute";
 import Loading from "../components/loading/Loading"; 
 import Recommendations from "../pages/recommendation/Recommendation";
 import UpdateProfile from "../pages/updateProfile/UpdateProfile";
+import CreateSession from "../pages/createSession/CreateSession";
+import JoinSession from "../pages/joinSessionPage/JoinSession";
+import WatchSession from "../pages/watchSession/WatchSession";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
@@ -34,6 +37,9 @@ function RenderRoutes() {
         <Route path="/anime/:id" element={user ? <AnimeDetailsPage /> : <Navigate to="/login" />} />
         <Route path="/recommendations" element={<Recommendations />} />
         <Route path="/profile" element={user ? <UpdateProfile /> : <Navigate to="/login" />} />
+        <Route path="/create-session/:id" element={user ? <CreateSession /> : <Navigate to="/login" />} />
+        <Route path="/Join-session" element={user ? <JoinSession /> : <Navigate to="/login" />} />
+        <Route path="/watchsession/:sessionCode" element={user ? <WatchSession /> : <Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>
   );
