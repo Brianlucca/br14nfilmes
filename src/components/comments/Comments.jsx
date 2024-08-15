@@ -6,22 +6,22 @@ const CommentItem = ({ comment, commentKey, onDeleteComment, onReply }) => {
   const { isAdmin } = useContext(AuthContext);
 
   return (
-    <div className="p-4 bg-gray-50 rounded-lg shadow-md">
+    <div className="p-4 bg-[#434343] rounded-lg shadow-md">
       <div className="flex flex-col">
         {comment.replyingToName && (
-          <p className="text-sm text-gray-600 mb-1">
+          <p className="text-sm text-green-400 mb-1">
             Respondeu a {comment.replyingToName}
           </p>
         )}
         <div className="flex flex-col">
-          <p className="text-gray-800  overflow-wrap break-words">
-            <strong>{comment.userName}:</strong> {comment.text}
+          <p className="text-gray-400 font-semibold overflow-wrap break-words">
+            <strong className="text-gray-300">{comment.userName}:</strong> {comment.text}
           </p>
         </div>
         <div className="flex justify-between">
         <button 
           onClick={() => onReply(commentKey, comment.userName)}
-          className="text-blue-500 text-sm font-semibold mt-3 self-start"
+          className="text- text-sm font-semibold mt-3 self-start"
           >
           Responder
         </button>
@@ -60,9 +60,9 @@ const Comments = ({ comments, onCommentSubmit, onDeleteComment }) => {
   };
   
   return (
-    <div className="max-w-5xl mx-auto p-8 bg-white shadow-lg rounded-lg my-8 space-y-8">
-      <h2 className="text-2xl font-semibold text-gray-800">Comentários</h2>
-      <p className="text-gray-600 text-sm justify-center text-center">Não envie informações sensiveis no chat,site criado somente para estudos.</p>
+    <div className="max-w-5xl mx-auto p-8 bg-[#1a1a1a] shadow-lg rounded-lg my-8 space-y-8">
+      <h2 className="text-2xl font-semibold text-gray-400">Comentários</h2>
+      <p className="text-green-300 text-sm justify-center text-center">Não envie informações sensiveis no chat,site criado somente para estudos.</p>
       <div className="space-y-4">
         {comments.map(([key, comment]) => (
           <CommentItem
@@ -76,7 +76,7 @@ const Comments = ({ comments, onCommentSubmit, onDeleteComment }) => {
       </div>
       <form onSubmit={handleSubmit} className="mt-8">
         {replyingTo && (
-          <p className="text-sm text-gray-600 mb-2">
+          <p className="text-sm text-green-400 mb-2">
             Respondendo a {replyingToName}...
             <button 
               type="button"
@@ -88,7 +88,7 @@ const Comments = ({ comments, onCommentSubmit, onDeleteComment }) => {
           </p>
         )}
         <textarea
-          className="w-full p-4 bg-gray-100 rounded-lg shadow-md"
+          className="w-full p-4 bg-[#434343] text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           placeholder="Escreva seu comentário..."
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}

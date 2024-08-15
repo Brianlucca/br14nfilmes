@@ -40,7 +40,7 @@ const RecommendationList = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Recomendações</h2>
+      <h2 className="text-2xl font-bold mb-4 text-white text-center">Recomendações</h2>
       {message && (
         <div className="bg-green-100 text-green-700 p-2 rounded mb-4">
           {message}
@@ -49,12 +49,12 @@ const RecommendationList = () => {
       {recommendations.length === 0 ? (
         <p>Nenhuma Recomendação no momento</p>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 ">
           {recommendations.map((rec) => (
-            <div key={rec.id} className="p-4 bg-white shadow-md rounded-lg">
+            <div key={rec.id} className="p-4 bg-[#1a1a1a] shadow-md rounded-lg">
               <img src={rec.imageUrl} alt={rec.name} className="w-full h-40 object-cover rounded-md mb-4" />
-              <h3 className="text-xl font-semibold mb-2">{rec.name}</h3>
-              <p className="text-gray-600 mb-2">{rec.description}</p>
+              <strong className="text-2xl font-bold mb-2 text-white">{rec.name}</strong>
+              <p className="text-white mt-2">{rec.description}</p>
               <a
                 href={rec.videoUrl}
                 className="text-blue-600 hover:underline mb-2"
@@ -63,11 +63,11 @@ const RecommendationList = () => {
               >
                 Veja o video
               </a>
-              <p className="text-gray-800">Link da Imagem: {rec.imageUrl}</p>
-              <p className="text-gray-600">Recomendado por {rec.userName}</p>
+              <p className="text-gray-400">Link da Imagem: {rec.imageUrl}</p>
+              <p className="text-white">Recomendado por {rec.userName}</p>
               <button
                 onClick={() => handleDelete(rec.id)}
-                className="mt-5 w-full bg-red-500 text-white p-1 rounded-sm hover:bg-red-600"
+                className="mt-5 w-full p-1 bg-[#605f5f] text-white font-semibold rounded-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
               >
                 Deletar
               </button>

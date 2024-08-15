@@ -1,11 +1,12 @@
-import { get, ref, getDatabase } from "firebase/database";
 import { useContext, useEffect, useState } from "react";
+import { getDatabase, ref, get } from "firebase/database";
 import { AuthContext } from "../../../contexts/authContext/AuthContext";
 import { addMovie } from "../../../services/movieService/MovieService";
 import { addMusic } from "../../../services/musicService/MusicService";
 import { addAnime } from "../../../services/animeService/AnimeService";
 import { addSeries } from "../../../services/seriesService/SeriesService";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddContentForm = () => {
   const { user } = useContext(AuthContext);
@@ -30,6 +31,7 @@ const AddContentForm = () => {
         const role = snapshot.val();
         setIsUserAdmin(role === 'admin');
       }).catch((error) => {
+        toast.error("Erro ao verificar o papel do usuário.");
       });
     }
   }, [user]);
@@ -114,12 +116,12 @@ const AddContentForm = () => {
   };
 
   return (
-    <div className="w-full bg-white shadow-xl rounded-lg p-6">
-      <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900 text-center">Adicionar Conteúdo</h2>
+    <div className="w-full bg-[#1a1a1a] k shadow-lg rounded-lg p-6">
+      <h2 className="text-2xl font-bold mb-6 text-white text-center">Adicionar Conteúdo</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Nome</label>
+          <label htmlFor="name" className="block text-gray-300 text-sm font-medium mb-2">Nome</label>
           <input
             id="name"
             name="name"
@@ -127,12 +129,12 @@ const AddContentForm = () => {
             value={contentData.name}
             onChange={handleChange}
             placeholder="Nome"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           />
         </div>
         
         <div className="mb-4">
-          <label htmlFor="imageUrl" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Link da Imagem</label>
+          <label htmlFor="imageUrl" className="block text-gray-300 text-sm font-medium mb-2">Link da Imagem</label>
           <input
             id="imageUrl"
             name="imageUrl"
@@ -140,12 +142,12 @@ const AddContentForm = () => {
             value={contentData.imageUrl}
             onChange={handleChange}
             placeholder="Link da Imagem"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           />
         </div>
         
         <div className="mb-4">
-          <label htmlFor="youtubeLink" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Link do Trailer</label>
+          <label htmlFor="youtubeLink" className="block text-gray-300 text-sm font-medium mb-2">Link do Trailer</label>
           <input
             id="youtubeLink"
             name="youtubeLink"
@@ -153,12 +155,12 @@ const AddContentForm = () => {
             value={contentData.youtubeLink}
             onChange={handleChange}
             placeholder="Link do Trailer"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           />
         </div>
         
         <div className="mb-4">
-          <label htmlFor="description" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Descrição</label>
+          <label htmlFor="description" className="block text-gray-300 text-sm font-medium mb-2">Descrição</label>
           <textarea
             id="description"
             name="description"
@@ -166,12 +168,12 @@ const AddContentForm = () => {
             onChange={handleChange}
             placeholder="Descrição"
             rows="4"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           ></textarea>
         </div>
         
         <div className="mb-6">
-          <label htmlFor="rating" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Avaliação</label>
+          <label htmlFor="rating" className="block text-gray-300 text-sm font-medium mb-2">Avaliação</label>
           <input
             id="rating"
             name="rating"
@@ -179,18 +181,18 @@ const AddContentForm = () => {
             value={contentData.rating}
             onChange={handleChange}
             placeholder="Avaliação"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="type" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Tipo</label>
+          <label htmlFor="type" className="block text-gray-300 text-sm font-medium mb-2">Tipo</label>
           <select
             id="type"
             name="type"
             value={contentData.type}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           >
             <option value="">Selecione um tipo</option>
             <option value="movie">Filme</option>
@@ -201,13 +203,13 @@ const AddContentForm = () => {
         </div>
 
         <div className="mb-6">
-          <label htmlFor="category" className="block text-gray-700 text-sm sm:text-base font-medium mb-2">Categoria</label>
+          <label htmlFor="category" className="block text-gray-300 text-sm font-medium mb-2">Categoria</label>
           <select
             id="category"
             name="category"
             value={contentData.category}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           >
             <option value="">Selecione uma categoria</option>
             {categories.map((category, index) => (
@@ -218,11 +220,12 @@ const AddContentForm = () => {
         
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full py-2 px-4 bg-[#605f5f] text-white font-semibold rounded-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
         >
           Adicionar Conteúdo
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
