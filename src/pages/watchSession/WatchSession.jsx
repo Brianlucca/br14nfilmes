@@ -94,7 +94,7 @@ const WatchSession = () => {
     }
   };
 
-    if (!session) {
+  if (!session) {
     return <Loading />
   }
 
@@ -113,29 +113,29 @@ const WatchSession = () => {
       style={{ backgroundImage: `url(${session.image})` }}
     >
       <Sidebar />
-      <div className="flex-1 p-6 lg:ml-16 bg-gray-200 bg-opacity-80">
-        <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
+      <div className="flex-1 p-6 lg:ml-16 bg-black">
+        <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
           <div className="w-full bg-gradient-to-r from-blue-500 to-teal-500 h-5 rounded-full relative">
             <div
               className="bg-red-300 h-full rounded-full"
               style={{ width: `${totalProgress}%` }}
             />
-            <span className="absolute inset-0 flex items-center justify-center text-white  text-xs font-semibold">
+            <span className="absolute inset-0 flex items-center justify-center text-white text-xs font-semibold">
               {Math.round(totalProgress)}%
             </span>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-          <h1 className="text-lg font-bold mb-4 text-gray-700">Sessão criada para assistir - {session.nameContent}</h1>
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">{session.sessionName}</h1>
-          <p className="text-lg text-gray-600 mb-4">{session.description}</p>
+        <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
+          <h1 className="text-lg font-bold mb-4 text-[#605f5f]">Sessão criada para assistir - {session.nameContent}</h1>
+          <h1 className="text-4xl font-bold mb-4 text-white">{session.sessionName}</h1>
+          <p className="text-lg text-gray-300 mb-4">{session.description}</p>
 
           <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-800">Código da Sessão:</h2>
+            <h2 className="text-lg font-semibold text-white">Código da Sessão:</h2>
             <p 
               onClick={handleShare}
-              className="text-xl text-blue-700 font-semibold cursor-pointer hover:underline w-16"
+              className="text-xl text-[#ec4141] font-semibold cursor-pointer hover:underline"
             >
               {sessionCode}
             </p>
@@ -143,7 +143,7 @@ const WatchSession = () => {
 
           {session.isSeries ? (
             <div className="max-h-96 overflow-y-auto">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-800">Progresso dos Episódios</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-white">Progresso dos Episódios</h2>
               <div className="space-y-2">
                 {Array.from({ length: session.episodes }).map((_, index) => {
                   const episode = index + 1;
@@ -156,7 +156,7 @@ const WatchSession = () => {
                         onChange={() => handleCheckboxChange(episode)}
                         className="form-checkbox"
                       />
-                      <label htmlFor={`episode-${episode}`} className="text-lg text-gray-700">Episódio {episode}</label>
+                      <label htmlFor={`episode-${episode}`} className="text-lg text-white">Episódio {episode}</label>
                     </div>
                   );
                 })}
@@ -171,20 +171,20 @@ const WatchSession = () => {
                 onChange={() => handleCheckboxChange()}
                 className="form-checkbox"
               />
-              <label htmlFor="completed" className="text-lg text-gray-700">Marcar como Assistido/Concluído</label>
+              <label htmlFor="completed" className="text-lg text-white">Marcar como Assistido/Concluído</label>
             </div>
           )}
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-lg overflow-y-auto mb-6">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Chat da Sessão</h2>
+        <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg overflow-y-auto mb-6">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-400">Chat da Sessão</h2>
           <ChatSession sessionCode={sessionCode} />
         </div>
 
         <div className="flex justify-end">
           <button
             onClick={handleDeleteSession}
-            className="bg-red-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-600"
+            className="bg-[#605f5f] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#4d4d4d]"
           >
             Deletar Sessão
           </button>

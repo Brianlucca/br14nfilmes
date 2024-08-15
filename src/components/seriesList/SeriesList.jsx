@@ -26,7 +26,7 @@ const SeriesList = () => {
 
   return (
     <div className=" sm:ml-16 lg:ml-20 p-2 sm:p-4">
-      <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">Séries</h1>
+      <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-gray-400">Séries</h1>
       <Carousel items={seriesItems} />
     </div>
   );

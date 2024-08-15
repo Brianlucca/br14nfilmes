@@ -17,6 +17,7 @@ import CreateSession from "../pages/createSession/CreateSession";
 import JoinSession from "../pages/joinSessionPage/JoinSession";
 import WatchSession from "../pages/watchSession/WatchSession";
 import PageNotFound from "../pages/pageNotFound/PageNotFound";
+import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
@@ -27,6 +28,7 @@ function RenderRoutes() {
 
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />

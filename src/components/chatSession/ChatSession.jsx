@@ -89,23 +89,25 @@ const ChatSession = ({ sessionCode }) => {
 
   return (
     <div className="flex flex-col h-full p-2 md:p-4">
-      <p className="text-gray-600 text-sm justify-center text-center">Não envie informações sensiveis no chat,site criado somente para estudos.</p>
-      <div className="overflow-y-auto h-80 border p-2 bg-gray-50 rounded-lg shadow-md max-h-[calc(100vh-150px)]">
+      <p className="text-green-300 text-sm justify-center text-center m-2">Não envie informações sensiveis no chat, site criado somente para estudos.</p>
+      <div className="overflow-y-auto h-80  p-2 bg-[#2d2d2d] rounded-lg shadow-md max-h-[calc(100vh-150px)]">
         {messages.length > 0 ? (
           <div className="space-y-2">
             {messages.map((msg) => (
-              <div key={msg.id} className="p-2 bg-white rounded-lg shadow-sm">
+              <div key={msg.id} className="p-2 bg-[#434343] rounded-lg shadow-sm">
                 <div className="flex">
-                  <strong className="font-semibold text-sm md:text-base">
-                    {typeof msg.user === 'object' ? msg.user.nickname : msg.user}:
-                  </strong>
+                  <p className="text-gray-400 font-semibold">
+                    <strong className="text-sm md:text-base text-gray-300">
+                      {typeof msg.user === 'object' ? msg.user.nickname : msg.user}:
+                    </strong>
+                  </p>
                   <div className="flex justify-evenly">
-                    <p className="text-gray-800 break-words text-sm md:text-base ml-1 overflow-hidden">
+                    <p className="text-gray-400 font-semibold break-words text-sm md:text-base ml-1 overflow-hidden">
                       {msg.message}
                     </p>
                   </div>
                 </div>
-                <div className="text-xs text-gray-500  md:text-sm ">
+                <div className="text-xs md:text-sm ">
                   {new Date(msg.timestamp).toLocaleTimeString()}
                 </div>
               </div>
@@ -121,11 +123,11 @@ const ChatSession = ({ sessionCode }) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Digite uma mensagem..."
-          className="flex-1 px-2 py-3 border border-gray-300 rounded-lg text-sm md:text-base w-full"
+          className="flex-1 px-2 py-3 border rounded-lg text-sm md:text-base w-full border-gray-700 bg-[#2d2d2d] text-white focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
         />
         <button
           onClick={handleSend}
-          className="mt-2 w-full p-3 sm:mt-0 lg:w-20 lg:px-3 lg:py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 text-sm md:text-base"
+          className="mt-2 w-full p-3 sm:mt-0 lg:w-20 lg:h-12 lg:px-3 lg:py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 text-sm md:text-base"
         >
           Enviar
         </button>

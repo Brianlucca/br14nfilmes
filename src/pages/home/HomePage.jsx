@@ -6,13 +6,15 @@ import RecommendationPreview from "../../components/recommendationPreview/Recomm
 import MusicList from "../../components/musicList/MusicList";
 import AnimeList from "../../components/animeList/AnimeList";
 import SeriesList from "../../components/seriesList/SeriesList";
+import Slide from "../../components/slide/Slide";
 
 const HomePage = () => {
 
   return (
-    <div className="bg-gray-300">
+    <div className="bg-black">
       <Sidebar />
       <main>
+        <Slide />
         <MovieList />
         <SeriesList />
         <AnimeList />

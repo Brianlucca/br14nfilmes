@@ -1,4 +1,4 @@
-import { Heart, Home, LogOut, Menu, Star, User, Info, Phone, TvMinimalPlay } from "lucide-react";
+import { Heart, Home, LogOut, Menu, Star, User, TvMinimalPlay } from "lucide-react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
@@ -13,6 +13,7 @@ const Sidebar = () => {
     try {
       await logout();
     } catch (error) {
+      // Handle logout error
     }
   };
 
@@ -22,12 +23,12 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`relative md:flex md:flex-col md:items-start md:fixed top-0 left-0 md:bg-gray-700 md:text-white md:h-screen md:p-4 md:shadow-md transition-all duration-300 ${
+      className={`relative md:flex md:flex-col md:items-start md:fixed top-0 left-0 md:bg-[#1a1a1a] md:text-white md:h-screen md:p-4 md:shadow-md transition-all duration-300 ${
         isMobileMenuOpen ? "md:w-64" : "md:w-16"
       }`}
       style={{ zIndex: 1000 }}
     >
-      <div className="md:hidden flex justify-between items-center p-4 bg-gray-700 text-white">
+      <div className="md:hidden flex justify-between items-center p-4 bg-[#1a1a1a] text-white">
         <span className="text-lg font-semibold">AinzOoal Films</span>
         <button onClick={handleMobileMenuToggle}>
           <Menu className="w-8 h-8" />
@@ -45,38 +46,38 @@ const Sidebar = () => {
           <>
             <Link
               to="/"
-              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
+              className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center"
             >
               Home
             </Link>
             <Link
               to="/Join-session"
-              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
+              className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center"
             >
               Assistir em Grupo
             </Link>
             <Link
               to="/*"
-              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
+              className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center"
             >
               Favoritos
             </Link>
             <Link
               to={isAdmin ? "/admin" : "/recommendations"}
-              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center"
+              className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center"
             >
               {isAdmin ? "Admin" : "Recomendações"}
             </Link>
             <button
               onClick={handleLogout}
-              className="text-lg font-semibold hover:bg-gray-600 hover:text-white p-2 w-full text-center mt-auto"
+              className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center mt-auto"
             >
               Logout
             </button>
           </>
         ) : (
           <div
-            className={`fixed top-0 left-0 bg-gray-700 text-white h-screen p-4 shadow-md transition-all duration-300 ${
+            className={`fixed top-0 left-0 bg-[#1a1a1a] text-white h-screen p-4 shadow-md transition-all duration-300 ${
               isOpen ? "w-64" : "w-16"
             } z-50`}
             onMouseEnter={() => setIsOpen(true)}
@@ -92,28 +93,28 @@ const Sidebar = () => {
               <nav className="flex flex-col space-y-4">
                 <Link
                   to="/"
-                  className="flex items-center space-x-2 hover:bg-gray-600 p-2 rounded-md transition-all duration-300"
+                  className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
                 >
                   <Home className="w-6 h-6" />
                   {isOpen && <span className="text-lg">Home</span>}
                 </Link>
                 <Link
                   to="/Join-session"
-                  className="flex items-center space-x-2 hover:bg-gray-600 p-2 rounded-md transition-all duration-300"
+                  className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
                 >
                   <TvMinimalPlay className="w-6 h-6" />
                   {isOpen && <span className="text-lg">Assistir em Grupo</span>}
                 </Link>
                 <Link
                   to="/*"
-                  className="flex items-center space-x-2 hover:bg-gray-600 p-2 rounded-md transition-all duration-300"
+                  className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
                 >
                   <Heart className="w-6 h-6" />
                   {isOpen && <span className="text-lg">Favoritos</span>}
                 </Link>
                 <Link
                   to={isAdmin ? "/admin" : "/recommendations"}
-                  className="flex items-center space-x-2 hover:bg-gray-600 p-2 rounded-md transition-all duration-300"
+                  className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
                 >
                   {isAdmin ? (
                     <>
@@ -130,7 +131,7 @@ const Sidebar = () => {
               </nav>
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-2 mt-6 hover:bg-gray-600 p-2 rounded-md transition-all duration-300"
+                className="flex items-center space-x-2 mt-6 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
               >
                 <LogOut className="w-6 h-6" />
                 {isOpen && <span className="text-lg">Logout</span>}

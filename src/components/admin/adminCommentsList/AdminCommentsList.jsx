@@ -40,34 +40,34 @@ const AdminCommentsList = () => {
   }, []);
 
   return (
-    <div className="w-full bg-white shadow-lg rounded-lg p-6">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Comentários</h2>
+    <div className="w-full bg-[#1a1a1a] shadow-lg rounded-lg p-6">
+      <h2 className="text-2xl font-bold text-white mb-4 text-center">Comentários</h2>
       <div className="max-h-lvh overflow-y-auto">
         {comments.length > 0 ? (
           comments.map((comment) => (
-            <div key={comment.commentId} className="p-4 bg-gray-50 rounded-lg shadow-md">
-              <p className="text-gray-800">
+            <div key={comment.commentId} className="p-4 bg-[#2d2d2d] rounded-lg shadow-md mb-4">
+              <p className="text-white">
                 <strong>{comment.userName}:</strong> {comment.text}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-400">
                 {comment.type === 'movies' && 'Filme:'}
                 {comment.type === 'musics' && 'Música:'}
                 {comment.type === 'animes' && 'Anime:'}
                 {comment.type === 'series' && 'Série:'}
                 <Link 
                   to={`/${comment.type.slice(0, -1)}/${comment.itemId}`} 
-                  className="text-blue-500 hover:underline ml-1"
+                  className="text-blue-400 hover:underline ml-1"
                 >
                   {comment.itemId}
                 </Link>
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-400">
                 Respondendo a: {comment.replyingToName || "N/A"}
               </p>
             </div>
           ))
         ) : (
-          <p>Nenhum comentário encontrado.</p>
+          <p className="text-white">Nenhum comentário encontrado.</p>
         )}
       </div>
     </div>
