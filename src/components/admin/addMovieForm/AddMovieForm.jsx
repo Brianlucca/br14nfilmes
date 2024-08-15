@@ -16,6 +16,7 @@ const AddContentForm = () => {
     youtubeLink: "",
     description: "",
     rating: "",
+    year: "", // Adicionando o campo de ano
     type: "",
     category: ""
   });
@@ -43,16 +44,16 @@ const AddContentForm = () => {
       let selectedCategories = [];
       switch (value) {
         case 'movie':
-          selectedCategories = ['Ação', 'Comédia', 'Drama', 'Terror', 'Romance', 'Ficção Científica'];
+          selectedCategories = ['Ação', 'Comédia', 'Drama', 'Terror', 'Romance', 'Ficção Científica', 'Documentário', 'Aventura', 'super-herói', 'Horror', 'Suspense', 'Sci-Fi', 'Fantasia', 'Mistério', 'Crime'];
           break;
         case 'music':
-          selectedCategories = ['Rock', 'Pop', 'Hip-hop', 'Jazz', 'Clássica', 'Eletrônica'];
+          selectedCategories = ['Rock', 'Pop', 'Hip-hop', 'Jazz', 'Clássica', 'Eletrônica', 'Blues', 'Country', 'Funk', 'Rap'];
           break;
         case 'anime':
-          selectedCategories = ['Shounen', 'Seinen', 'Shojo', 'Isekai', 'Mecha', 'Slice of Life'];
+          selectedCategories = ['Shounen', 'Seinen', 'Shojo', 'Isekai', 'Mecha', 'Slice of Life', 'Horror', 'Comédia', 'super-herói'];
           break;
         case 'serie':
-          selectedCategories = ['Drama', 'Comédia', 'Mistério', 'Suspense', 'Sci-Fi', 'Fantasia'];
+          selectedCategories = ['Ação', 'Comédia', 'Drama', 'Terror', 'Romance', 'Ficção Científica', 'Documentário', 'Aventura', 'super-herói', 'Horror', 'Suspense', 'Sci-Fi', 'Fantasia', 'Mistério', 'Crime'];
           break;
         default:
           selectedCategories = [];
@@ -106,6 +107,7 @@ const AddContentForm = () => {
         youtubeLink: "",
         description: "",
         rating: "",
+        year: "",
         type: "",
         category: ""
       });
@@ -186,6 +188,19 @@ const AddContentForm = () => {
         </div>
 
         <div className="mb-6">
+          <label htmlFor="year" className="block text-gray-300 text-sm font-medium mb-2">Ano</label>
+          <input
+            id="year"
+            name="year"
+            type="text"
+            value={contentData.year}
+            onChange={handleChange}
+            placeholder="Ano"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+          />
+        </div>
+
+        <div className="mb-6">
           <label htmlFor="type" className="block text-gray-300 text-sm font-medium mb-2">Tipo</label>
           <select
             id="type"
@@ -210,21 +225,27 @@ const AddContentForm = () => {
             value={contentData.category}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+            disabled={!contentData.type}
           >
             <option value="">Selecione uma categoria</option>
             {categories.map((category, index) => (
-              <option key={index} value={category}>{category}</option>
+              <option key={index} value={category}>
+                {category}
+              </option>
             ))}
           </select>
         </div>
-        
-        <button
-          type="submit"
-          className="w-full py-2 px-4 bg-[#605f5f] text-white font-semibold rounded-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
-        >
-          Adicionar Conteúdo
-        </button>
+
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className=" py-2 px-4 rounded-lg bg-[#605f5f] text-white font-semibold hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+          >
+            Adicionar Conteúdo
+          </button>
+        </div>
       </form>
+      
       <ToastContainer />
     </div>
   );

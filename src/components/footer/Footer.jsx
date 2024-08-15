@@ -6,10 +6,10 @@ const Footer = () => {
       <div className="container mx-auto text-center">
         <p>&copy;2024 AinzOoal Films</p>
         <div className="mt-2 flex justify-center space-x-4">
-          <a href="" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Brianlucca" target="_blank" rel="noopener noreferrer">
             <Github className="text-white hover:text-gray-400" size={24} />
           </a>
-          <a href="" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/brian-lucca-cardozo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer">
             <Linkedin className="text-white hover:text-gray-400" size={24} />
           </a>
         </div>

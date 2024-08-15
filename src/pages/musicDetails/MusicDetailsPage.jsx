@@ -8,6 +8,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { database } from "../../services/firebaseConfig/FirebaseConfig";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
+import { Calendar, Clapperboard, Star } from "lucide-react";
 
 const MusicDetailsPage = () => {
   const { id } = useParams();
@@ -109,8 +110,9 @@ const MusicDetailsPage = () => {
           <div className="flex flex-col items-center text-center space-y-6">
             <h1 className="text-4xl font-bold">{music.name}</h1>
             <p className="text-lg">{music.description}</p>
-            <p className="text-lg font-semibold">Avaliação: {music.rating}</p>
-            <p className="text-lg font-semibold">Categoria: {music.category}</p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Star />RateYourMusic<span>{music.rating}</span></p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Clapperboard /><span>{music.category}</span></p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Calendar/><span>{music.year}</span></p>
             <div className="flex flex-col sm:flex-row sm:space-x-4 mt-6">
               <button className="px-4 py-2 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-red-600 mb-2 sm:mb-0">
                 ❤️ Favoritos

@@ -8,6 +8,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { database } from "../../services/firebaseConfig/FirebaseConfig";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
+import { Calendar, Clapperboard, Star } from "lucide-react";
 
 const AnimeDetailsPage = () => {
   const { id } = useParams();
@@ -110,8 +111,9 @@ const AnimeDetailsPage = () => {
           <div className="flex flex-col items-center text-center space-y-6">
             <h1 className="text-4xl font-bold">{anime.name}</h1>
             <p className="text-lg">{anime.description}</p>
-            <p className="text-lg font-semibold">Avaliação: {anime.rating}</p>
-            <p className="text-lg font-semibold">Categoria: {anime.category}</p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Star />IMDb<span>{anime.rating}</span></p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Clapperboard /><span>{anime.category}</span></p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Calendar/><span>{anime.year}</span></p>
             <div className="flex flex-col sm:flex-row sm:space-x-4 mt-6">
               <button className="px-4 py-2 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-red-600 mb-2 sm:mb-0">
                 ❤️ Favoritos
