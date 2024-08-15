@@ -8,6 +8,7 @@ import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { database } from "../../services/firebaseConfig/FirebaseConfig";
+import { Calendar, Clapperboard, Star } from "lucide-react";
 
 const MovieDetailsPage = () => {
   const { id } = useParams();
@@ -106,11 +107,12 @@ const MovieDetailsPage = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-[#1a1a1a]/70 to-black"></div>
         </div>
         <div className="relative z-10 max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 space-y-8 text-white">
-          <div className="flex flex-col items-center text-center space-y-6">
+          <div className="flex flex-col items-center text-center space-y-6 ">
             <h1 className="text-4xl font-bold">{movie.name}</h1>
             <p className="text-lg">{movie.description}</p>
-            <p className="text-lg font-semibold">Avaliação: {movie.rating}</p>
-            <p className="text-lg font-semibold">Categoria: {movie.category}</p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Star />IMDb<span>{movie.rating}</span></p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Clapperboard /><span>{movie.category}</span></p>
+            <p className="text-lg font-semibold flex items-center space-x-2"><Calendar/><span>{movie.year}</span></p>
             <div className="flex flex-col sm:flex-row sm:space-x-4 mt-6">
               <button className="px-4 py-2 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-red-600 mb-2 sm:mb-0">
                 ❤️ Favoritos

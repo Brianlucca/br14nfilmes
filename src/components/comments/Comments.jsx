@@ -62,7 +62,7 @@ const Comments = ({ comments, onCommentSubmit, onDeleteComment }) => {
   return (
     <div className="max-w-5xl mx-auto p-8 bg-[#1a1a1a] shadow-lg rounded-lg my-8 space-y-8">
       <h2 className="text-2xl font-semibold text-gray-400">Comentários</h2>
-      <p className="text-green-300 text-sm justify-center text-center">Não envie informações sensiveis no chat,site criado somente para estudos.</p>
+      <p className="text-green-300 text-sm justify-center text-center">Não envie informações sensiveis no chat, site criado somente para estudos.</p>
       <div className="space-y-4">
         {comments.map(([key, comment]) => (
           <CommentItem
