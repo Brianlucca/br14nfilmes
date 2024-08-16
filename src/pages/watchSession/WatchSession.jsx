@@ -1,17 +1,19 @@
-import { get, ref, update, remove } from "firebase/database";
+import { get, onValue, ref, remove, update } from "firebase/database";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import ChatSession from "../../components/chatSession/ChatSession";
-import { AuthContext } from "../../contexts/authContext/AuthContext";
-import Sidebar from "../../components/sidebar/Sidebar";
-import { database } from "../../services/firebaseConfig/FirebaseConfig";
 import Loading from "../../components/loading/Loading";
+import Sidebar from "../../components/sidebar/Sidebar";
+import { AuthContext } from "../../contexts/authContext/AuthContext";
+import { database } from "../../services/firebaseConfig/FirebaseConfig";
+import { User } from "lucide-react";
 
 const WatchSession = () => {
   const { sessionCode } = useParams();
   const [session, setSession] = useState(null);
   const [progress, setProgress] = useState({});
+  const [participants, setParticipants] = useState([]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -22,9 +24,10 @@ const WatchSession = () => {
       return;
     }
 
+    const sessionRef = ref(database, `sessions/${sessionCode}`);
+
     const fetchSession = async () => {
       try {
-        const sessionRef = ref(database, `sessions/${sessionCode}`);
         const snapshot = await get(sessionRef);
 
         if (snapshot.exists()) {
@@ -36,6 +39,10 @@ const WatchSession = () => {
           } else {
             setProgress(sessionData.progress || { completed: false });
           }
+
+          if (sessionData.participants) {
+            setParticipants(Object.values(sessionData.participants));
+          }
         } else {
           toast.error("Sessão não encontrada.");
           navigate('/');
@@ -46,6 +53,18 @@ const WatchSession = () => {
     };
 
     fetchSession();
+
+    const progressListener = onValue(sessionRef, (snapshot) => {
+      const sessionData = snapshot.val();
+      if (sessionData) {
+        setProgress(sessionData.progress || {});
+        setParticipants(sessionData.participants ? Object.values(sessionData.participants) : []);
+      }
+    });
+
+    return () => {
+      progressListener();
+    };
   }, [sessionCode, user, navigate]);
 
   const handleCheckboxChange = async (episode) => {
@@ -109,7 +128,7 @@ const WatchSession = () => {
 
   return (
     <div
-      className="relative min-h-screen bg-cover bg-center"
+      className="relative min-h-screen bg-cover bg-center "
       style={{ backgroundImage: `url(${session.image})` }}
     >
       <Sidebar />
@@ -125,7 +144,21 @@ const WatchSession = () => {
             </span>
           </div>
         </div>
-
+        <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
+          <h2 className="text-2xl font-semibold mb-4 text-white">Participantes</h2>
+          <ul className="space-y-2">
+            {participants.length > 0 ? (
+              participants.map((participant, index) => (
+                <li key={index} className="flex items-center text-lg text-gray-300 border border-gray-700 p-2 rounded-md shadow-md">
+                  <User className="mr-2 text-gray-400" />
+                  <span>{participant.nickname}</span>
+                </li>
+              ))
+            ) : (
+              <li className="text-lg text-gray-300">Nenhum participante</li>
+            )}
+          </ul>
+        </div>
         <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
           <h1 className="text-lg font-bold mb-4 text-[#605f5f]">Sessão criada para assistir - {session.nameContent}</h1>
           <h1 className="text-4xl font-bold mb-4 text-white">{session.sessionName}</h1>
@@ -135,12 +168,22 @@ const WatchSession = () => {
             <h2 className="text-lg font-semibold text-white">Código da Sessão:</h2>
             <p 
               onClick={handleShare}
-              className="text-xl text-[#ec4141] font-semibold cursor-pointer hover:underline"
-            >
+              className="text-xl text-[#ec4141] font-semibold cursor-pointer hover:underline w-20"
+              >
               {sessionCode}
             </p>
+            {session.driveFilm && (
+              <div className="flex justify-center mt-5">
+                <a
+                  href={session.driveFilm}
+                  target="_blank"
+                  className="bg-[#605f5f] text-white font-semibold text-lg lg:text-2xl py-2 px-4 lg:py-3 lg:px-6 rounded-lg shadow-lg hover:underline hover:shadow-xl transition-all duration-300 ease-in-out"
+                >
+                  Assistir {session.nameContent}
+                </a>
+              </div>
+            )}
           </div>
-
           {session.isSeries ? (
             <div className="max-h-96 overflow-y-auto">
               <h2 className="text-2xl font-semibold mb-4 text-white">Progresso dos Episódios</h2>
@@ -176,8 +219,22 @@ const WatchSession = () => {
           )}
         </div>
 
-        <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg overflow-y-auto mb-6">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-400">Chat da Sessão</h2>
+        {totalProgress === 100 && (
+          <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
+            <h2 className="text-2xl font-bold text-white mb-4">Parabéns!</h2>
+            <p className="text-lg text-gray-300 mb-4">Você concluiu a sessão! Agora precisamos finalizar a sua sessão, aperte o botão para finalizar</p>
+            <div className="flex justify-end">
+              <button
+                onClick={handleDeleteSession}
+                className="bg-[#605f5f] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#4d4d4d]"
+              >
+                Finalizar Sessão
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
           <ChatSession sessionCode={sessionCode} />
         </div>
 
@@ -189,9 +246,9 @@ const WatchSession = () => {
             Deletar Sessão
           </button>
         </div>
-      </div>
 
-      <ToastContainer />
+        <ToastContainer />
+      </div>
     </div>
   );
 };

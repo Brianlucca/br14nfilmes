@@ -14,9 +14,10 @@ const AddContentForm = () => {
     name: "",
     imageUrl: "",
     youtubeLink: "",
+    driveLink: "",  // Novo campo para link do Google Drive
     description: "",
     rating: "",
-    year: "", // Adicionando o campo de ano
+    year: "",
     type: "",
     category: ""
   });
@@ -47,7 +48,7 @@ const AddContentForm = () => {
           selectedCategories = ['Ação', 'Comédia', 'Drama', 'Terror', 'Romance', 'Ficção Científica', 'Documentário', 'Aventura', 'super-herói', 'Horror', 'Suspense', 'Sci-Fi', 'Fantasia', 'Mistério', 'Crime'];
           break;
         case 'music':
-          selectedCategories = ['Rock', 'Pop', 'Hip-hop', 'Jazz', 'Clássica', 'Eletrônica', 'Blues', 'Country', 'Funk', 'Rap'];
+          selectedCategories = ['Rock', 'Pop', 'Hip-hop', 'Jazz', 'Clássica', 'Eletrônica', 'Blues', 'Country', 'Funk', 'Rap', 'MPB'];
           break;
         case 'anime':
           selectedCategories = ['Shounen', 'Seinen', 'Shojo', 'Isekai', 'Mecha', 'Slice of Life', 'Horror', 'Comédia', 'super-herói'];
@@ -105,6 +106,7 @@ const AddContentForm = () => {
         name: "",
         imageUrl: "",
         youtubeLink: "",
+        driveLink: "",
         description: "",
         rating: "",
         year: "",
@@ -118,7 +120,7 @@ const AddContentForm = () => {
   };
 
   return (
-    <div className="w-full bg-[#1a1a1a] k shadow-lg rounded-lg p-6">
+    <div className="w-full bg-[#1a1a1a] shadow-lg rounded-lg p-6">
       <h2 className="text-2xl font-bold mb-6 text-white text-center">Adicionar Conteúdo</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -157,6 +159,19 @@ const AddContentForm = () => {
             value={contentData.youtubeLink}
             onChange={handleChange}
             placeholder="Link do Trailer"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+          />
+        </div>
+        
+        <div className="mb-4">
+          <label htmlFor="driveLink" className="block text-gray-300 text-sm font-medium mb-2">Link do Google Drive (Opcional)</label>
+          <input
+            id="driveLink"
+            name="driveLink"
+            type="text"
+            value={contentData.driveLink}
+            onChange={handleChange}
+            placeholder="Link do Google Drive (Opcional)"
             className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           />
         </div>
@@ -217,35 +232,36 @@ const AddContentForm = () => {
           </select>
         </div>
 
-        <div className="mb-6">
-          <label htmlFor="category" className="block text-gray-300 text-sm font-medium mb-2">Categoria</label>
-          <select
-            id="category"
-            name="category"
-            value={contentData.category}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
-            disabled={!contentData.type}
-          >
-            <option value="">Selecione uma categoria</option>
-            {categories.map((category, index) => (
-              <option key={index} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </div>
+        {contentData.type && (
+          <div className="mb-6">
+            <label htmlFor="category" className="block text-gray-300 text-sm font-medium mb-2">Categoria</label>
+            <select
+              id="category"
+              name="category"
+              value={contentData.category}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+            >
+              <option value="">Selecione uma categoria</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        <div className="flex justify-center">
+        <div className="text-center">
           <button
             type="submit"
-            className=" py-2 px-4 rounded-lg bg-[#605f5f] text-white font-semibold hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+            className="py-2 px-4 rounded-lg bg-[#605f5f] text-white font-semibold hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           >
             Adicionar Conteúdo
           </button>
         </div>
       </form>
-      
+
       <ToastContainer />
     </div>
   );
