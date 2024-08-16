@@ -1,4 +1,4 @@
-import { ref, update } from "firebase/database";
+import { ref, update, get } from "firebase/database";
 import { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,13 +12,43 @@ const UpdateProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const checkNicknameExists = async (newNickname) => {
+    const usersRef = ref(database, 'users');
+    try {
+      const snapshot = await get(usersRef);
+      const users = snapshot.val();
+      
+      for (let key in users) {
+        if (users[key]?.updateNick?.[key]?.nickname === newNickname && key !== user.uid) {
+          return true;
+        }
+      }
+      
+      return false;
+    } catch (error) {
+      toast.error("Erro ao verificar o nickname!");
+      return false;
+    }
+  };
+
   const handleUpdateProfile = async () => {
     if (!user) {
-      return <Navigate to='/cadastro' />;
+      return navigate('/cadastro');
     }
 
-    const roleId = user.uid;
-    const userRef = ref(database, `users/${user.uid}/updateNick/${roleId}`);
+    if (!nickname.trim()) {
+      toast.error("O campo nickname não pode estar vazio!");
+      return;
+    }
+
+    const nicknameExists = await checkNicknameExists(nickname);
+
+    if (nicknameExists) {
+      toast.error("Nickname já em uso! Escolha outro.");
+      return;
+    }
+
+    const userRef = ref(database, `users/${user.uid}/updateNick/${user.uid}`);
     try {
       await update(userRef, { nickname });
       toast.success("Perfil atualizado com sucesso!");
@@ -33,22 +63,29 @@ const UpdateProfile = () => {
   return (
     <div>
       <Sidebar />
-      <div className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 mt-10 sm:mt-12 md:mt-16">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Atualizar Perfil</h2>
-        <input
-          type="text"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          placeholder="Digite seu nickname"
-          className="w-full p-3 sm:p-4 bg-gray-100 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mb-4"
-        />
-        <button
-          onClick={handleUpdateProfile}
-          className="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition duration-300"
-        >
-          Salvar
-        </button>
-        <ToastContainer />
+      <div className="relative min-h-screen bg-cover bg-center bg-black flex">
+        <div className="flex-1 p-6 flex items-center justify-center bg-black">
+          <div className="w-full max-w-md bg-[#1a1a1a] p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-semibold text-white mb-6 text-center">Atualizar Perfil</h2>
+            <div className="space-y-6">
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                placeholder="Digite seu nickname"
+                className="w-full p-3 border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f] mb-4"
+              />
+              <button
+                onClick={handleUpdateProfile}
+                className="w-full px-4 py-2 rounded-lg bg-[#605f5f] text-white font-semibold hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+
+          <ToastContainer />
+        </div>
       </div>
     </div>
   );
