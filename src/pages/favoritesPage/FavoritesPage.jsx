@@ -94,7 +94,7 @@ const FavoritesPage = () => {
     <div className="min-h-screen flex">
       <div className="flex-grow bg-black flex flex-col items-center">
         <div className="w-full max-w-6xl p-6">
-          <h1 className="text-4xl font-bold text-center mb-8 text-white">Seus Favoritos</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-center mb-8 text-gray-400">Seus Favoritos</h1>
           <div className="favorites-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {favorites.map((favorite, index) => (
               <div
