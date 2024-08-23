@@ -14,7 +14,8 @@ const AddContentForm = () => {
     name: "",
     imageUrl: "",
     youtubeLink: "",
-    driveLink: "",  // Novo campo para link do Google Drive
+    driveLink: "",
+    gif: "",
     description: "",
     rating: "",
     year: "",
@@ -51,7 +52,7 @@ const AddContentForm = () => {
           selectedCategories = ['Rock', 'Pop', 'Hip-hop', 'Jazz', 'Clássica', 'Eletrônica', 'Blues', 'Country', 'Funk', 'Rap', 'MPB'];
           break;
         case 'anime':
-          selectedCategories = ['Shounen', 'Seinen', 'Shojo', 'Isekai', 'Mecha', 'Slice of Life', 'Horror', 'Comédia', 'super-herói'];
+          selectedCategories = ['Shounen', 'Seinen', 'Shojo', 'Isekai', 'Mecha', 'Slice of Life', 'Horror', 'Comédia', 'super-herói', 'Cientifica', 'Cyberpunk', 'Futurístico'];
           break;
         case 'serie':
           selectedCategories = ['Ação', 'Comédia', 'Drama', 'Terror', 'Romance', 'Ficção Científica', 'Documentário', 'Aventura', 'super-herói', 'Horror', 'Suspense', 'Sci-Fi', 'Fantasia', 'Mistério', 'Crime'];
@@ -107,6 +108,7 @@ const AddContentForm = () => {
         imageUrl: "",
         youtubeLink: "",
         driveLink: "",
+        gif: "",
         description: "",
         rating: "",
         year: "",
@@ -172,6 +174,19 @@ const AddContentForm = () => {
             value={contentData.driveLink}
             onChange={handleChange}
             placeholder="Link do Google Drive (Opcional)"
+            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="driveLink" className="block text-gray-300 text-sm font-medium mb-2">Link do Gif (Opcional)</label>
+          <input
+            id="gif"
+            name="gif"
+            type="text"
+            value={contentData.gif}
+            onChange={handleChange}
+            placeholder="Link do Gif (Opcional)"
             className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
           />
         </div>
