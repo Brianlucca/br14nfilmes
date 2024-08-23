@@ -1,4 +1,4 @@
-import { Heart, Home, LogOut, Menu, Star, User, TvMinimalPlay } from "lucide-react";
+import { Heart, Home, LogOut, Menu, Star, TvMinimalPlay, User } from "lucide-react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
@@ -13,7 +13,6 @@ const Sidebar = () => {
     try {
       await logout();
     } catch (error) {
-      // Handle logout error
     }
   };
 
@@ -57,7 +56,7 @@ const Sidebar = () => {
               Assistir em Grupo
             </Link>
             <Link
-              to="/*"
+              to="/favorites"
               className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center"
             >
               Favoritos
@@ -106,7 +105,7 @@ const Sidebar = () => {
                   {isOpen && <span className="text-lg">Assistir em Grupo</span>}
                 </Link>
                 <Link
-                  to="/*"
+                  to="/favorites"
                   className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
                 >
                   <Heart className="w-6 h-6" />
