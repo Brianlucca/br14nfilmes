@@ -18,6 +18,7 @@ import JoinSession from "../pages/joinSessionPage/JoinSession";
 import WatchSession from "../pages/watchSession/WatchSession";
 import PageNotFound from "../pages/pageNotFound/PageNotFound";
 import ScrollToTop from "../components/scrollToTop/ScrollToTop";
+import FavoritesPage from "../pages/favoritesPage/FavoritesPage";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
@@ -43,6 +44,7 @@ function RenderRoutes() {
         <Route path="/create-session/:id" element={user ? <CreateSession /> : <Navigate to="/login" />} />
         <Route path="/Join-session" element={user ? <JoinSession /> : <Navigate to="/login" />} />
         <Route path="/watchsession/:sessionCode" element={user ? <WatchSession /> : <Navigate to="/login" />} />
+        <Route path="/favorites" element={user ? <FavoritesPage /> : <Navigate to="/login" />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
