@@ -66,8 +66,9 @@ const Recommendations = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen">
+    <div>
       <Sidebar />
+    <div className="bg-black min-h-screen">
       <div className="flex flex-col justify-center items-center min-h-screen p-4">
         <div className="w-full max-w-md p-6 bg-[#1a1a1a] shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-4 text-center text-white">Recomendar um Titulo</h2>
@@ -131,6 +132,7 @@ const Recommendations = () => {
       <Footer />
       <ToastContainer />
     </div>
+</div>
   );
 };
 
