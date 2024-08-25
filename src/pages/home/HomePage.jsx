@@ -11,16 +11,18 @@ import Slide from "../../components/slide/Slide";
 const HomePage = () => {
 
   return (
-    <div className="bg-black">
+    <div>
       <Sidebar />
-      <main>
-        <Slide />
-        <MovieList />
-        <SeriesList />
-        <AnimeList />
-        <MusicList />
-        <RecommendationPreview />
-      </main>
+      <div className="bg-black">
+        <main>
+          <Slide />
+          <MovieList />
+          <SeriesList />
+          <AnimeList />
+          <MusicList />
+          <RecommendationPreview />
+        </main>
+      </div>
       <Footer />
     </div>
   );};
