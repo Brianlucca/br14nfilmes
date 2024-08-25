@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { logout } from "../../services/authService/AuthService";
+import Logo from "/logo.png";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,9 +36,7 @@ const Sidebar = () => {
       </div>
 
       <div
-        className={`flex flex-col transition-all duration-300 bg-gray-200 ${
-          isMobileMenuOpen ? "items-center" : "items-start"
-        } md:items-start md:flex md:space-y-4 md:mt-6 ${
+        className={`flex flex-col transition-all duration-300 ${
           isMobileMenuOpen ? "block" : "hidden md:block"
         }`}
       >
@@ -77,18 +76,18 @@ const Sidebar = () => {
         ) : (
           <div
             className={`fixed top-0 left-0 bg-[#1a1a1a] text-white h-screen p-4 shadow-md transition-all duration-300 ${
-              isOpen ? "w-64" : "w-16"
-            } z-50`}
+              isOpen ? "w-64 opacity-100" : "w-16 opacity-50"
+            }`}
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
           >
-            <div className="flex flex-col items-start">
-              <Link to="/" className="flex items-center space-x-2 mb-6">
-                <Menu className="w-10 h-6" />
+            <div className="flex flex-col items-start transition-all duration-300">
+              <div className={`flex items-center mb-6 ${isOpen ? "w-64" : "w-16"} transition-all duration-300`}>
+                <img src={Logo} alt="Logo" className="w-16 h-auto -ml-3" />
                 {isOpen && (
-                  <span className="text-lg font-semibold">AinzOoal Films</span>
+                  <span className="text-lg font-semibold ml-2">AinzOoal Films</span>
                 )}
-              </Link>
+              </div>
               <nav className="flex flex-col space-y-4">
                 <Link
                   to="/"
