@@ -8,13 +8,13 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { database } from "../../services/firebaseConfig/FirebaseConfig";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
-import { Calendar, Clapperboard, Star, Heart, HeartOff, Tv } from "lucide-react";
+import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn } from "lucide-react";
 
 const SeriesDetailsPage = () => {
   const { id } = useParams();
   const [series, setSeries] = useState(null);
   const [comments, setComments] = useState([]);
-  const [isFavorite, setIsFavorite] = useState(false); // Novo estado para favoritos
+  const [isFavorite, setIsFavorite] = useState(false);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -188,8 +188,8 @@ const SeriesDetailsPage = () => {
                 onClick={handleCreateSession}
                 className="px-4 py-2 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-blue-600 flex items-center justify-center"
               >
-                <Tv className="text-white mr-2" />
-                <span>Assistir em Grupo</span>
+                <Popcorn className="text-white mr-2" />
+                <span>Assistir</span>
               </button>
             </div>
             {series.youtubeLink && (

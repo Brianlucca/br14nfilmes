@@ -1,5 +1,5 @@
 import { get, onValue, push, ref, remove, set } from "firebase/database";
-import { Calendar, Clapperboard, Star, Heart, HeartOff, Tv } from "lucide-react";
+import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -188,8 +188,8 @@ const MovieDetailsPage = () => {
                 onClick={handleCreateSession}
                 className="px-4 py-2 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-blue-600 flex items-center justify-center"
               >
-                <Tv className="text-white mr-2" />
-                <span>Assistir em Grupo</span>
+                <Popcorn className="text-white mr-2" />
+                <span>Assistir</span>
               </button>
             </div>
             {movie.youtubeLink && (
