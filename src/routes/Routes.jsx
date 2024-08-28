@@ -53,7 +53,7 @@ function RenderRoutes() {
         <Route path="/music/:id" element={user ? <MusicDetailsPage /> : <Navigate to="/login" />} />
         <Route path="/serie/:id" element={user ? <SeriesDetailsPage /> : <Navigate to="/login" />} />
         <Route path="/anime/:id" element={user ? <AnimeDetailsPage /> : <Navigate to="/login" />} />
-        <Route path="/recommendations" element={<Recommendations />} />
+        <Route path="/recommendations" element={user ? <Recommendations /> : <Navigate to="/login" />} />
         <Route path="/profile" element={user ? <UpdateProfile /> : <Navigate to="/login" />} />
         <Route path="/create-session/:id" element={user ? <CreateSession /> : <Navigate to="/login" />} />
         <Route path="/Join-session" element={user ? <JoinSession /> : <Navigate to="/login" />} />
