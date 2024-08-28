@@ -7,6 +7,7 @@ import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
+import AdminFaqList from "../../components/admin/adminFaqList/AdminFaqList";
 
 const AdminPage = () => {
   const { isAdmin } = useContext(AuthContext);
@@ -22,21 +23,29 @@ const AdminPage = () => {
   return (
     <div>
       <Sidebar />
-    <div className="bg-black min-h-screen flex flex-col lg:flex-row">
-      <div className="flex-1 p-4 sm:p-6 lg:p-8 flex flex-col space-y-8 lg:space-y-0 lg:space-x-8 lg:ml-20">
-        <div className="flex flex-col sm:flex-row lg:space-x-8 space-y-4 sm:space-y-0">
-          <div className="w-full sm:w-1/2">
-            <AddMovieForm />
+      <div className="flex">
+        <div className="bg-black min-h-screen w-full flex flex-col lg:flex-row">
+          <div className="flex-1 p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:ml-20">
+            
+            <div className="p-6 rounded-lg shadow-lg">
+              <AddMovieForm />
+            </div>
+            
+            <div className="p-6 rounded-lg shadow-lg">
+              <AdminCommentsList />
+            </div>
+            
+            <div className="p-6 rounded-lg shadow-lg lg:col-span-2">
+              <AdminFaqList />
+            </div>
+            
+            <div className="p-6 rounded-lg shadow-lg lg:col-span-2">
+              <RecommendationList />
+            </div>
+
           </div>
-          <div className="w-full sm:w-1/2">
-            <AdminCommentsList />
-          </div>
-        </div>
-        <div className="w-full">
-          <RecommendationList />
         </div>
       </div>
-    </div>
       <Footer />
     </div>
   );
