@@ -7,6 +7,7 @@ import MusicList from "../../components/musicList/MusicList";
 import AnimeList from "../../components/animeList/AnimeList";
 import SeriesList from "../../components/seriesList/SeriesList";
 import Slide from "../../components/slide/Slide";
+import Faq from "../../components/faq/Faq";
 
 const HomePage = () => {
 
@@ -21,6 +22,7 @@ const HomePage = () => {
           <AnimeList />
           <MusicList />
           <RecommendationPreview />
+          <Faq />
         </main>
       </div>
       <Footer />
