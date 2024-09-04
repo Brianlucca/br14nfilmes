@@ -113,8 +113,9 @@ const CreateSession = () => {
   };
 
   return (
+    <div>
+    <Sidebar className="lg:w-1/4" />
     <div className="justify-center flex flex-col lg:flex-row bg-black min-h-screen">
-      <Sidebar className="lg:w-1/4" />
       <div className="flex-1 max-w-md mx-auto p-6 bg-[#1a1a1a] shadow-lg rounded-lg lg:max-w-4xl lg:mx-6 lg:py-8">
         {content && (
           <div className="mb-6">
@@ -192,6 +193,7 @@ const CreateSession = () => {
         )}
         <ToastContainer />
       </div>
+    </div>
     </div>
   );
 };

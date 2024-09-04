@@ -127,11 +127,12 @@ const WatchSession = () => {
     : progress.completed ? 100 : 0;
 
   return (
+    <div>
+    <Sidebar />
     <div
       className="relative min-h-screen bg-cover bg-center "
       style={{ backgroundImage: `url(${session.image})` }}
     >
-      <Sidebar />
       <div className="flex-1 p-6 lg:ml-16 bg-black">
         <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
           <div className="w-full bg-gradient-to-r from-blue-500 to-teal-500 h-5 rounded-full relative">
@@ -249,6 +250,7 @@ const WatchSession = () => {
 
         <ToastContainer />
       </div>
+    </div>
     </div>
   );
 };

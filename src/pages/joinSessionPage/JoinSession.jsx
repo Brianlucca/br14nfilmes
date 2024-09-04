@@ -155,7 +155,8 @@ const JoinSession = () => {
 
   return (
     <div>
-      <Sidebar />
+    <Sidebar />
+    <div>
       <div className="flex flex-col lg:flex-row min-h-screen bg-black text-white">
         <div className="flex-1 p-4 lg:p-8 space-y-6 lg:space-y-8">
           <div className="bg-[#1a1a1a] p-6 shadow-lg rounded-lg w-full max-w-lg mx-auto">
@@ -217,6 +218,7 @@ const JoinSession = () => {
         </div>
         <ToastContainer />
       </div>
+    </div>
     </div>
   );
 };
