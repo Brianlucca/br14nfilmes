@@ -1,4 +1,5 @@
 import { get, onValue, ref, remove, update } from "firebase/database";
+import { User } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,7 +8,6 @@ import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { database } from "../../services/firebaseConfig/FirebaseConfig";
-import { User } from "lucide-react";
 
 const WatchSession = () => {
   const { sessionCode } = useParams();
@@ -173,17 +173,6 @@ const WatchSession = () => {
               >
               {sessionCode}
             </p>
-            {session.driveFilm && (
-              <div className="flex justify-center mt-5">
-                <a
-                  href={session.driveFilm}
-                  target="_blank"
-                  className="bg-[#605f5f] text-white font-semibold text-lg lg:text-2xl py-2 px-4 lg:py-3 lg:px-6 rounded-lg shadow-lg hover:underline hover:shadow-xl transition-all duration-300 ease-in-out"
-                >
-                  Assistir {session.nameContent}
-                </a>
-              </div>
-            )}
           </div>
           {session.isSeries ? (
             <div className="max-h-96 overflow-y-auto">
@@ -220,6 +209,7 @@ const WatchSession = () => {
           )}
         </div>
 
+
         {totalProgress === 100 && (
           <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
             <h2 className="text-2xl font-bold text-white mb-4">Parabéns!</h2>
@@ -228,9 +218,26 @@ const WatchSession = () => {
               <button
                 onClick={handleDeleteSession}
                 className="bg-[#605f5f] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#4d4d4d]"
-              >
+                >
                 Finalizar Sessão
               </button>
+            </div>
+          </div>
+        )}
+
+        {session.driveFilm && (
+          <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
+            <h2 className="text-2xl font-semibold text-white mb-4 text-center">Assistindo {session.nameContent}</h2>
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe
+                src={session.driveFilm}
+                frameBorder="0"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                allowFullScreen
+                title={session.nameContent}
+                className="w-full h-96 rounded-lg"
+                style={{ backgroundColor: "#1a1a1a" }}
+              />
             </div>
           </div>
         )}
