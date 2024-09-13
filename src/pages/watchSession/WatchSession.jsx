@@ -227,18 +227,37 @@ const WatchSession = () => {
 
         {session.driveFilm && (
           <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg mb-6">
-            <h2 className="text-2xl font-semibold text-white mb-4 text-center">Assistindo {session.nameContent}</h2>
-            <div className="aspect-w-16 aspect-h-9">
-              <iframe
-                src={session.driveFilm}
-                frameBorder="0"
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                allowFullScreen
-                title={session.nameContent}
-                className="w-full h-96 rounded-lg"
-                style={{ backgroundColor: "#1a1a1a" }}
-              />
-            </div>
+            <h2 className="text-2xl font-semibold text-white mb-4 text-center">
+              Assistindo {session.nameContent}
+            </h2>
+            
+            {session.isSeries ? (
+              <div className="text-center">
+                <p className="text-lg text-gray-300 mb-4">
+                  Clique no botão abaixo para acessar a pasta da série:
+                </p>
+                <a
+                  href={session.driveFilm}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-[#605f5f] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#4d4d4d]"
+                >
+                  Acessar {session.nameContent}
+                </a>
+              </div>
+            ) : (
+              <div className="aspect-w-16 aspect-h-9">
+                <iframe
+                  src={session.driveFilm}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  title={session.nameContent}
+                  className="w-full h-96 rounded-lg"
+                  style={{ backgroundColor: "#1a1a1a" }}
+                />
+              </div>
+            )}
           </div>
         )}
 
