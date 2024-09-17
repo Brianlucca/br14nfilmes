@@ -3,11 +3,11 @@ import Footer from "../../components/footer/Footer";
 import MovieList from "../../components/movies/MovieList";
 import Sidebar from "../../components/sidebar/Sidebar";
 import RecommendationPreview from "../../components/recommendationPreview/RecommendationPreview";
-import MusicList from "../../components/musicList/MusicList";
 import AnimeList from "../../components/animeList/AnimeList";
 import SeriesList from "../../components/seriesList/SeriesList";
 import Slide from "../../components/slide/Slide";
 import Faq from "../../components/faq/Faq";
+import DocumentaryList from "../../components/documentaryList/DocumentaryList";
 
 const HomePage = () => {
 
@@ -20,7 +20,7 @@ const HomePage = () => {
           <MovieList />
           <SeriesList />
           <AnimeList />
-          <MusicList />
+          <DocumentaryList />
           <RecommendationPreview />
           <Faq />
         </main>
