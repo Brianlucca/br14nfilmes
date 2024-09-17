@@ -8,11 +8,11 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { database } from "../../services/firebaseConfig/FirebaseConfig";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
-import { Calendar, Clapperboard, Star, Heart, HeartOff} from "lucide-react";
+import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn } from "lucide-react";
 
-const MusicDetailsPage = () => {
+const DocumentaryDetailsPage = () => {
   const { id } = useParams();
-  const [music, setMusic] = useState(null);
+  const [documentary, setDocumentary] = useState(null);
   const [comments, setComments] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const { user } = useContext(AuthContext);
@@ -20,25 +20,25 @@ const MusicDetailsPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const fetchMusicDetails = async () => {
+    const fetchDocumentaryDetails = async () => {
       try {
-        const musicRef = ref(database, `musics/${id}`);
-        const snapshot = await get(musicRef);
+        const docRef = ref(database, `documentaries/${id}`);
+        const snapshot = await get(docRef);
         if (snapshot.exists()) {
-          setMusic(snapshot.val());
+          setDocumentary(snapshot.val());
         } else {
-          toast.error("Música não encontrada");
+          toast.error("Documentário não encontrado");
         }
       } catch (error) {
-        toast.error("Erro ao buscar detalhes da música");
+        toast.error("Erro ao buscar detalhes do documentário");
       }
     };
 
-    fetchMusicDetails();
+    fetchDocumentaryDetails();
   }, [id]);
 
   useEffect(() => {
-    const commentsRef = ref(database, `musics/${id}/comments`);
+    const commentsRef = ref(database, `documentaries/${id}/comments`);
     onValue(commentsRef, (snapshot) => {
       const commentsData = snapshot.val();
       if (commentsData) {
@@ -51,7 +51,7 @@ const MusicDetailsPage = () => {
 
   useEffect(() => {
     if (user) {
-      const favoritesRef = ref(database, `users/${user.uid}/favorites/music/${id}`);
+      const favoritesRef = ref(database, `users/${user.uid}/favorites/documentary/${id}`);
       onValue(favoritesRef, (snapshot) => {
         setIsFavorite(snapshot.exists());
       });
@@ -84,7 +84,7 @@ const MusicDetailsPage = () => {
     };
 
     try {
-      await push(ref(database, `musics/${id}/comments`), comment);
+      await push(ref(database, `documentaries/${id}/comments`), comment);
       toast.success("Comentário enviado com sucesso!");
     } catch (error) {
       toast.error("Erro ao enviar comentário");
@@ -93,7 +93,7 @@ const MusicDetailsPage = () => {
 
   const handleDeleteComment = async (commentKey) => {
     try {
-      await remove(ref(database, `musics/${id}/comments/${commentKey}`));
+      await remove(ref(database, `documentaries/${id}/comments/${commentKey}`));
       toast.success("Comentário deletado com sucesso!");
     } catch (error) {
       toast.error("Erro ao deletar comentário");
@@ -110,30 +110,30 @@ const MusicDetailsPage = () => {
       return;
     }
 
-    const favoriteRef = ref(database, `users/${user.uid}/favorites/music/${id}`);
+    const favoriteRef = ref(database, `users/${user.uid}/favorites/documentary/${id}`);
 
     try {
       if (isFavorite) {
         await remove(favoriteRef);
         setIsFavorite(false);
-        toast.success("Música removida dos favoritos");
+        toast.success("Documentário removido dos favoritos");
       } else {
         await set(favoriteRef, {
           id,
-          title: music.name,
-          imageUrl: music.imageUrl,
-          gif: music.gif,
+          title: documentary.name,
+          imageUrl: documentary.imageUrl,
+          gif: documentary.gif,
           addedAt: new Date().toISOString(),
         });
         setIsFavorite(true);
-        toast.success("Música adicionada aos favoritos");
+        toast.success("Documentário adicionado aos favoritos");
       }
     } catch (error) {
       toast.error("Erro ao atualizar favoritos");
     }
   };
 
-  if (!music) {
+  if (!documentary) {
     return <Loading />;
   }
 
@@ -144,25 +144,25 @@ const MusicDetailsPage = () => {
         <div className="relative">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${music.imageUrl})` }}
+            style={{ backgroundImage: `url(${documentary.imageUrl})` }}
           >
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-[#1a1a1a]/70 to-black"></div>
           </div>
           <div className="relative z-10 max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 space-y-8 text-white">
             <div className="flex flex-col items-center text-center space-y-6">
-              <h1 className="text-4xl font-bold">{music.name}</h1>
-              <p className="text-lg">{music.description}</p>
+              <h1 className="text-4xl font-bold">{documentary.name}</h1>
+              <p className="text-lg">{documentary.description}</p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Star className="hover:text-yellow-300" />
-                {music.rating}
+                {documentary.rating}
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Clapperboard className="hover:text-red-300" />
-                <span>{music.category}</span>
+                <span>{documentary.category}</span>
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Calendar className="hover:text-blue-300" />
-                <span>{music.year}</span>
+                <span>{documentary.year}</span>
               </p>
               <div className="flex flex-col sm:flex-row sm:space-x-4 mt-6">
                 <button
@@ -185,12 +185,19 @@ const MusicDetailsPage = () => {
                     </>
                   )}
                 </button>
+                <button
+                  onClick={handleCreateSession}
+                  className="px-4 py-2 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-blue-600 flex items-center justify-center"
+                >
+                  <Popcorn className="text-white mr-2" />
+                  <span>Assistir</span>
+                </button>
               </div>
-              {music.youtubeLink && (
+              {documentary.youtubeLink && (
                 <div className="w-full md:w-3/4 lg:w-2/3 mt-8">
                   <iframe
-                    src={music.youtubeLink}
-                    title={`Vídeo de ${music.name}`}
+                    src={documentary.youtubeLink}
+                    title={`Vídeo de ${documentary.name}`}
                     width="100%"
                     height="415"
                     className="rounded-lg shadow-md lg:mt-5"
@@ -205,7 +212,7 @@ const MusicDetailsPage = () => {
           comments={comments}
           onCommentSubmit={handleCommentSubmit}
           onDeleteComment={handleDeleteComment}
-          />
+        />
         <Footer />
         <ToastContainer />
       </div>
@@ -213,4 +220,4 @@ const MusicDetailsPage = () => {
   );
 };
 
-export default MusicDetailsPage;
+export default DocumentaryDetailsPage;

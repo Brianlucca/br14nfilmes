@@ -23,7 +23,7 @@ const CreateSession = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const categories = ["movies", "series", "animes", "musics"];
+        const categories = ["movies", "series", "animes", "documentaries"];
         let found = false;
 
         for (const category of categories) {
