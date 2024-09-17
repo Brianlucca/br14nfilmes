@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { getDatabase, ref, get } from "firebase/database";
 import { AuthContext } from "../../../contexts/authContext/AuthContext";
 import { addMovie } from "../../../services/movieService/MovieService";
-import { addMusic } from "../../../services/musicService/MusicService";
+import { addDocumentary } from "../../../services/documentaryService/documentaryService";
 import { addAnime } from "../../../services/animeService/AnimeService";
 import { addSeries } from "../../../services/seriesService/SeriesService";
 import { ToastContainer, toast } from "react-toastify";
@@ -48,8 +48,8 @@ const AddContentForm = () => {
         case 'movie':
           selectedCategories = ['Ação', 'Comédia', 'Drama', 'Terror', 'Romance', 'Ficção Científica', 'Documentário', 'Aventura', 'super-herói', 'Horror', 'Suspense', 'Sci-Fi', 'Fantasia', 'Mistério', 'Crime'];
           break;
-        case 'music':
-          selectedCategories = ['Rock', 'Pop', 'Hip-hop', 'Jazz', 'Clássica', 'Eletrônica', 'Blues', 'Country', 'Funk', 'Rap', 'MPB'];
+        case 'documentary':
+          selectedCategories = ['História', 'Ciência e Tecnologia', 'Natureza e Vida Selvagem', 'Política e Sociedade', 'Arte e Cultura', 'Esportes', 'Crime e Justiça', 'Biografias', 'Economia e Negócios', 'Viagens e Aventuras', 'Guerra e Conflitos', 'Religião e Espiritualidade',];
           break;
         case 'anime':
           selectedCategories = ['Shounen', 'Seinen', 'Shojo', 'Isekai', 'Mecha', 'Slice of Life', 'Horror', 'Comédia', 'super-herói', 'Cientifica', 'Cyberpunk', 'Futurístico'];
@@ -89,8 +89,8 @@ const AddContentForm = () => {
         case 'movie':
           await addMovie(contentWithUser);
           break;
-        case 'music':
-          await addMusic(contentWithUser);
+        case 'documentary':
+          await addDocumentary(contentWithUser);
           break;
         case 'anime':
           await addAnime(contentWithUser);
@@ -241,9 +241,9 @@ const AddContentForm = () => {
           >
             <option value="">Selecione um tipo</option>
             <option value="movie">Filme</option>
-            <option value="music">Música</option>
-            <option value="anime">Anime</option>
             <option value="serie">Série</option>
+            <option value="anime">Anime</option>
+            <option value="documentary">Documentário</option>
           </select>
         </div>
 
