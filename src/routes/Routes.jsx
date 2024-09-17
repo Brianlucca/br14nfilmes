@@ -5,7 +5,6 @@ import Login from "../components/auth/Login";
 import AdminPage from "../pages/admin/AdminPage";
 import HomePage from "../pages/home/HomePage";
 import MovieDetailsPage from "../pages/movieDetails/MovieDetailsPage";
-import MusicDetailsPage from "../pages/musicDetails/MusicDetailsPage";
 import SeriesDetailsPage from "../pages/seriesDetails/SeriesDetailsPage";
 import AnimeDetailsPage from "../pages/animeDetails/AnimeDetailsPage";
 import AdminRoute from "./AdminRoute";
@@ -19,6 +18,7 @@ import PageNotFound from "../pages/pageNotFound/PageNotFound";
 import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 import FavoritesPage from "../pages/favoritesPage/FavoritesPage";
 import WelcomeModal from "../components/welcomeModal/WelcomeModal";
+import DocumentaryDetailsPage from "../pages/DocumentaryDetails/DocumentaryDetailsPage";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
@@ -50,7 +50,7 @@ function RenderRoutes() {
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
         <Route path="/movie/:id" element={user ? <MovieDetailsPage /> : <Navigate to="/login" />} />
-        <Route path="/music/:id" element={user ? <MusicDetailsPage /> : <Navigate to="/login" />} />
+        <Route path="/documentary/:id" element={user ? <DocumentaryDetailsPage /> : <Navigate to="/login" />} />
         <Route path="/serie/:id" element={user ? <SeriesDetailsPage /> : <Navigate to="/login" />} />
         <Route path="/anime/:id" element={user ? <AnimeDetailsPage /> : <Navigate to="/login" />} />
         <Route path="/recommendations" element={user ? <Recommendations /> : <Navigate to="/login" />} />
