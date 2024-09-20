@@ -71,6 +71,12 @@ const Login = () => {
             Login
           </button>
         </form>
+        <p className="mt-4 text-center text-gray-300">
+          Não tem uma conta?{" "}
+          <Link to="/register" className="text-blue-500 hover:underline">
+            Faça o cadatro
+          </Link>
+        </p>
       </div>
     </div>
   );
