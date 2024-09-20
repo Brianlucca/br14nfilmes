@@ -1,136 +1,27 @@
-import { get, ref, onValue, remove, push, set } from "firebase/database";
-import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { database } from "../../services/firebaseConfig/FirebaseConfig";
-import { AuthContext } from "../../contexts/authContext/AuthContext";
-import { ToastContainer, toast } from "react-toastify";
-import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn } from "lucide-react";
+import useDocumentaryDetails from "../../hooks/useDocumentaryDetails/useDocumentaryDetails";
+import { ToastContainer } from "react-toastify";
+import { Popcorn } from "lucide-react";
 
 const DocumentaryDetailsPage = () => {
   const { id } = useParams();
-  const [documentary, setDocumentary] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  useEffect(() => {
-    const fetchDocumentaryDetails = async () => {
-      try {
-        const docRef = ref(database, `documentaries/${id}`);
-        const snapshot = await get(docRef);
-        if (snapshot.exists()) {
-          setDocumentary(snapshot.val());
-        } else {
-          toast.error("Documentário não encontrado");
-        }
-      } catch (error) {
-        toast.error("Erro ao buscar detalhes do documentário");
-      }
-    };
-
-    fetchDocumentaryDetails();
-  }, [id]);
-
-  useEffect(() => {
-    const commentsRef = ref(database, `documentaries/${id}/comments`);
-    onValue(commentsRef, (snapshot) => {
-      const commentsData = snapshot.val();
-      if (commentsData) {
-        setComments(Object.entries(commentsData));
-      } else {
-        setComments([]);
-      }
-    });
-  }, [id]);
-
-  useEffect(() => {
-    if (user) {
-      const favoritesRef = ref(database, `users/${user.uid}/favorites/documentary/${id}`);
-      onValue(favoritesRef, (snapshot) => {
-        setIsFavorite(snapshot.exists());
-      });
-    }
-  }, [id, user]);
-
-  const handleCommentSubmit = async (commentText, replyingTo) => {
-    if (!user) {
-      toast.error("Usuário não autenticado");
-      return;
-    }
-
-    const roleRef = ref(database, `users/${user.uid}/updateNick/${user.uid}`);
-    const roleSnapshot = await get(roleRef);
-    const roleData = roleSnapshot.val();
-
-    if (!roleData || !roleData.nickname) {
-      toast.warn("Por favor, crie um nickname antes de comentar.");
-      navigate("/profile", { state: { from: location.pathname } });
-      return;
-    }
-
-    const comment = {
-      text: commentText,
-      userName: roleData.nickname,
-      createdAt: new Date().toISOString(),
-      replyingToName: replyingTo
-        ? comments.find(([key]) => key === replyingTo)[1].userName
-        : null,
-    };
-
-    try {
-      await push(ref(database, `documentaries/${id}/comments`), comment);
-      toast.success("Comentário enviado com sucesso!");
-    } catch (error) {
-      toast.error("Erro ao enviar comentário");
-    }
-  };
-
-  const handleDeleteComment = async (commentKey) => {
-    try {
-      await remove(ref(database, `documentaries/${id}/comments/${commentKey}`));
-      toast.success("Comentário deletado com sucesso!");
-    } catch (error) {
-      toast.error("Erro ao deletar comentário");
-    }
-  };
+  const {
+    documentary,
+    comments,
+    isFavorite,
+    handleCommentSubmit,
+    handleDeleteComment,
+    handleToggleFavorite,
+  } = useDocumentaryDetails(id);
 
   const handleCreateSession = () => {
     navigate(`/create-session/${id}`);
-  };
-
-  const handleToggleFavorite = async () => {
-    if (!user) {
-      toast.error("Usuário não autenticado");
-      return;
-    }
-
-    const favoriteRef = ref(database, `users/${user.uid}/favorites/documentary/${id}`);
-
-    try {
-      if (isFavorite) {
-        await remove(favoriteRef);
-        setIsFavorite(false);
-        toast.success("Documentário removido dos favoritos");
-      } else {
-        await set(favoriteRef, {
-          id,
-          title: documentary.name,
-          imageUrl: documentary.imageUrl,
-          gif: documentary.gif,
-          addedAt: new Date().toISOString(),
-        });
-        setIsFavorite(true);
-        toast.success("Documentário adicionado aos favoritos");
-      }
-    } catch (error) {
-      toast.error("Erro ao atualizar favoritos");
-    }
   };
 
   if (!documentary) {
@@ -153,15 +44,12 @@ const DocumentaryDetailsPage = () => {
               <h1 className="text-4xl font-bold">{documentary.name}</h1>
               <p className="text-lg">{documentary.description}</p>
               <p className="text-lg font-semibold flex items-center space-x-2">
-                <Star className="hover:text-yellow-300" />
-                {documentary.rating}
+                <span>{documentary.rating}</span>
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
-                <Clapperboard className="hover:text-red-300" />
                 <span>{documentary.category}</span>
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
-                <Calendar className="hover:text-blue-300" />
                 <span>{documentary.year}</span>
               </p>
               <div className="flex flex-col sm:flex-row sm:space-x-4 mt-6">
@@ -173,24 +61,14 @@ const DocumentaryDetailsPage = () => {
                       : "bg-[#605f5f] hover:bg-red-600"
                   } text-white mb-2 sm:mb-0 flex items-center space-x-2`}
                 >
-                  {isFavorite ? (
-                    <>
-                      <HeartOff className="text-white mr-2" />
-                      <span>Remover Favorito</span>
-                    </>
-                  ) : (
-                    <>
-                      <Heart className="text-white mr-2" />
-                      <span>Adicionar aos Favoritos</span>
-                    </>
-                  )}
+                  {isFavorite ? "Remover Favorito" : "Adicionar aos Favoritos"}
                 </button>
                 <button
                   onClick={handleCreateSession}
                   className="px-4 py-2 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-blue-600 flex items-center justify-center"
                 >
                   <Popcorn className="text-white mr-2" />
-                  <span>Assistir</span>
+                  <span>Criar Sessão</span>
                 </button>
               </div>
               {documentary.youtubeLink && (

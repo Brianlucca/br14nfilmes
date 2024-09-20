@@ -19,6 +19,7 @@ import ScrollToTop from "../components/scrollToTop/ScrollToTop";
 import FavoritesPage from "../pages/favoritesPage/FavoritesPage";
 import WelcomeModal from "../components/welcomeModal/WelcomeModal";
 import DocumentaryDetailsPage from "../pages/DocumentaryDetails/DocumentaryDetailsPage";
+import Register from "../components/auth/Register";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
@@ -48,6 +49,7 @@ function RenderRoutes() {
       <Routes>
         <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
         <Route path="/movie/:id" element={user ? <MovieDetailsPage /> : <Navigate to="/login" />} />
         <Route path="/documentary/:id" element={user ? <DocumentaryDetailsPage /> : <Navigate to="/login" />} />

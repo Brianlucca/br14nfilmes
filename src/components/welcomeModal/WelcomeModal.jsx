@@ -8,17 +8,17 @@ const WelcomeModal = ({ onClose }) => {
           Aviso Importante
         </h2>
         <p className="text-sm md:text-base text-gray-700 mb-4">
-          Atenção: este site foi criado para uso pessoal, sem fins lucrativos. 
-          Não há propagandas ou qualquer forma de monetização. 
-          Se você está acessando este site, foi autorizado pelo administrador. 
-          Portanto, não compartilhe ou mencione este site a pessoas não autorizadas.
+          Este site foi criado para reunir pessoas interessadas em comentar e
+          avaliar seus conteúdos favoritos. Vale lembrar que não hospedamos
+          filmes, séries, documentários ou animes; nosso foco é promover a
+          interação entre os usuários sobre essas obras.
         </p>
         <p className="text-sm md:text-base text-gray-700 mb-4">
-          <strong>Diga não à pirataria.</strong> Caso não encontre o conteúdo desejado, 
-          recomende aos administradores e aguarde até que ele seja adicionado. 
-          Caso contrário, recomendamos que os usuários busquem um serviço de streaming licenciado. 
-          Este site está sendo monitorado pelo criador, e qualquer comportamento fora dos termos aqui mencionados 
-          poderá resultar no banimento do seu acesso.
+          <strong>Diga não à pirataria.</strong> Caso não encontre o conteúdo
+          que procura, você pode recomendá-lo aos administradores e aguardar a
+          sua inclusão. Além disso, comportamentos como ofensas, homofobia,
+          xenofobia, assédio ou difamação não serão tolerados. Qualquer violação
+          dessas regras resultará em banimento. Respeite os outros usuários!
         </p>
         <button
           onClick={onClose}
