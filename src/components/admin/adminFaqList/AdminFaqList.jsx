@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { ref, get } from "firebase/database";
+import { ref, onValue, remove } from "firebase/database";
 import { database } from "../../../services/firebaseConfig/FirebaseConfig";
 import Loading from "../../loading/Loading";
+import { Trash } from "lucide-react";
 
 const AdminFaqList = () => {
   const [faqs, setFaqs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFaqs = async () => {
-      try {
-        const usersRef = ref(database, "users");
-        const snapshot = await get(usersRef);
-        const usersData = snapshot.val();
+    const usersRef = ref(database, "users");
 
+    const unsubscribe = onValue(
+      usersRef,
+      (snapshot) => {
+        const usersData = snapshot.val();
         const faqsList = [];
 
         for (const uid in usersData) {
@@ -22,6 +23,7 @@ const AdminFaqList = () => {
 
           if (faqData && nicknameData) {
             faqsList.push({
+              uid,
               nickname: nicknameData,
               message: faqData.message,
               timestamp: faqData.timestamp,
@@ -31,13 +33,22 @@ const AdminFaqList = () => {
 
         setFaqs(faqsList);
         setLoading(false);
-      } catch (error) {
+      },
+      (error) => {
         setLoading(false);
       }
-    };
+    );
 
-    fetchFaqs();
+    return () => unsubscribe();
   }, []);
+
+  const handleDelete = async (uid) => {
+    try {
+      const faqRef = ref(database, `users/${uid}/faq`);
+      await remove(faqRef);
+    } catch (error) {
+    }
+  };
 
   if (loading) {
     return <Loading />;
@@ -56,7 +67,7 @@ const AdminFaqList = () => {
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="bg-[#2d2d2d] p-4 rounded-lg shadow-md space-y-2"
+            className="bg-[#2d2d2d] p-4 rounded-lg shadow-md space-y-2 relative"
           >
             <p className="text-lg text-white font-semibold">
               {faq.nickname} perguntou:
@@ -65,6 +76,12 @@ const AdminFaqList = () => {
             <p className="text-sm text-gray-400">
               Enviado em: {new Date(faq.timestamp).toLocaleString()}
             </p>
+            <button
+              onClick={() => handleDelete(faq.uid)}
+              className="absolute top-2 right-2 text-gray-400 hover:text-red-500"
+            >
+              <Trash size={20} />
+            </button>
           </div>
         ))}
       </div>
