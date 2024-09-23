@@ -14,7 +14,6 @@ const AddContentForm = () => {
     name: "",
     imageUrl: "",
     youtubeLink: "",
-    driveLink: "",
     gif: "",
     description: "",
     rating: "",
@@ -107,7 +106,6 @@ const AddContentForm = () => {
         name: "",
         imageUrl: "",
         youtubeLink: "",
-        driveLink: "",
         gif: "",
         description: "",
         rating: "",
@@ -165,19 +163,6 @@ const AddContentForm = () => {
           />
         </div>
         
-        <div className="mb-4">
-          <label htmlFor="driveLink" className="block text-gray-300 text-sm font-medium mb-2">Link do Google Drive (Opcional)</label>
-          <input
-            id="driveLink"
-            name="driveLink"
-            type="text"
-            value={contentData.driveLink}
-            onChange={handleChange}
-            placeholder="Link do Google Drive (Opcional)"
-            className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
-          />
-        </div>
-
         <div className="mb-4">
           <label htmlFor="driveLink" className="block text-gray-300 text-sm font-medium mb-2">Link do Gif (Opcional)</label>
           <input
