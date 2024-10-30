@@ -5,7 +5,7 @@ import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import useDocumentaryDetails from "../../hooks/useDocumentaryDetails/useDocumentaryDetails";
 import { ToastContainer } from "react-toastify";
-import { Popcorn } from "lucide-react";
+import { Popcorn, Share } from "lucide-react";
 
 const DocumentaryDetailsPage = () => {
   const { id } = useParams();
@@ -27,6 +27,27 @@ const DocumentaryDetailsPage = () => {
   if (!documentary) {
     return <Loading />;
   }
+
+  const handleShare = async () => {
+    const message = `Confira ${documentary.name} em AinzOoal Films! Avaliação do Documentário: ${documentary.rating}`
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Faça o seu login e avalie!`,
+          text: message,
+          url: window.location.href,
+        })
+      } catch (error) {
+        toast.error('Erro ao compartilhar o código da sessão.')
+      }
+    } else {
+      toast.warn(
+        'A funcionalidade de compartilhamento não está disponível neste navegador.',
+      )
+    }
+  }
+
 
   return (
     <div>
@@ -69,6 +90,13 @@ const DocumentaryDetailsPage = () => {
                 >
                   <Popcorn className="text-white mr-2" />
                   <span>Criar Sessão</span>
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="px-4 py-2 mt-2 sm:mt-0 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-blue-600 flex items-center justify-center"
+                >
+                  <Share className="text-white mr-2" />
+                  <span>Compartilhar</span>
                 </button>
               </div>
               {documentary.youtubeLink && (
