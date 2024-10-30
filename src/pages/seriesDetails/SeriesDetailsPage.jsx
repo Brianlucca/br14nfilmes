@@ -1,4 +1,4 @@
-import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn } from "lucide-react";
+import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn, Share } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import useSeriesDetails from "../../hooks/useSerieDetails/useSerieDetails";
 import Comments from "../../components/comments/Comments";
@@ -28,6 +28,27 @@ const SeriesDetailsPage = () => {
   const handleCreateSession = () => {
     navigate(`/create-session/${id}`);
   };
+
+  const handleShare = async () => {
+    const message = `Confira ${series.name} em AinzOoal Films! Avaliação da Série: ${series.rating}`
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Faça o seu login e avalie!`,
+          text: message,
+          url: window.location.href,
+        })
+      } catch (error) {
+        toast.error('Erro ao compartilhar o código da sessão.')
+      }
+    } else {
+      toast.warn(
+        'A funcionalidade de compartilhamento não está disponível neste navegador.',
+      )
+    }
+  }
+
 
   return (
     <div>
@@ -83,6 +104,13 @@ const SeriesDetailsPage = () => {
                 >
                   <Popcorn className="text-white mr-2" />
                   <span>Criar Sessão</span>
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="px-4 py-2 mt-2 sm:mt-0 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-blue-600 flex items-center justify-center"
+                >
+                  <Share className="text-white mr-2" />
+                  <span>Compartilhar</span>
                 </button>
               </div>
               {series.youtubeLink && (

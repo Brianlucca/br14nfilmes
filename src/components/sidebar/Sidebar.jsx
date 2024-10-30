@@ -70,7 +70,7 @@ const Sidebar = () => {
               onClick={handleLogout}
               className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center mt-auto"
             >
-              Logout
+              Sair
             </button>
           </>
         ) : (
@@ -132,7 +132,7 @@ const Sidebar = () => {
                 className="flex items-center space-x-2 mt-6 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
               >
                 <LogOut className="w-6 h-6" />
-                {isOpen && <span className="text-lg">Logout</span>}
+                {isOpen && <span className="text-lg">Sair</span>}
               </button>
             </div>
           </div>

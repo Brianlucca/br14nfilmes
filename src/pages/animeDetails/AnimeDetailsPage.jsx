@@ -5,7 +5,7 @@ import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import useAnimeDetails from "../../hooks/useAnimeDetails/useAnimeDetails";
 import { ToastContainer } from "react-toastify";
-import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn } from "lucide-react";
+import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn, Share } from "lucide-react";
 
 const AnimeDetailsPage = () => {
   const { id } = useParams();
@@ -26,6 +26,26 @@ const AnimeDetailsPage = () => {
 
   if (!anime) {
     return <Loading />;
+  }
+
+  const handleShare = async () => {
+    const message = `Confira ${anime.name} em AinzOoal Films! Avaliação do Anime: ${anime.rating}`
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Faça o seu login e avalie!`,
+          text: message,
+          url: window.location.href,
+        })
+      } catch (error) {
+        toast.error('Erro ao compartilhar o código da sessão.')
+      }
+    } else {
+      toast.warn(
+        'A funcionalidade de compartilhamento não está disponível neste navegador.',
+      )
+    }
   }
 
   return (
@@ -82,6 +102,13 @@ const AnimeDetailsPage = () => {
                 >
                   <Popcorn className="text-white mr-2" />
                   <span>Criar Sessão</span>
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="px-4 py-2 mt-2 sm:mt-0 bg-[#605f5f] text-white font-semibold rounded-md shadow-md hover:bg-blue-600 flex items-center justify-center"
+                >
+                  <Share className="text-white mr-2" />
+                  <span>Compartilhar</span>
                 </button>
               </div>
               {anime.youtubeLink && (
