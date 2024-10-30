@@ -3,14 +3,15 @@ import { ArrowDown } from 'lucide-react';
 
 const Slide = () => {
   const imageUrls = [
-    'https://cdn.ome.lt/fekr3xbDc1ZuK_rkmGZPdHl5r9o=/1200x630/smart/extras/conteudos/game-of-thrones_hQ8v3n1.jpg',
-    'https://i0.wp.com/assets.b9.com.br/wp-content/uploads/2018/04/av.jpg?fit=2200%2C1238&ssl=1',
-    'https://m.media-amazon.com/images/S/pv-target-images/aaa253b7a9f9fb95264c68c31cd04b9030a5d7b0212e1b01d437dc5631c62799._SX1080_FMjpg_.jpg',
-    'https://i.ytimg.com/vi/WozGVu01YfU/maxresdefault.jpg',
-    'https://lavrapalavra.com/wp-content/uploads/2021/01/segunda-temporada-de-dark-destaque.jpg',
-    'https://www.folhadelondrina.com.br/img/Facebook/3260000/Deadpool--Wolverine-a-Marvel-contra-ataca-nos-cine0326311000202407251909.jpg?xid=6103504',
-    'https://cinemacomrapadura.com.br/imagens/2015/08/20150825-hunger-games-mockingjay-2-banner.jpg',
-    'https://i2.wp.com/www.heyuguys.com/images/2012/11/Django-Unchained-Character-Banner-%E2%80%93-Jamie-Foxx.jpg?fit=1920%2C1080&ssl=1',
+    'https://images.hdqwalls.com/download/the-batman-dc-2021-ck-3840x2160.jpg',
+    'https://images3.alphacoders.com/143/thumb-1920-143517.jpg',
+    'https://wallpapercave.com/wp/wp9606151.jpg',
+    'https://th.bing.com/th/id/R.ea728d409541bd034be7bf6527b04393?rik=fzvjUeuz0qjRCQ&pid=ImgRaw&r=0',
+    'https://e1.pxfuel.com/desktop-wallpaper/249/18/desktop-wallpaper-better-call-saul-tv-show-hq-better-call-saul-better-call-saul.jpg',
+    'https://www.themoviedb.org/t/p/original/438rfSdrF7PA8dtvS9BlWTw2Ssi.jpg',
+    'https://images5.alphacoders.com/111/thumb-1920-1111276.jpg',
+    'https://external-preview.redd.it/X1mIR5US4FcO4iGX49Cr1C1h7jqHl2gSbcpj5b1dyI4.jpg?width=1024&auto=webp&s=36ce4f1ad63c57ba7d9d715cb8683eea4184b254',
+    'https://wallpapercave.com/wp/SJ8UZV6.jpg',
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
