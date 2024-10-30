@@ -8,6 +8,7 @@ const Footer = () => {
           className="w-24 h-auto mb-1"
         />
         <p className="text-sm">&copy; 2024 AinzOoal Films</p>
+        <p className="text-sm">Criador - <a href="https://github.com/Brianlucca" target="_blank" className="underline">Brian Lucca</a></p>
       </div>
     </footer>
   );
