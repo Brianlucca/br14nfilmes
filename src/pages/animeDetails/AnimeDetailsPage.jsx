@@ -65,7 +65,7 @@ const AnimeDetailsPage = () => {
               <p className="text-lg">{anime.description}</p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Star className="hover:text-yellow-300" />
-                {anime.rating}
+                <span>{anime.rating}</span>
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Clapperboard className="hover:text-red-300" />

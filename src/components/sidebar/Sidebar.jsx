@@ -1,4 +1,4 @@
-import { Heart, Home, LogOut, Menu, Star, TvMinimalPlay, User } from "lucide-react";
+import { Heart, Home, LogOut, Menu, SquarePen, Star, TvMinimalPlay, User } from "lucide-react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
@@ -66,6 +66,12 @@ const Sidebar = () => {
             >
               {isAdmin ? "Admin" : "Recomendações"}
             </Link>
+            <Link
+              to="/profile"
+              className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center"
+            >
+              Usuário
+            </Link>
             <button
               onClick={handleLogout}
               className="text-lg font-semibold hover:bg-[#333333] hover:text-white p-2 w-full text-center mt-auto"
@@ -125,6 +131,13 @@ const Sidebar = () => {
                       {isOpen && <span className="text-lg">Recomendações</span>}
                     </>
                   )}
+                </Link>
+                <Link
+                  to="/profile"
+                  className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
+                >
+                  <SquarePen className="w-6 h-6" />
+                  {isOpen && <span className="text-lg">Usuário</span>}
                 </Link>
               </nav>
               <button

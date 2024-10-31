@@ -67,7 +67,7 @@ const SeriesDetailsPage = () => {
               <p className="text-lg">{series.description}</p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Star className="hover:text-yellow-300" />
-                {series.rating}
+                <span>{series.rating}</span>
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Clapperboard className="hover:text-red-300" />

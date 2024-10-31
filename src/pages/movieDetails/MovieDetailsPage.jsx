@@ -66,7 +66,7 @@ const MovieDetailsPage = () => {
               <p className="text-lg">{movie.description}</p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Star className="hover:text-yellow-300" />
-                {movie.rating}
+                <span>{movie.rating}</span>
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
                 <Clapperboard className="hover:text-red-300" />

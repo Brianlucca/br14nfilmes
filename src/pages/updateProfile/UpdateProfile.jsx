@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { database } from "../../services/firebaseConfig/FirebaseConfig";
+import Footer from "../../components/footer/Footer";
+import Faq from "../../components/faq/Faq";
 
 const UpdateProfile = () => {
   const { user } = useContext(AuthContext);
@@ -112,11 +114,13 @@ const UpdateProfile = () => {
                 Salvar Nickname
               </button>
             </div>
+            <p className="text-green-300 text-sm justify-center text-center mt-2">Atualize o seu nickname para poder interagir</p>
           </div>
-
           <ToastContainer />
         </div>
       </div>
+      <Faq />
+      <Footer />
     </div>
   );
 };
