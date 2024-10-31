@@ -5,7 +5,7 @@ import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import useDocumentaryDetails from "../../hooks/useDocumentaryDetails/useDocumentaryDetails";
 import { ToastContainer } from "react-toastify";
-import { Popcorn, Share } from "lucide-react";
+import { Calendar, Clapperboard, Heart, HeartOff, Popcorn, Share, Star } from "lucide-react";
 
 const DocumentaryDetailsPage = () => {
   const { id } = useParams();
@@ -65,12 +65,15 @@ const DocumentaryDetailsPage = () => {
               <h1 className="text-4xl font-bold">{documentary.name}</h1>
               <p className="text-lg">{documentary.description}</p>
               <p className="text-lg font-semibold flex items-center space-x-2">
+                <Star className="hover:text-yellow-300" />
                 <span>{documentary.rating}</span>
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
+                <Clapperboard className="hover:text-red-300" />
                 <span>{documentary.category}</span>
               </p>
               <p className="text-lg font-semibold flex items-center space-x-2">
+                <Calendar className="hover:text-blue-300" />
                 <span>{documentary.year}</span>
               </p>
               <div className="flex flex-col sm:flex-row sm:space-x-4 mt-6">
@@ -80,9 +83,19 @@ const DocumentaryDetailsPage = () => {
                     isFavorite
                       ? "bg-red-600 hover:bg-red-700"
                       : "bg-[#605f5f] hover:bg-red-600"
-                  } text-white mb-2 sm:mb-0 flex items-center space-x-2`}
+                  } text-white mb-2 sm:mb-0 flex items-center`}
                 >
-                  {isFavorite ? "Remover Favorito" : "Adicionar aos Favoritos"}
+                  {isFavorite ? (
+                    <>
+                      <HeartOff className="text-white mr-2" />
+                      <span>Remover Favorito</span>
+                    </>
+                  ) : (
+                    <>
+                      <Heart className="text-white mr-2" />
+                      <span>Adicionar aos Favoritos</span>
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={handleCreateSession}
