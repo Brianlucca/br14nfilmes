@@ -1,4 +1,5 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { useParams, useNavigate } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
@@ -29,7 +30,7 @@ const AnimeDetailsPage = () => {
   }
 
   const handleShare = async () => {
-    const message = `Confira ${anime.name} em AinzOoal Films! Avaliação do Anime: ${anime.rating}`
+    const message = `Confira ${anime.name} em Br14nfilmes! Avaliação do Anime: ${anime.rating}`;
 
     if (navigator.share) {
       try {
@@ -37,19 +38,34 @@ const AnimeDetailsPage = () => {
           title: `Faça o seu login e avalie!`,
           text: message,
           url: window.location.href,
-        })
+        });
       } catch (error) {
-        toast.error('Erro ao compartilhar o código da sessão.')
+        toast.error("Erro ao compartilhar o código da sessão.");
       }
     } else {
       toast.warn(
-        'A funcionalidade de compartilhamento não está disponível neste navegador.',
-      )
+        "A funcionalidade de compartilhamento não está disponível neste navegador."
+      );
     }
-  }
+  };
 
   return (
     <div>
+      <Helmet>
+        <title>{anime.name} - Detalhes | Br14nfilmes</title>
+        <meta name="description" content={anime.description} />
+        <meta property="og:title" content={anime.name} />
+        <meta property="og:description" content={anime.description} />
+        <meta property="og:image" content={anime.imageUrl} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Br14nfilmes" />
+        <meta property="og:image:alt" content={`Imagem de ${anime.name}`} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={anime.name} />
+        <meta property="twitter:description" content={anime.description} />
+        <meta property="twitter:image" content={anime.imageUrl} />
+      </Helmet>
       <Sidebar />
       <div className="bg-black min-h-screen">
         <div className="relative">
