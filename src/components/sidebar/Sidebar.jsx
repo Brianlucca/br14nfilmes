@@ -29,7 +29,7 @@ const Sidebar = () => {
       style={{ zIndex: 1000 }}
     >
       <div className="md:hidden flex justify-between items-center p-4 bg-[#1a1a1a] text-white">
-        <span className="text-lg font-semibold">AinzOoal Films</span>
+        <span className="text-lg font-semibold">Br14nfilmes</span>
         <button onClick={handleMobileMenuToggle}>
           <Menu className="w-8 h-8" />
         </button>
@@ -91,7 +91,7 @@ const Sidebar = () => {
               <div className={`flex items-center mb-6 ${isOpen ? "w-64" : "w-16"} transition-all duration-300`}>
                 <img src={Logo} alt="Logo" className="w-16 h-auto -ml-3" />
                 {isOpen && (
-                  <span className="text-lg font-semibold ml-2">AinzOoal Films</span>
+                  <span className="text-lg font-semibold ml-2">Br14nfilmes</span>
                 )}
               </div>
               <nav className="flex flex-col space-y-4">
