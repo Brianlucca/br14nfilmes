@@ -16,7 +16,6 @@ export const useCreateSession = () => {
   const [sessionCode, setSessionCode] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [nameContent, setNameContent] = useState('')
-  const [driveFilm, setDriveFilm] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -38,7 +37,6 @@ export const useCreateSession = () => {
                 setDescription(value.description)
                 setImageUrl(value.imageUrl || '')
                 setNameContent(value.name)
-                setDriveFilm(value.driveLink || '')
 
                 if (value.type === 'serie' || value.type === 'anime') {
                   setIsSeries(true)
@@ -100,7 +98,6 @@ export const useCreateSession = () => {
       image: imageUrl,
       contentId: id,
       nameContent,
-      driveFilm,
     }
 
     try {
@@ -129,8 +126,6 @@ export const useCreateSession = () => {
     setImageUrl,
     nameContent,
     setNameContent,
-    driveFilm,
-    setDriveFilm,
     handleSubmit,
   }
 }

@@ -19,8 +19,6 @@ const CreateSession = () => {
     setImageUrl,
     nameContent,
     setNameContent,
-    driveFilm,
-    setDriveFilm,
     handleSubmit
   } = useCreateSession();
 

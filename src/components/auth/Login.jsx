@@ -71,10 +71,16 @@ const Login = () => {
             Login
           </button>
         </form>
-        <p className="mt-4 text-center text-gray-300">
+        <p className="mt-4 text-center text-gray-300 text-sm">
           Não tem uma conta?{" "}
           <Link to="/register" className="text-blue-500 hover:underline">
-            Faça o cadatro
+            Faça o cadastro
+          </Link>
+        </p>
+        <p className="mt-2 text-center text-gray-300 text-sm">
+          Esqueceu sua senha?{" "}
+          <Link to="/reset-password" className="text-blue-500 hover:underline">
+            Clique aqui
           </Link>
         </p>
       </div>
