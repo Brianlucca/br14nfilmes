@@ -20,6 +20,8 @@ import FavoritesPage from "../pages/favoritesPage/FavoritesPage";
 import DocumentaryDetailsPage from "../pages/DocumentaryDetails/DocumentaryDetailsPage";
 import Register from "../components/auth/Register";
 import WarningModal from "../components/warnings/WarningsModal";
+import VerifyEmail from "../components/auth/VerifyEmail";
+import ResetPassword from "../components/auth/ResetPassword";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
@@ -29,27 +31,29 @@ function RenderRoutes() {
   }
 
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <WarningModal />
-      <Routes>
-        <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-        <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
-        <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
-        <Route path="/movie/:id" element={user ? <MovieDetailsPage /> : <Navigate to="/login" />} />
-        <Route path="/documentary/:id" element={user ? <DocumentaryDetailsPage /> : <Navigate to="/login" />} />
-        <Route path="/serie/:id" element={user ? <SeriesDetailsPage /> : <Navigate to="/login" />} />
-        <Route path="/anime/:id" element={user ? <AnimeDetailsPage /> : <Navigate to="/login" />} />
-        <Route path="/recommendations" element={user ? <Recommendations /> : <Navigate to="/login" />} />
-        <Route path="/profile" element={user ? <UpdateProfile /> : <Navigate to="/login" />} />
-        <Route path="/create-session/:id" element={user ? <CreateSession /> : <Navigate to="/login" />} />
-        <Route path="/Join-session" element={user ? <JoinSession /> : <Navigate to="/login" />} />
-        <Route path="/watchsession/:sessionCode" element={user ? <WatchSession /> : <Navigate to="/login" />} />
-        <Route path="/favorites" element={user ? <FavoritesPage /> : <Navigate to="/login" />} />
-        <Route path="/*" element={<PageNotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+        <ScrollToTop />
+        <WarningModal />
+        <Routes>
+          <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
+          <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/verify-email" element={user ? <Navigate to="/login" /> : <VerifyEmail />} />
+          <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
+          <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+          <Route path="/movie/:id" element={user ? <MovieDetailsPage /> : <Navigate to="/login" />} />
+          <Route path="/documentary/:id" element={user ? <DocumentaryDetailsPage /> : <Navigate to="/login" />} />
+          <Route path="/serie/:id" element={user ? <SeriesDetailsPage /> : <Navigate to="/login" />} />
+          <Route path="/anime/:id" element={user ? <AnimeDetailsPage /> : <Navigate to="/login" />} />
+          <Route path="/recommendations" element={user ? <Recommendations /> : <Navigate to="/login" />} />
+          <Route path="/profile" element={user ? <UpdateProfile /> : <Navigate to="/login" />} />
+          <Route path="/create-session/:id" element={user ? <CreateSession /> : <Navigate to="/login" />} />
+          <Route path="/Join-session" element={user ? <JoinSession /> : <Navigate to="/login" />} />
+          <Route path="/watchsession/:sessionCode" element={user ? <WatchSession /> : <Navigate to="/login" />} />
+          <Route path="/favorites" element={user ? <FavoritesPage /> : <Navigate to="/login" />} />
+          <Route path="/*" element={<PageNotFound />} />
+        </Routes>
+    </>
   );
 }
 
