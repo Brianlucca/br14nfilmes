@@ -12,7 +12,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await registerUser(email, password);
-      navigate("/login");
+      navigate("/verify-email");
     } catch (error) {
       setError("Erro ao registrar. Tente novamente.");
     }
