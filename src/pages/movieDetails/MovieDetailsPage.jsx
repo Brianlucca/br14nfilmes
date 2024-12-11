@@ -29,12 +29,11 @@ const MovieDetailsPage = () => {
   }
 
   const handleShare = async () => {
-    const message = `Confira ${movie.name} em AinzOoal Films! Avaliação do Filme: ${movie.rating}`
+    const message = `Confira ${movie.name} em Br14nfilmes! Avaliação do Filme: ${movie.rating}`
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Faça o seu login e avalie!`,
           text: message,
           url: window.location.href,
         })
@@ -51,6 +50,21 @@ const MovieDetailsPage = () => {
 
   return (
     <div>
+      <head>
+        <title>{movie.name} | Br14nfilmes</title>
+        <meta name="description" content={movie.description} />
+        <meta property="og:title" content={movie.name} />
+        <meta property="og:description" content={movie.description} />
+        <meta property="og:image" content={movie.imageUrl} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Br14nfilmes" />
+        <meta property="og:image:alt" content={`Imagem de ${movie.name}`} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={movie.name} />
+        <meta property="twitter:description" content={movie.description} />
+        <meta property="twitter:image" content={movie.imageUrl} />
+      </head>
       <Sidebar />
       <div className="bg-black min-h-screen">
         <div className="relative">

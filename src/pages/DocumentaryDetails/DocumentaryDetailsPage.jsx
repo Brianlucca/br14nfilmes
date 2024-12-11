@@ -29,12 +29,11 @@ const DocumentaryDetailsPage = () => {
   }
 
   const handleShare = async () => {
-    const message = `Confira ${documentary.name} em AinzOoal Films! Avaliação do Documentário: ${documentary.rating}`
+    const message = `Confira ${documentary.name} em Br14nfilmes! Avaliação do Documentário: ${documentary.rating}`
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Faça o seu login e avalie!`,
           text: message,
           url: window.location.href,
         })
@@ -51,6 +50,21 @@ const DocumentaryDetailsPage = () => {
 
   return (
     <div>
+      <head>
+        <title>{documentary.name} | Br14nfilmes</title>
+        <meta name="description" content={documentary.description} />
+        <meta property="og:title" content={documentary.name} />
+        <meta property="og:description" content={documentary.description} />
+        <meta property="og:image" content={documentary.imageUrl} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Br14nfilmes" />
+        <meta property="og:image:alt" content={`Imagem de ${documentary.name}`} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={documentary.name} />
+        <meta property="twitter:description" content={documentary.description} />
+        <meta property="twitter:image" content={documentary.imageUrl} />
+      </head>
       <Sidebar />
       <div className="bg-black min-h-screen">
         <div className="relative">
