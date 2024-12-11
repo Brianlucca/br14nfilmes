@@ -49,21 +49,6 @@ const AnimeDetailsPage = () => {
 
   return (
     <div>
-      <head>
-        <title>{anime.name} | Br14nfilmes</title>
-        <meta name="description" content={anime.description} />
-        <meta property="og:title" content={anime.name} />
-        <meta property="og:description" content={anime.description} />
-        <meta property="og:image" content={anime.imageUrl} />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Br14nfilmes" />
-        <meta property="og:image:alt" content={`Imagem de ${anime.name}`} />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content={anime.name} />
-        <meta property="twitter:description" content={anime.description} />
-        <meta property="twitter:image" content={anime.imageUrl} />
-      </head>
       <Sidebar />
       <div className="bg-black min-h-screen">
         <div className="relative">
