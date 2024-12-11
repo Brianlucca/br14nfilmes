@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../services/firebaseConfig/FirebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleReset = async (e) => {
     e.preventDefault();
@@ -22,6 +23,14 @@ const ResetPassword = () => {
     } catch (error) {
       setError("Não foi possível enviar o e-mail de redefinição. Tente novamente mais tarde.");
       setMessage(null);
+    }
+  };
+
+  const handleGoBack = () => {
+    if (location.state?.from) {
+      navigate(location.state.from);
+    } else {
+      navigate("/login");
     }
   };
 
@@ -54,6 +63,15 @@ const ResetPassword = () => {
             Enviar e-mail de redefinição
           </button>
         </form>
+        <p className="mt-5 text-center text-gray-300 text-sm">
+          Voltar à página anterior?{" "}
+          <span
+            onClick={handleGoBack}
+            className="text-blue-500 hover:underline cursor-pointer"
+          >
+            Clique aqui
+          </span>
+        </p>
       </div>
     </div>
   );
