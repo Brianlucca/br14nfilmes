@@ -30,7 +30,7 @@ const SeriesDetailsPage = () => {
   };
 
   const handleShare = async () => {
-    const message = `Confira ${series.name} em AinzOoal Films! Avaliação da Série: ${series.rating}`
+    const message = `Confira ${series.name} em Br14nfilmes! Avaliação da Série: ${series.rating}`
 
     if (navigator.share) {
       try {
@@ -52,6 +52,21 @@ const SeriesDetailsPage = () => {
 
   return (
     <div>
+      <head>
+        <title>{series.name} | Br14nfilmes</title>
+        <meta name="description" content={series.description} />
+        <meta property="og:title" content={series.name} />
+        <meta property="og:description" content={series.description} />
+        <meta property="og:image" content={series.imageUrl} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Br14nfilmes" />
+        <meta property="og:image:alt" content={`Imagem de ${series.name}`} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={series.name} />
+        <meta property="twitter:description" content={series.description} />
+        <meta property="twitter:image" content={series.imageUrl} />
+      </head>
       <Sidebar />
       <div className="bg-black min-h-screen">
         <div className="relative">

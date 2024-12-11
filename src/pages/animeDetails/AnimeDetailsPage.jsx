@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet-async";
 import { useParams, useNavigate } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import Footer from "../../components/footer/Footer";
@@ -35,7 +34,6 @@ const AnimeDetailsPage = () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Faça o seu login e avalie!`,
           text: message,
           url: window.location.href,
         });
@@ -51,8 +49,8 @@ const AnimeDetailsPage = () => {
 
   return (
     <div>
-      <Helmet>
-        <title>{anime.name} - Detalhes | Br14nfilmes</title>
+      <head>
+        <title>{anime.name} | Br14nfilmes</title>
         <meta name="description" content={anime.description} />
         <meta property="og:title" content={anime.name} />
         <meta property="og:description" content={anime.description} />
@@ -65,7 +63,7 @@ const AnimeDetailsPage = () => {
         <meta property="twitter:title" content={anime.name} />
         <meta property="twitter:description" content={anime.description} />
         <meta property="twitter:image" content={anime.imageUrl} />
-      </Helmet>
+      </head>
       <Sidebar />
       <div className="bg-black min-h-screen">
         <div className="relative">
