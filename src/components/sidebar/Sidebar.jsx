@@ -84,12 +84,12 @@ const Sidebar = () => {
           >
             Usuário
           </Link>
-          <button
+          <p
             onClick={handleLogout}
             className="text-lg font-semibold text-white hover:bg-[#333333] py-4 w-full text-center mt-auto"
           >
             Sair
-          </button>
+          </p>
 
           <div className="mt-8 text-white text-center opacity-50">
             <p className="text-sm mb-4">© 2024 br14nfilmes</p>
