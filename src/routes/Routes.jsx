@@ -33,7 +33,7 @@ function RenderRoutes() {
   return (
     <>
         <ScrollToTop />
-        <WarningModal />
+        {user && <WarningModal />}
         <Routes>
           <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />

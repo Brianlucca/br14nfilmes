@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import EmptyMessage from "../../components/emptyMessage/EmptyMessage";
-import Loading from "../../components/loading/Loading"
+import Loading from "../../components/loading/Loading";
 
 const FavoritesPage = () => {
   const { user } = useContext(AuthContext);
@@ -81,26 +81,25 @@ const FavoritesPage = () => {
   };
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (favorites.length === 0) {
-    return <EmptyMessage />
+    return <EmptyMessage />;
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-black">
       <Sidebar />
-    <div className="min-h-screen flex">
-      <div className="flex-grow bg-black flex flex-col items-center">
-        <div className="w-full max-w-6xl p-6">
+      <div className="flex-grow flex flex-col items-center py-8">
+        <div className="w-full max-w-6xl px-6">
           <h1 className="text-2xl sm:text-4xl font-bold text-center mb-8 text-gray-400">Seus Favoritos</h1>
-          <div className="favorites-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {favorites.map((favorite, index) => (
+          <div className="favorites-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {favorites.map((favorite) => (
               <div
-                key={index}
+                key={favorite.id}
                 className={clsx(
-                  "favorite-item bg-[#1a1a1a] shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer",
+                  "favorite-item bg-[#1a1a1a] shadow-lg rounded-lg overflow-hidden flex flex-col h-full transition-transform transform hover:scale-105 cursor-pointer",
                   hoveredFavorite === favorite.id && "bg-gif"
                 )}
                 onMouseEnter={() => setHoveredFavorite(favorite.id)}
@@ -109,20 +108,23 @@ const FavoritesPage = () => {
               >
                 {hoveredFavorite === favorite.id && favorite.gif ? (
                   <div
-                    className="w-full h-48 bg-cover bg-center"
+                    className="w-full h-48 bg-cover bg-center transition-all duration-300"
                     style={{ backgroundImage: `url(${favorite.gif})` }}
                   ></div>
                 ) : (
-                  <img className="w-full h-48 object-cover" src={favorite.imageUrl} alt={favorite.title} />
+                  <img className="w-full h-48 object-cover transition-all duration-300" src={favorite.imageUrl} alt={favorite.title} />
                 )}
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold mb-2 text-white">{favorite.title}</h2>
+                <div className="flex-grow p-4">
+                  <h2 className="text-xl font-semibold mb-2 text-white line-clamp-2 text-center">{favorite.title}</h2>
+                  <p className="text-gray-400 text-sm line-clamp-3">{favorite.description}</p>
+                </div>
+                <div className="p-4 mt-auto">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRemoveFavorite(favorite);
                     }}
-                    className="w-full py-2 px-4 bg-[#605f5f] text-white font-semibold rounded-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+                    className="w-full py-2 px-4 bg-[#605f5f] text-white font-semibold rounded-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f] transition-all"
                   >
                     Remover
                   </button>
@@ -132,7 +134,6 @@ const FavoritesPage = () => {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
