@@ -36,6 +36,7 @@ import MovieSuspenseList from "../../components/category/suspenseList/MovieSuspe
 import SerieSuspenseList from "../../components/category/suspenseList/SerieSuspenseList";
 import MovieTerrorList from "../../components/category/terrorList/MovieTerrorList";
 import SerieTerrorList from "../../components/category/terrorList/SerieTerrorList";
+import ChristmasDecoration from "../../components/christmasDecoration/ChristmasDecoration";
 
 const HomePage = () => {
 
@@ -45,6 +46,7 @@ const HomePage = () => {
       <div className="bg-black">
         <main>
           <Slide />
+          <ChristmasDecoration />
           <MovieList />
           <SeriesList />
           <AnimeList />
