@@ -26,7 +26,9 @@ const MovieList = () => {
 
   return (
     <div className=" sm:ml-16 lg:ml-20 p-2 sm:p-4">
-      <h1 className="text-xl sm:text-2xl font-bold mb-2 text-gray-700">Filmes</h1>
+      {movies.length > 0 && (
+        <h1 className="text-xl sm:text-2xl font-bold mb-2 text-gray-700">Filmes</h1>
+      )}
       <Carousel items={movieItems} />
     </div>
   );
