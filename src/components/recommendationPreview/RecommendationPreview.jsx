@@ -34,7 +34,9 @@ const RecommendationPreview = () => {
 
   return (
     <div className="sm:ml-16 lg:ml-20 p-2 sm:p-4">
-      <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:text-left text-gray-400">Em Breve</h1>
+      {recommendations.length > 0 && (
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:text-left text-gray-700">Em Breve</h1>
+      )}
       <Carousel items={recommendationItems} />
     </div>
   );

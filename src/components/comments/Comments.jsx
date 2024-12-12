@@ -19,19 +19,19 @@ const CommentItem = ({ comment, commentKey, onDeleteComment, onReply }) => {
           </p>
         </div>
         <div className="flex justify-between">
-        <button 
+        <p 
           onClick={() => onReply(commentKey, comment.userName)}
-          className="text- text-sm font-semibold mt-3 self-start"
+          className="text- text-sm font-semibold mt-3 self-start cursor-pointer"
           >
           Responder
-        </button>
+        </p>
           {isAdmin && (
-            <button 
+            <p 
             onClick={() => onDeleteComment(commentKey)}
             className=" text-red-500"
             >
-              <Trash  className="mt-3 w-5" />
-            </button>
+              <Trash  className="mt-3 w-5 cursor-pointer" />
+            </p>
           )}
           </div>
       </div>
@@ -62,7 +62,7 @@ const Comments = ({ comments, onCommentSubmit, onDeleteComment }) => {
   return (
     <div className="max-w-5xl mx-auto p-8 bg-[#1a1a1a] shadow-lg rounded-lg my-8 space-y-8">
       <h2 className="text-2xl font-semibold text-gray-400">Comentários</h2>
-      <p className="text-green-300 text-sm justify-center text-center">Não envie informações sensiveis no chat, site criado somente para estudos.</p>
+      <p className="text-green-300 text-sm justify-center text-center">Não envie informações sensiveis no chat.</p>
       <div className="space-y-4">
         {comments.map(([key, comment]) => (
           <CommentItem
@@ -78,13 +78,13 @@ const Comments = ({ comments, onCommentSubmit, onDeleteComment }) => {
         {replyingTo && (
           <p className="text-sm text-green-400 mb-2">
             Respondendo a {replyingToName}...
-            <button 
+            <span 
               type="button"
               onClick={() => setReplyingTo(null)}
-              className="text-red-500 ml-2"
+              className="text-red-500 ml-2 cursor-pointer"
             >
               Cancelar
-            </button>
+            </span>
           </p>
         )}
         <textarea

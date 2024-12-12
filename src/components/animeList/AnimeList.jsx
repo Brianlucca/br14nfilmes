@@ -26,7 +26,9 @@ const AnimeList = () => {
 
   return (
     <div className=" sm:ml-16 lg:ml-20 p-2 sm:p-4">
-      <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-gray-700">Animes</h1>
+      {animes.length > 0 && (
+        <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4 text-gray-700">Animes</h1>
+      )}
       <Carousel items={animeItems} />
     </div>
   );
