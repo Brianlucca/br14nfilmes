@@ -1,3 +1,4 @@
+import { Music } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
@@ -76,9 +77,9 @@ const ChristmasDecoration = () => {
 
       <button
         onClick={toggleButton}
-        className="fixed bottom-24 right-5 z-30 bg-red-600 text-white py-2 px-3 rounded-full shadow-lg hover:bg-red-700 transition"
+        className="fixed bottom-24 right-5 z-30 bg-red-500 text-white py-3 px-3 rounded-full shadow-lg hover:bg-red-700 transition"
       >
-        <span className="text-2xl">{buttonExpanded ? "🎵" : "🎶"}</span>
+        <span className="text-2xl">{buttonExpanded ? <Music /> : <Music />}</span>
       </button>
 
       {buttonExpanded && (
