@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { logout } from "../../services/authService/AuthService";
-import Logo from "/logo.png";
+import Logo from "../../../public/logo.png";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
