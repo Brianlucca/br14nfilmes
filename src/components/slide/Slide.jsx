@@ -7,7 +7,6 @@ const Slide = () => {
     'https://images3.alphacoders.com/143/thumb-1920-143517.jpg',
     'https://wallpapercave.com/wp/wp9606151.jpg',
     'https://th.bing.com/th/id/R.ea728d409541bd034be7bf6527b04393?rik=fzvjUeuz0qjRCQ&pid=ImgRaw&r=0',
-    'https://e1.pxfuel.com/desktop-wallpaper/249/18/desktop-wallpaper-better-call-saul-tv-show-hq-better-call-saul-better-call-saul.jpg',
     'https://www.themoviedb.org/t/p/original/438rfSdrF7PA8dtvS9BlWTw2Ssi.jpg',
     'https://images5.alphacoders.com/111/thumb-1920-1111276.jpg',
     'https://external-preview.redd.it/X1mIR5US4FcO4iGX49Cr1C1h7jqHl2gSbcpj5b1dyI4.jpg?width=1024&auto=webp&s=36ce4f1ad63c57ba7d9d715cb8683eea4184b254',
