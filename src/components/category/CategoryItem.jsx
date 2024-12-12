@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, get } from 'firebase/database';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import MovieItem from '../movies/MovieItem';
 import SeriesItem from '../seriesList/SeriesItem';
@@ -31,6 +30,7 @@ const CategoryItem = ({ category, type, title }) => {
 
           setItems(filteredItems);
         } else {
+          setItems([]);
         }
       } catch (error) {
       }
@@ -43,20 +43,22 @@ const CategoryItem = ({ category, type, title }) => {
     navigate(`/${type}/${id}`);
   };
 
-  const itemComponents = items.map(({ id, ...item }) => {
-    return (
-      <div
-        key={id}
-        className="w-40 sm:w-60 flex-shrink-0 cursor-pointer"
-        onClick={() => handleItemClick(id)}
-      >
-        {type === 'movie' && <MovieItem movie={item} />}
-        {type === 'serie' && <SeriesItem serie={item} />}
-        {type === 'anime' && <AnimeItem anime={item} />}
-        {type === 'documentary' && <DocumentaryItem documentary={item} />}
-      </div>
-    );
-  });
+  const itemComponents = items.map(({ id, ...item }) => (
+    <div
+      key={id}
+      className="w-40 sm:w-60 flex-shrink-0 cursor-pointer"
+      onClick={() => handleItemClick(id)}
+    >
+      {type === 'movie' && <MovieItem movie={item} />}
+      {type === 'serie' && <SeriesItem serie={item} />}
+      {type === 'anime' && <AnimeItem anime={item} />}
+      {type === 'documentary' && <DocumentaryItem documentary={item} />}
+    </div>
+  ));
+
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <div className="category-list sm:ml-16 lg:ml-20 p-4">
