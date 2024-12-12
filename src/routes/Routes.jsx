@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/authContext/AuthContext";
 import Login from "../components/auth/Login";
 import AdminPage from "../pages/admin/AdminPage";
@@ -25,6 +25,13 @@ import ResetPassword from "../components/auth/ResetPassword";
 
 function RenderRoutes() {
   const { user, loading } = useContext(AuthContext);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.includes("undefined")) {
+      window.location.href = "/";
+    }
+  }, [location]);
 
   if (loading) {
     return <Loading />;
