@@ -16,19 +16,22 @@ const ChatSession = ({ sessionCode }) => {
   useEffect(() => {
     if (!user) {
       toast.error("Você precisa estar logado para acessar o chat.");
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
     const fetchNickname = async () => {
       try {
-        const nicknameRef = ref(database, `users/${user.uid}/updateNick/${user.uid}`);
+        const nicknameRef = ref(
+          database,
+          `users/${user.uid}/updateNick/${user.uid}`,
+        );
         const snapshot = await get(nicknameRef);
         if (snapshot.exists()) {
           setNickname(snapshot.val());
         } else {
           toast.info("Você precisa definir um nickname.");
-          navigate('/profile', { state: { from: location.pathname } });
+          navigate("/profile", { state: { from: location.pathname } });
         }
       } catch (error) {
         toast.error("Erro ao buscar nickname.");
@@ -46,9 +49,9 @@ const ChatSession = ({ sessionCode }) => {
     const handleValueChange = (snapshot) => {
       if (snapshot.exists()) {
         const messagesData = snapshot.val();
-        const messagesArray = Object.keys(messagesData).map(key => ({
+        const messagesArray = Object.keys(messagesData).map((key) => ({
           id: key,
-          ...messagesData[key]
+          ...messagesData[key],
         }));
         setMessages(messagesArray);
       } else {
@@ -66,7 +69,7 @@ const ChatSession = ({ sessionCode }) => {
   const handleSend = async () => {
     if (!nickname) {
       toast.info("Você precisa definir um nickname antes de enviar mensagens.");
-      navigate('/profile', { state: { from: location.pathname } });
+      navigate("/profile", { state: { from: location.pathname } });
       return;
     }
 
@@ -89,32 +92,50 @@ const ChatSession = ({ sessionCode }) => {
 
   return (
     <div className="flex flex-col h-full p-2 md:p-4">
-      <p className="text-green-300 text-sm justify-center text-center m-2">Não envie informações sensiveis no chat, site criado somente para estudos.</p>
-      <div className="overflow-y-auto h-80  p-2 bg-[#2d2d2d] rounded-lg shadow-md max-h-[calc(100vh-150px)]">
+      <p className="text-green-300 text-sm justify-center text-center m-2">
+        Não envie informações sensiveis no chat
+      </p>
+      <div className="overflow-y-auto h-80 p-2 bg-[#2d2d2d] rounded-lg shadow-md max-h-[calc(100vh-150px)]">
         {messages.length > 0 ? (
           <div className="space-y-2">
             {messages.map((msg) => (
-              <div key={msg.id} className="p-2 bg-[#434343] rounded-lg shadow-sm">
+              <div
+                key={msg.id}
+                className="p-2 bg-[#434343] rounded-lg shadow-sm"
+              >
                 <div className="flex">
                   <p className="text-gray-400 font-semibold">
-                    <strong className="text-sm md:text-base text-gray-300">
-                      {typeof msg.user === 'object' ? msg.user.nickname : msg.user}:
+                    <strong className="text-sm md:text-base text-gray-300 ">
+                      {typeof msg.user === "object"
+                        ? msg.user.nickname
+                        : msg.user}
+                      :
                     </strong>
                   </p>
                   <div className="flex justify-evenly">
-                    <p className="text-gray-400 font-semibold break-words text-sm md:text-base ml-1 overflow-hidden">
+                    <p
+                      className="text-gray-400 font-semibold text-sm md:text-base ml-1 md:mt-0 mt-0.5"
+                      style={{
+                        wordWrap: "break-word",
+                        whiteSpace: "pre-wrap",
+                        wordBreak: "break-word",
+                        maxWidth: "100%",
+                      }}
+                    >
                       {msg.message}
                     </p>
                   </div>
                 </div>
-                <div className="text-xs md:text-sm ">
+                <div className="text-xs md:text-sm">
                   {new Date(msg.timestamp).toLocaleTimeString()}
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-sm md:text-base">Nenhuma mensagem.</p>
+          <p className="text-gray-500 text-sm md:text-base">
+            Nenhuma mensagem.
+          </p>
         )}
       </div>
       <div className="mt-5 flex flex-col sm:flex-row items-center lg:gap-2">
