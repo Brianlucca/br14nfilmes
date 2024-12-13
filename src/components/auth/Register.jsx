@@ -20,8 +20,16 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-black">
-      <div className="w-full max-w-sm p-8 bg-[#1a1a1a] shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-4 text-center text-white">Registrar</h2>
+      <div className="w-full max-w-md p-8 bg-[#1a1a1a] shadow-lg rounded-lg">
+        <div className="flex flex-col items-center mb-6">
+          <img
+            src="/logo.png"
+            alt="Logo da Empresa"
+            className="w-24 h-24 mb-4"
+          />
+          <h1 className="text-3xl font-bold text-white">Crie sua Conta</h1>
+        </div>
+        <h2 className="text-xl font-semibold mb-4 text-center text-gray-300">Registrar</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -56,13 +64,13 @@ const Register = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-[#605f5f] text-white font-semibold rounded-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+            className="w-full py-2 px-4 bg-[#605f5f] text-white font-semibold rounded-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f] transition"
           >
             Registrar
           </button>
         </form>
-        <p className="mt-4 text-center text-gray-300">
-          Já tem uma conta?{" "}
+        <p className="mt-4 text-center text-gray-300 text-sm">
+          Já tem uma conta? {" "}
           <Link to="/login" className="text-blue-500 hover:underline">
             Faça login
           </Link>

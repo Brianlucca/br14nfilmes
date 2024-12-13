@@ -1,4 +1,4 @@
-import { Github, Heart, Home, Linkedin, LogOut, Menu, SquarePen, Star, TvMinimalPlay, User, X } from "lucide-react";  // Importando ícones GitHub e LinkedIn
+import { Github, Heart, Home, Linkedin, LogOut, Logs, Menu, SquarePen, Star, TvMinimalPlay, User, X } from "lucide-react";  // Importando ícones GitHub e LinkedIn
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
@@ -32,9 +32,9 @@ const Sidebar = () => {
     >
       <div className="md:hidden flex justify-between items-center p-4 bg-[#1a1a1a] text-white">
         <span className="text-lg font-semibold">Br14nfilmes</span>
-        <button onClick={handleMobileMenuToggle}>
-          <Menu className="w-8 h-8" />
-        </button>
+        <span onClick={handleMobileMenuToggle}>
+          <Logs className="w-8 h-8" />
+        </span>
       </div>
 
       <div

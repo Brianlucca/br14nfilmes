@@ -74,30 +74,30 @@ const WarningModal = () => {
   }
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-80 flex items-center justify-center z-50 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 p-6 space-y-6">
-        <h2 className="text-2xl font-bold text-center text-red-600">
+    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 overflow-y-auto">
+      <div className="bg-[#1a1a1a] rounded-lg shadow-lg max-w-md w-full mx-4 p-6 space-y-6">
+        <h2 className="text-2xl font-bold text-center text-red-500">
           Avisos Importantes
         </h2>
         <div
           ref={scrollContainerRef}
-          className="space-y-4 overflow-y-auto max-h-72 border-t border-b border-gray-300 pt-4 pb-4"
+          className="space-y-4 overflow-y-auto max-h-72 border-t border-b border-gray-700 pt-4 pb-4"
         >
           {visibleWarnings.map((warning) => (
             <div
               key={warning.id}
-              className="p-4 bg-gray-100 rounded-lg border border-gray-300 shadow-sm"
+              className="p-4 bg-[#2d2d2d] rounded-lg border border-gray-700 shadow-sm"
             >
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              <h3 className="text-lg font-semibold text-gray-300 mb-2">
                 {warning.title}
               </h3>
-              <p className="text-gray-700">{warning.content}</p>
+              <p className="text-gray-400">{warning.content}</p>
             </div>
           ))}
         </div>
         <button
           onClick={handleClose}
-          className="w-full py-3 px-5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+          className="w-full py-3 px-5 bg-[#605f5f] text-white font-semibold rounded-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f] transition-all"
         >
           Entendi
         </button>
