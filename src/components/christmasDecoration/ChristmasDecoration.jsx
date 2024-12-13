@@ -1,14 +1,14 @@
 import { Music } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 
-const MAX_SNOWFLAKES = 400;
+const MAX_SNOWFLAKES = 250;
 
 const ChristmasDecoration = () => {
   const initialMusicState = localStorage.getItem("musicPlaying") === "true";
   const [musicPlaying, setMusicPlaying] = useState(initialMusicState);
   const [buttonExpanded, setButtonExpanded] = useState(false);
   const [snowflakes, setSnowflakes] = useState(
-    Array.from({ length: 150 }).map(() => ({
+    Array.from({ length: 50 }).map(() => ({
       left: `${Math.random() * 100}vw`,
       animationDuration: `${Math.random() * 5 + 5}s`,
       fontSize: `${Math.random() * 20 + 10}px`,
