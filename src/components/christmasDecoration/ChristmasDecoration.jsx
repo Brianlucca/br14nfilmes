@@ -8,7 +8,7 @@ const ChristmasDecoration = () => {
   const [musicPlaying, setMusicPlaying] = useState(initialMusicState);
   const [buttonExpanded, setButtonExpanded] = useState(false);
   const [snowflakes, setSnowflakes] = useState(
-    Array.from({ length: 150 }).map(() => ({
+    Array.from({ length: 50 }).map(() => ({
       left: `${Math.random() * 100}vw`,
       animationDuration: `${Math.random() * 5 + 5}s`,
       fontSize: `${Math.random() * 20 + 10}px`,
