@@ -1,21 +1,24 @@
 import { Music } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
-import { toast } from "react-toastify";
+
+const MAX_SNOWFLAKES = 400;
 
 const ChristmasDecoration = () => {
   const initialMusicState = localStorage.getItem("musicPlaying") === "true";
   const [musicPlaying, setMusicPlaying] = useState(initialMusicState);
   const [buttonExpanded, setButtonExpanded] = useState(false);
+  const [snowflakes, setSnowflakes] = useState(
+    Array.from({ length: 150 }).map(() => ({
+      left: `${Math.random() * 100}vw`,
+      animationDuration: `${Math.random() * 5 + 5}s`,
+      fontSize: `${Math.random() * 20 + 10}px`,
+    }))
+  );
 
   const musicList = ["./music.mp3"];
   const [currentMusic, setCurrentMusic] = useState(musicList[0]);
 
   const audioRef = useRef(null);
-  const snowflakes = useRef(Array.from({ length: 50 }).map(() => ({
-    left: `${Math.random() * 100}vw`,
-    animationDuration: `${Math.random() * 5 + 5}s`,
-    fontSize: `${Math.random() * 20 + 10}px`,
-  })));
 
   useEffect(() => {
     localStorage.setItem("musicPlaying", musicPlaying);
@@ -48,6 +51,19 @@ const ChristmasDecoration = () => {
     setButtonExpanded(!buttonExpanded);
   };
 
+  const addMoreSnowflakes = () => {
+    if (snowflakes.length >= MAX_SNOWFLAKES) return;
+
+    setSnowflakes((prev) => [
+      ...prev,
+      ...prev.map(() => ({
+        left: `${Math.random() * 100}vw`,
+        animationDuration: `${Math.random() * 5 + 5}s`,
+        fontSize: `${Math.random() * 20 + 10}px`,
+      })),
+    ]);
+  };
+
   return (
     <>
       <audio
@@ -60,7 +76,7 @@ const ChristmasDecoration = () => {
       </audio>
 
       <div className="fixed inset-0 z-50 pointer-events-none">
-        {snowflakes.current.map((snowflake, i) => (
+        {snowflakes.map((snowflake, i) => (
           <div
             key={i}
             className="snowflake text-white text-2xl absolute top-0"
@@ -77,7 +93,7 @@ const ChristmasDecoration = () => {
 
       <button
         onClick={toggleButton}
-        className="fixed bottom-24 right-5 z-30 bg-red-500 text-white py-3 px-3 rounded-full shadow-lg hover:bg-red-700 transition"
+        className="fixed bottom-20 right-4 z-30 bg-red-500 text-white py-3 px-3 rounded-full shadow-lg hover:bg-red-700 transition"
       >
         <span className="text-2xl">{buttonExpanded ? <Music /> : <Music />}</span>
       </button>
@@ -99,27 +115,9 @@ const ChristmasDecoration = () => {
         </div>
       )}
 
-      <div className="fixed top-0 left-0 right-0 z-20 pointer-events-none">
-        <div
-          className="light-animation"
-          style={{
-            position: "absolute",
-            top: "10%",
-            left: "0",
-            right: "0",
-            textAlign: "center",
-          }}
-        >
-          <span className="text-xl">✨</span>
-          <span className="text-xl">🎄</span>
-          <span className="text-xl">✨</span>
-        </div>
-      </div>
-
-      {/* Ícone do Papai Noel */}
       <div
-        className="santa-icon"
-        onClick={() => toast("Ho Ho Ho! Feliz Natal!")}
+        className="santa-icon z-40"
+        onClick={addMoreSnowflakes}
       ></div>
 
       <style>
@@ -135,19 +133,6 @@ const ChristmasDecoration = () => {
             }
           }
 
-          @keyframes lightBlink {
-            0%, 100% {
-              opacity: 1;
-            }
-            50% {
-              opacity: 0.3;
-            }
-          }
-
-          .light-animation span {
-            animation: lightBlink 2s ease-in-out infinite;
-          }
-
           .snowflake {
             animation: fall 10s linear infinite;
           }
@@ -155,10 +140,10 @@ const ChristmasDecoration = () => {
           /* Estilo para o ícone do Papai Noel */
           .santa-icon {
             position: fixed;
-            bottom: 160px;
-            right: 10px;
-            width: 80px;
-            height: 80px;
+            bottom: 145px;
+            right: 14.3px;
+            width: 55px;
+            height: 55px;
             background: url(https://cdn-icons-png.flaticon.com/512/3723/3723054.png) no-repeat center center;
             background-size: cover;
             z-index: 30;

@@ -44,11 +44,9 @@ button {
   padding: 10px 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px white;
-  /* transition: transform 0.3s ease; */
 }
 
 button:hover {
-  /* transform: scale(5); */
   box-shadow: 0 0 20px gold;
 }
 
