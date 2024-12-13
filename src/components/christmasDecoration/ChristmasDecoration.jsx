@@ -1,7 +1,7 @@
 import { Music } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 
-const MAX_SNOWFLAKES = 250;
+const MAX_SNOWFLAKES = 150;
 
 const ChristmasDecoration = () => {
   const initialMusicState = localStorage.getItem("musicPlaying") === "true";
