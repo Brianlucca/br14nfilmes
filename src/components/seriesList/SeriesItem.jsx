@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 
 const SeriesItem = ({ series, id }) => {
+
   return (
     <article className="relative group flex flex-col items-center justify-center sm:items-start sm:justify-start m-2">
       <Link to={`/serie/${id}`} aria-label={`Ver detalhes da série ${series.name || "Título da série"}`} className="relative">
         <figure>
           <img
-            src={series.imageUrl}
-            alt={`Poster da série ${series.name}`}
+            src={series.imageUrl || 'default-image-url.jpg'}
+            alt={`Poster da série ${series.name || 'Título da série'}`}
             className="w-36 h-56 sm:w-48 sm:h-72 object-cover rounded-lg shadow-2xl transform transition-transform group-hover:scale-110 duration-500 ease-out"
           />
           <figcaption className="sr-only">{series.name}</figcaption>

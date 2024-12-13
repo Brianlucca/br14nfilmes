@@ -50,7 +50,7 @@ const CategoryItem = ({ category, type, title }) => {
       onClick={() => handleItemClick(id)}
     >
       {type === 'movie' && <MovieItem movie={item} />}
-      {type === 'serie' && <SeriesItem serie={item} />}
+      {type === 'serie' && <SeriesItem series={item} />}
       {type === 'anime' && <AnimeItem anime={item} />}
       {type === 'documentary' && <DocumentaryItem documentary={item} />}
     </div>
