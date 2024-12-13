@@ -29,7 +29,7 @@ const AnimeDetailsPage = () => {
   }
 
   const handleShare = async () => {
-    const message = `Confira ${anime.name} em Br14nfilmes! Avaliação do Anime: ${anime.rating}`;
+    const message = `Confira ${anime.name} em Br14nfilmes! Avaliação do Anime: ${anime.rating}\n\n`;
 
     if (navigator.share) {
       try {

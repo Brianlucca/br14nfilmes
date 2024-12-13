@@ -29,7 +29,7 @@ const DocumentaryDetailsPage = () => {
   }
 
   const handleShare = async () => {
-    const message = `Confira ${documentary.name} em Br14nfilmes! Avaliação do Documentário: ${documentary.rating}`
+    const message = `Confira ${documentary.name} em Br14nfilmes! Avaliação do Documentário: ${documentary.rating}\n\n`
 
     if (navigator.share) {
       try {
