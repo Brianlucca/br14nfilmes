@@ -1,12 +1,13 @@
 import { Music } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 
-const MAX_SNOWFLAKES = 150;
-
 const ChristmasDecoration = () => {
   const initialMusicState = localStorage.getItem("musicPlaying") === "true";
+  const initialSnowState = localStorage.getItem("snowEnabled") !== "false";
+
   const [musicPlaying, setMusicPlaying] = useState(initialMusicState);
   const [buttonExpanded, setButtonExpanded] = useState(false);
+  const [snowEnabled, setSnowEnabled] = useState(initialSnowState);
   const [snowflakes, setSnowflakes] = useState(
     Array.from({ length: 50 }).map(() => ({
       left: `${Math.random() * 100}vw`,
@@ -23,6 +24,10 @@ const ChristmasDecoration = () => {
   useEffect(() => {
     localStorage.setItem("musicPlaying", musicPlaying);
   }, [musicPlaying]);
+
+  useEffect(() => {
+    localStorage.setItem("snowEnabled", snowEnabled);
+  }, [snowEnabled]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -51,17 +56,8 @@ const ChristmasDecoration = () => {
     setButtonExpanded(!buttonExpanded);
   };
 
-  const addMoreSnowflakes = () => {
-    if (snowflakes.length >= MAX_SNOWFLAKES) return;
-
-    setSnowflakes((prev) => [
-      ...prev,
-      ...prev.map(() => ({
-        left: `${Math.random() * 100}vw`,
-        animationDuration: `${Math.random() * 5 + 5}s`,
-        fontSize: `${Math.random() * 20 + 10}px`,
-      })),
-    ]);
+  const toggleSnow = () => {
+    setSnowEnabled(!snowEnabled); // Alterna o estado da neve
   };
 
   return (
@@ -75,7 +71,7 @@ const ChristmasDecoration = () => {
         <source src={currentMusic} type="audio/mp3" />
       </audio>
 
-      <div className="fixed inset-0 z-50 pointer-events-none">
+      <div className={`fixed inset-0 z-50 pointer-events-none transition-opacity ${snowEnabled ? "opacity-100" : "opacity-0"}`}>
         {snowflakes.map((snowflake, i) => (
           <div
             key={i}
@@ -117,7 +113,7 @@ const ChristmasDecoration = () => {
 
       <div
         className="santa-icon z-40"
-        onClick={addMoreSnowflakes}
+        onClick={toggleSnow}
       ></div>
 
       <style>
