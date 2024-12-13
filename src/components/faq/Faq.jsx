@@ -49,7 +49,7 @@ const Faq = () => {
       {!isInputVisible && (
         <button
           onClick={handleToggleInput}
-          className="flex items-center bg-[#605f5f] text-white p-4 rounded-full shadow-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+          className="flex items-center bg-[#605f5f] text-white px-3 py-3 rounded-full shadow-lg hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
         >
           <MessageCircle />
         </button>
@@ -58,12 +58,12 @@ const Faq = () => {
       {isInputVisible && (
         <div className="relative bg-[#1a1a1a] p-6 rounded-lg shadow-lg w-[90vw] max-w-3xl">
           <div className="absolute top-2 right-2">
-            <button
+            <p
               onClick={handleToggleInput}
               className="text-white hover:text-gray-400"
             >
               <XCircle size={24} />
-            </button>
+            </p>
           </div>
           <h3 className="text-lg text-white mb-4">Descreva seu problema ou dúvida</h3>
           <textarea
@@ -76,7 +76,7 @@ const Faq = () => {
             <button
               onClick={handleSendFaq}
               disabled={sending}
-              className="px-4 py-2 rounded-lg bg-[#605f5f] text-white font-semibold hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+              className="px-3 py-3 rounded-lg bg-[#605f5f] text-white font-semibold hover:bg-[#4d4d4d] focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
             >
               {sending ? "Enviando..." : "Enviar"}
             </button>
