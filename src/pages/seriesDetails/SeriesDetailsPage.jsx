@@ -30,7 +30,7 @@ const SeriesDetailsPage = () => {
   };
 
   const handleShare = async () => {
-    const message = `Confira ${series.name} em Br14nfilmes! Avaliação da Série: ${series.rating}`
+    const message = `Confira ${series.name} em Br14nfilmes! Avaliação da Série: ${series.rating}\n\n`
 
     if (navigator.share) {
       try {

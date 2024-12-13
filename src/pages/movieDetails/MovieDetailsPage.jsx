@@ -29,7 +29,7 @@ const MovieDetailsPage = () => {
   }
 
   const handleShare = async () => {
-    const message = `Confira ${movie.name} em Br14nfilmes! Avaliação do Filme: ${movie.rating}`
+    const message = `Confira ${movie.name} em Br14nfilmes! Avaliação do Filme: ${movie.rating}\n\n`
 
     if (navigator.share) {
       try {
