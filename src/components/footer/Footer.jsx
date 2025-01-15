@@ -10,7 +10,7 @@ const Footer = () => {
             alt="Logo" 
             className="w-32 h-auto mb-4"
           />
-          <p className="text-sm">&copy; 2024 br14nfilmes</p>
+          <p className="text-sm">&copy; 2025 br14nfilmes</p>
           <p className="text-sm">Site desenvolvido por {''}<a href="https://github.com/Brianlucca" target="_blank" rel="noopener noreferrer" className="underline">Brian Lucca</a></p>
         </div>
 
