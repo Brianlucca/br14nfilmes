@@ -12,6 +12,7 @@
   "dependencies": {
     "@eslint/compat": "^1.1.1",
     "firebase": "^10.12.5",
+    "formik": "^2.4.6",
     "lucide": "^0.424.0",
     "lucide-react": "^0.424.0",
     "react": "^18.3.1",
@@ -21,8 +22,10 @@
     "react-router-dom": "^6.26.0",
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
+    "rsuite": "^5.76.3",
     "share-api-polyfill": "^1.1.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
