@@ -2,13 +2,35 @@ import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { loginUser, loginAdmin } from "../../services/authService/AuthService";
+import { AutoComplete } from 'rsuite';
+import { Message } from 'rsuite';
 
+
+const suffixes = [
+  '@gmail.com',
+  '@outlook.com',
+  '@hotmail.com',
+  '@yahoo.com',
+];
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [data, setData] = useState([]);
   const { isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const handleEmailChange = (value) => {
+    setEmail(value);
+    const at = value.match(/@[^\s]*/);
+    const nextData = at
+      ? suffixes
+          .filter((item) => item.indexOf(at[0]) >= 0)
+          .map((item) => `${value}${item.replace(at[0], '')}`)
+      : suffixes.map((item) => `${value}${item}`);
+
+    setData(nextData);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,37 +46,36 @@ const Login = () => {
         navigate("/");
       }
     } catch (error) {
-      setError("Email ou senha incorretos. Tente novamente.");
+      setError("Email ou senha incorretos. Tente novamente. caso tenha problema, entre em contato - contatobr14nfilmes@gmail.com");
     }
   };
+
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-black">
       <div className="w-full max-w-md p-8 bg-[#1a1a1a] shadow-lg rounded-lg">
         <div className="flex flex-col items-center mb-6">
-          <img
-            src="/logo.png"
-            alt="Logo da Empresa"
-            className="w-24 h-24 mb-4"
-          />
+          <img src="/logo.png" alt="Logo da Empresa" className="w-24 h-24 mb-4" />
           <h1 className="text-3xl font-bold text-white">Bem-vindo</h1>
         </div>
         <h2 className="text-xl font-semibold mb-4 text-center text-gray-300">Entrar</h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {error &&
+         <Message type="warning">
+        <p className="text-center">{error}</p>
+        </Message>
+        }
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-300 text-sm font-medium mb-2">
               Email
             </label>
-            <input
-              type="email"
-              id="email"
+            <AutoComplete
+              data={data}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
               placeholder="Digite seu email"
-              className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
-              required
-              autoComplete="email"
+              style={{ width: '100%'}}
             />
           </div>
           <div className="mb-6">
@@ -67,7 +88,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Digite sua senha"
-              className="w-full px-4 py-2 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#605f5f]"
+              className="w-full px-4 py-2 border border-gray-700 bg-[#181d316e] text-white rounded-md focus:outline-none focus:border-[#41b9dd] hover:border-[#41b9dd] transition-colors duration-200"
               required
               autoComplete="current-password"
             />
