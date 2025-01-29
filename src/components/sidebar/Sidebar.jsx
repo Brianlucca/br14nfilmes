@@ -1,4 +1,4 @@
-import { Github, Heart, Home, Linkedin, LogOut, Logs, Menu, SquarePen, Star, TvMinimalPlay, User, X } from "lucide-react";  // Importando ícones GitHub e LinkedIn
+import { Github, Heart, Home, Linkedin, LogOut, Logs, Menu, SquarePen, Star, TvMinimalPlay, User, X } from "lucide-react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/authContext/AuthContext";

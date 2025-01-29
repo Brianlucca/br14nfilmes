@@ -24,10 +24,10 @@ const WarningModal = () => {
         "Comportamentos como ofensas ou assédio não serão tolerados. Respeite os outros usuários!",
     },
     {
-      id: "development",
-      title: "Site em manutenção!",
+      id: "feature",
+      title: "Manutenção Finalizada - 29/01/2025!",
       content:
-        "Atenção, usuários! Informamos que o site está em fase de manutenção. Durante esse período, alguns conteúdos serão removidos para melhorias, mas não se preocupe, novos conteúdos serão adicionados em breve. Essa manutenção é essencial para aprimorar a performance e a experiência geral do site. Caso enfrente algum problema ou tenha dúvidas, entre em contato conosco pelo link do GitHub disponível no rodapé da página. Agradecemos pela compreensão!",
+        "Atenção, usuário! A manutenção foi concluída com sucesso! Agora, o site está mais rápido e com uma experiência muito mais fluida. Também aprimoramos a segurança e a privacidade dos seus dados. A partir de agora, novos conteúdos serão adicionados gradualmente ao longo das próximas semanas. Caso tenha algum problema ou sugestão, sinta-se à vontade para nos enviar uma mensagem pelo chat. Alguns componentes podem apresentar um design diferente, mas isso será ajustado em breve para alinhar com a identidade visual do site. Agradecemos pela paciência e confiança!",
     },
   ];
 
