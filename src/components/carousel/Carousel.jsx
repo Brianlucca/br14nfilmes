@@ -51,7 +51,7 @@ const Carousel = ({ items }) => {
     <div className="relative overflow-hidden">
       {canScrollLeft && (
         <button
-          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-transparent text-gray-300 text-3xl p-2 w-10 rounded-md z-10 transition-transform duration-300 ease-in-out"
+          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white hover:text-black shadow-lg hover:bg-gray-100 text-2xl p-2 w-12 h-12 rounded-full flex items-center justify-center z-10 transition duration-300"
           onClick={scrollLeft}
         >
           &#10094;
@@ -65,7 +65,7 @@ const Carousel = ({ items }) => {
       </div>
       {canScrollRight && (
         <button
-          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-transparent text-gray-300 text-3xl p-2 w-10 rounded-md z-10 transition-transform duration-300 ease-in-out "
+          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white hover:text-black shadow-lg hover:bg-gray-100 text-2xl p-2 w-12 h-12 rounded-full flex items-center justify-center z-10 transition duration-300"
           onClick={scrollRight}
         >
           &#10095;

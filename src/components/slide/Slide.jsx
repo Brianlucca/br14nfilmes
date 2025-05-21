@@ -1,67 +1,160 @@
-import React, { useState, useEffect } from "react";
-import { ArrowDown } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ArrowDown, ChevronLeft, ChevronRight } // Ícones para navegação
+from 'lucide-react';
+
+const slideContent = [
+  {
+    title: "Descubra Novos Mundos",
+    description: "Explore uma vasta coleção de filmes, séries e animes.",
+    imageUrl: 'https://images7.alphacoders.com/124/thumb-1920-1249146.jpg',
+  },
+  {
+    title: "Heróis Inesquecíveis",
+    description: "Acompanhe as jornadas épicas dos seus personagens favoritos.",
+    imageUrl: 'https://s1.1zoom.me/b5050/888/Logan_(film)_Wolverine_hero_Hugh_Jackman_x-23_568584_1920x1080.jpg',
+  },
+  {
+    title: "Aventuras Épicas",
+    description: "Batalhas grandiosas e terras místicas esperam por você.",
+    imageUrl: 'https://s1.1zoom.me/big3/443/The_Hobbit_The_Battle_of_436136.jpg',
+  },
+  {
+    title: "O Cavaleiro das Trevas",
+    description: "A justiça tem um novo nome em Gotham.",
+    imageUrl: 'https://images.hdqwalls.com/download/the-batman-dc-2021-ck-3840x2160.jpg',
+  },
+  {
+    title: "Alquimia e Irmandade",
+    description: "Dois irmãos buscam a verdade em um mundo de trocas equivalentes.",
+    imageUrl: 'https://wallpapers.com/images/hd/fullmetal-alchemist-brotherhood-background-bw70zc19ic49ohxh.jpg',
+  },
+  {
+    title: "A Ascensão de um Herói",
+    description: "Com grandes poderes, vêm grandes responsabilidades.",
+    imageUrl: 'https://images3.alphacoders.com/143/thumb-1920-143517.jpg',
+  },
+   {
+    title: "Mob Psycho 100",
+    description: "Quando suas emoções chegam a 100%, algo terrível acontece.",
+    imageUrl: 'https://th.bing.com/th/id/R.ea728d409541bd034be7bf6527b04393?rik=fzvjUeuz0qjRCQ&pid=ImgRaw&r=0',
+  },
+  {
+    title: "Crimes e muita ação",
+    description: "Uma van, dois caras e muita coisa errada.",
+    imageUrl: 'https://images5.alphacoders.com/111/thumb-1920-1111276.jpg',
+  },
+];
+
 
 const Slide = () => {
-  const imageUrls = [
-    'https://images7.alphacoders.com/124/thumb-1920-1249146.jpg',
-    'https://s1.1zoom.me/b5050/888/Logan_(film)_Wolverine_hero_Hugh_Jackman_x-23_568584_1920x1080.jpg',
-    'https://s1.1zoom.me/big3/443/The_Hobbit_The_Battle_of_436136.jpg',
-    'https://i.pinimg.com/originals/49/da/7d/49da7d8efab607e46a080cc5356509ea.jpg',
-    'https://i.pinimg.com/originals/60/9e/b8/609eb84a96ab833b47bf0c31a8f2b4eb.jpg',
-    'https://images.hdqwalls.com/download/the-batman-dc-2021-ck-3840x2160.jpg',
-    'https://wallpapers.com/images/hd/fullmetal-alchemist-brotherhood-background-bw70zc19ic49ohxh.jpg',
-    'https://images3.alphacoders.com/143/thumb-1920-143517.jpg',
-    'https://wallpapercave.com/wp/wp9606151.jpg',
-    'https://th.bing.com/th/id/R.ea728d409541bd034be7bf6527b04393?rik=fzvjUeuz0qjRCQ&pid=ImgRaw&r=0',
-    'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8qBYnOwowAEDc_8kT7mpdIvoq1MEbUV6jPiREZirFoS7MAKiIYNxrC2vh9M3SXzl2IvDHACBNf4y20nDXrOnOI-zq-rbJHVBOXpDXjEcpehH3qndN_9bUTvNoXuXnvzLuabxnbRe4hAek/s1920/20210115202721_1.jpg',
-    'https://www.themoviedb.org/t/p/original/438rfSdrF7PA8dtvS9BlWTw2Ssi.jpg',
-    'https://images5.alphacoders.com/111/thumb-1920-1111276.jpg',
-    'https://external-preview.redd.it/X1mIR5US4FcO4iGX49Cr1C1h7jqHl2gSbcpj5b1dyI4.jpg?width=1024&auto=webp&s=36ce4f1ad63c57ba7d9d715cb8683eea4184b254',
-    'https://wallpapercave.com/wp/SJ8UZV6.jpg',
-  ];
-
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
-    }, 10000);
+  const goToPrevious = useCallback(() => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? slideContent.length - 1 : prevIndex - 1
+    );
+  }, []);
 
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prevIndex) =>
+      (prevIndex + 1) % slideContent.length
+    );
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(goToNext, 7000); // Aumentei o tempo para 7 segundos
     return () => clearInterval(timer);
-  }, [imageUrls.length]);
+  }, [goToNext]);
 
   const handleScrollDown = () => {
     window.scrollBy({
-      top: window.innerHeight * 0.9,
+      top: window.innerHeight * 0.85, // Rola quase uma tela inteira
       behavior: 'smooth'
     });
   };
 
+  const currentSlide = slideContent[currentIndex];
+
   return (
-    <div className="relative w-full max-w-full mx-auto overflow-hidden">
-      <div className="relative flex">
-        <div
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {imageUrls.map((url, index) => (
-            <div key={index} className="w-full flex-shrink-0 relative">
-              <img
-                src={url}
-                alt={`Slide ${index}`}
-                className="w-full h-56 sm:h-72 md:h-96 lg:h-[600px] object-cover"
-              />
-              <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-            </div>
-          ))}
-        </div>
+    <div className="relative w-full h-[70vh] sm:h-[80vh] md:h-screen mx-auto overflow-hidden bg-black">
+      <div className="relative w-full h-full">
+        {slideContent.map((slide, index) => (
+          <div
+            key={slide.imageUrl}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+              index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+          >
+            <img
+              src={slide.imageUrl}
+              alt={slide.title || `Slide ${index}`}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent md:w-2/3"></div>
+          </div>
+        ))}
       </div>
+
+      <div className="absolute inset-0 z-20 flex flex-col justify-end items-center text-center p-6 pb-16 sm:pb-20 md:pb-24 text-white">
+        {slideContent.map((slide, index) => (
+           <div
+            key={`text-${slide.imageUrl}`}
+            className={`transition-all duration-700 ease-out transform w-full max-w-3xl
+                        ${index === currentIndex 
+                            ? 'opacity-100 translate-y-0 delay-300' 
+                            : 'opacity-0 translate-y-10 pointer-events-none'
+                        }`}
+            style={{ position: index === currentIndex ? 'relative' : 'absolute' }} // Garante que só o texto ativo ocupe espaço
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 tracking-tight shadow-text">
+              {slide.title}
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 max-w-xl mx-auto shadow-text line-clamp-2 sm:line-clamp-3">
+              {slide.description}
+            </p>
+            {/* <Link 
+              to={slide.ctaLink || "/"}
+              className="px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 text-sm sm:text-base"
+            >
+              {slide.ctaText || "Ver Mais"}
+            </Link> */}
+          </div>
+        ))}
+      </div>
+
       <button
-        className="absolute bottom-4 right-1/2 transform translate-x-1/2 hidden lg:block animate-bounce"
-        onClick={handleScrollDown}
+        aria-label="Slide Anterior"
+        onClick={goToPrevious}
+        className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 z-30 p-2 sm:p-3 bg-black/30 hover:bg-black/60 text-white rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black"
       >
-        <ArrowDown className="w-8 h-8 text-white" />
+        <ChevronLeft size={24} sm:size={30} />
       </button>
+      <button
+        aria-label="Próximo Slide"
+        onClick={goToNext}
+        className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 z-30 p-2 sm:p-3 bg-black/30 hover:bg-black/60 text-white rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-black"
+      >
+        <ChevronRight size={24} sm:size={30} />
+      </button>
+
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2">
+        {slideContent.map((_, index) => (
+          <button
+            key={`dot-${index}`}
+            onClick={() => setCurrentIndex(index)}
+            aria-label={`Ir para o slide ${index + 1}`}
+            className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ease-in-out
+                        ${currentIndex === index ? 'bg-sky-500 scale-125' : 'bg-gray-400/70 hover:bg-gray-200/90'}`}
+          />
+        ))}
+      </div>
+
+      <style jsx global>{`
+        .shadow-text {
+          text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+      `}</style>
     </div>
   );
 };

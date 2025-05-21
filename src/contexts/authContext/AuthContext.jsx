@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { get, getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, onValue, serverTimestamp, off } from "firebase/database";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../../services/firebaseConfig/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
@@ -8,66 +8,98 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+    let dbListenerUnsubscribe = null;
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const authUnsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (dbListenerUnsubscribe) {
+        dbListenerUnsubscribe(); 
+        dbListenerUnsubscribe = null;
+      }
       setLoading(true);
 
       if (currentUser) {
-        await currentUser.reload();
+        try {
+          await currentUser.reload();
+        } catch (reloadError) {
+          console.warn("Falha ao recarregar dados do usuário do Auth:", reloadError);
+        }
+
         if (!currentUser.emailVerified) {
           setUser(null);
-          setIsAdmin(false);
-          navigate("/verify-email");
+          // Só redireciona se não estiver já numa página de autenticação/verificação
+          const currentPath = window.location.pathname;
+          if (!["/verify-email", "/login", "/register", "/reset-password"].includes(currentPath)) {
+            navigate("/verify-email");
+          }
           setLoading(false);
-          return;
+          return; 
         }
-
-        setUser(currentUser);
-        const adminStatus = currentUser.email === adminEmail;
-        setIsAdmin(adminStatus);
 
         const db = getDatabase();
-        const userId = currentUser.uid;
-        const userRef = ref(db, `users/${userId}`);
+        const userDbRef = ref(db, `users/${currentUser.uid}`);
 
-        try {
-          const snapshot = await get(userRef);
-
-          if (!snapshot.exists()) {
-            const defaultNickname = "Usuario AinzOoal";
-            const role = adminStatus ? "admin" : "user";
-            await set(userRef, {
-              role: role,
-              nickname: defaultNickname,
+        dbListenerUnsubscribe = onValue(userDbRef, (snapshot) => {
+          if (snapshot.exists()) {
+            const userDataFromDb = snapshot.val();
+            setUser({
+              ...currentUser,
+              nickname: userDataFromDb.nickname || `Usuário_${currentUser.uid.substring(0, 5)}`,
+              role: userDataFromDb.role || "user",
+              photoURL: userDataFromDb.photoURL || currentUser.photoURL || null,
+              nicknameChangeCount: userDataFromDb.nicknameChangeCount || 0,
             });
           } else {
-            const userData = snapshot.val();
-            setUser((prevUser) => ({
-              ...prevUser,
-              nickname: userData.nickname,
-              role: userData.role,
-            }));
+            const defaultNickname = `Usuário_${currentUser.uid.substring(0, 5)}`;
+            const newUserProfileData = {
+              email: currentUser.email,
+              nickname: defaultNickname,
+              nicknameChangeCount: 0,
+              photoURL: currentUser.photoURL || null,
+              role: "user",
+              createdAt: currentUser.metadata.creationTime || serverTimestamp(),
+              dbCreatedAt: serverTimestamp()
+            };
+            set(userDbRef, newUserProfileData)
+              .then(() => {
+                setUser({
+                  ...currentUser,
+                  nickname: defaultNickname,
+                  role: "user",
+                  photoURL: newUserProfileData.photoURL,
+                  nicknameChangeCount: 0,
+                });
+              })
+              .catch(dbError => {
+                console.error("Erro ao criar perfil do usuário no DB:", dbError);
+                setUser({ ...currentUser, nickname: defaultNickname, role: "user" });
+              });
           }
-        } catch (error) {
-        }
+          setLoading(false);
+        }, (error) => {
+          console.error("Erro ao escutar dados do usuário no DB:", error);
+          setUser({ ...currentUser, nickname: `Usuário_${currentUser.uid.substring(0, 5)}`, role: "user" });
+          setLoading(false);
+        });
       } else {
         setUser(null);
-        setIsAdmin(false);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      authUnsubscribe();
+      if (dbListenerUnsubscribe) {
+        dbListenerUnsubscribe();
+      }
+    };
   }, [navigate]);
 
   return (
-    <AuthContext.Provider value={{ user, isAdmin, loading }}>
+    <AuthContext.Provider value={{ user, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,202 +1,150 @@
-import { Github, Heart, Home, Linkedin, LogOut, Logs, Menu, SquarePen, Star, TvMinimalPlay, User, X } from "lucide-react";
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../../contexts/authContext/AuthContext";
+import { Github, Heart, Home, Linkedin, LogOut, Menu as MenuIcon, X, Star, TvMinimalPlay, UserCircle as ProfileIcon, Users } from "lucide-react";
+import { useState, useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { logout } from "../../services/authService/AuthService";
 import Logo from "../../../public/logo.png";
+import { AuthContext } from "../../contexts/authContext/AuthContext";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDesktopOpen, setIsDesktopOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isAdmin } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
       await logout();
+      setIsMobileMenuOpen(false);
     } catch (error) {
+      console.error("Erro ao fazer logout:", error);
     }
   };
 
-  const handleMobileMenuToggle = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const navLinks = [
+    { to: "/", text: "Início", icon: Home },
+    { to: "/Join-session", text: "Sessões", icon: Users },
+    { to: "/favorites", text: "Favoritos", icon: Heart },
+    { to: "/recommendations", text: "Recomendar", icon: Star },
+    { to: "/profile", text: "Perfil", icon: ProfileIcon },
+  ];
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
+  const NavLinkItem = ({ to, text, IconComponent, isMobile = false, currentPath, isDesktopOpenState }) => (
+    <Link
+      to={to}
+      onClick={() => isMobile && setIsMobileMenuOpen(false)}
+      className={`flex items-center space-x-3 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out group
+                  ${currentPath === to
+          ? "bg-sky-600 text-white shadow-md"
+          : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
+        }
+                  ${isMobile ? "text-lg w-full justify-start" : (isDesktopOpenState ? "w-full" : "justify-center")}`}
+      title={!isDesktopOpenState && !isMobile ? text : undefined}
+    >
+      <IconComponent size={isMobile ? 24 : 22} className="flex-shrink-0 transition-colors duration-200 group-hover:text-sky-300" />
+      {(isDesktopOpenState || isMobile) && <span className="whitespace-nowrap text-sm font-medium">{text}</span>}
+    </Link>
+  );
 
   return (
-    <div
-      className={`relative md:flex md:flex-col md:items-start md:fixed top-0 left-0 md:bg-[#1a1a1a] md:text-white md:h-screen md:p-4 md:shadow-md transition-all duration-300`}
-      style={{ zIndex: 1000 }}
-    >
-      <div className="md:hidden flex justify-between items-center p-4 bg-[#1a1a1a] text-white">
-        <span className="text-lg font-semibold">Br14nfilmes</span>
-        <span onClick={handleMobileMenuToggle}>
-          <Logs className="w-8 h-8" />
-        </span>
+    <>
+      <div className="md:hidden fixed top-0 left-0 right-0 z-[1001] bg-[#101014] text-white shadow-lg flex justify-between items-center px-4 h-16 border-b border-gray-800">
+        <Link to="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+          <img src={Logo} alt="Logo Br14nfilmes" className="h-8 w-auto" />
+          <span className="text-xl font-bold text-white">Br14nfilmes</span>
+        </Link>
+        <button
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700/50 transition-colors"
+          aria-label="Abrir menu mobile"
+        >
+          <MenuIcon size={28} />
+        </button>
       </div>
 
       <div
-        className={`fixed top-0 left-0 z-50 bg-[#1a1a1a] w-full h-full transition-all duration-300 ${
-          isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        } md:hidden`}
+        className={`fixed inset-0 z-[1002] bg-black/70 backdrop-blur-sm md:hidden transition-opacity duration-300 ease-in-out
+                    ${isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+      <div
+        className={`fixed top-0 left-0 z-[1003] bg-[#101014] w-72 h-full shadow-xl flex flex-col p-6 transition-transform duration-300 ease-in-out md:hidden border-r border-gray-800
+                    ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
-        <div className="flex flex-col items-center pt-12 opacity-80">
+        <div className="flex justify-between items-center mb-8">
+          <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
+            <img src={Logo} alt="Logo Br14nfilmes" className="h-9 w-auto" />
+            <span className="text-xl font-bold text-white">Br14nfilmes</span>
+          </Link>
           <button
-            onClick={closeMobileMenu}
-            className="absolute top-4 right-4 text-white"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700/50 transition-colors"
+            aria-label="Fechar menu mobile"
           >
-            <X className="w-8 h-8" />
+            <X size={28} />
           </button>
-          <Link
-            to="/"
-            className="text-lg font-semibold text-white hover:bg-[#333333] py-4 w-full text-center"
-            onClick={closeMobileMenu}
-          >
-            Home
-          </Link>
-          <Link
-            to="/Join-session"
-            className="text-lg font-semibold text-white hover:bg-[#333333] py-4 w-full text-center"
-            onClick={closeMobileMenu}
-          >
-            Assistir em Grupo
-          </Link>
-          <Link
-            to="/favorites"
-            className="text-lg font-semibold text-white hover:bg-[#333333] py-4 w-full text-center"
-            onClick={closeMobileMenu}
-          >
-            Favoritos
-          </Link>
-          <Link
-            to={isAdmin ? "/admin" : "/recommendations"}
-            className="text-lg font-semibold text-white hover:bg-[#333333] py-4 w-full text-center"
-            onClick={closeMobileMenu}
-          >
-            {isAdmin ? "Admin" : "Recomendações"}
-          </Link>
-          <Link
-            to="/profile"
-            className="text-lg font-semibold text-white hover:bg-[#333333] py-4 w-full text-center"
-            onClick={closeMobileMenu}
-          >
-            Usuário
-          </Link>
-          <p
-            onClick={handleLogout}
-            className="text-lg font-semibold text-white hover:bg-[#333333] py-4 w-full text-center mt-auto"
-          >
-            Sair
-          </p>
+        </div>
 
-          <div className="mt-8 text-white text-center opacity-50">
-            <p className="text-sm mb-4">© 2024 br14nfilmes</p>
-            <div className="flex justify-center space-x-4 mb-4">
-              <a
-                href="https://www.linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:text-[#0077b5]"
-              >
-                <Linkedin className="w-6 h-6" />
+        <nav className="flex-grow space-y-2.5">
+          {navLinks.map(link => (
+            <NavLinkItem key={link.to + "-mobile"} {...link} IconComponent={link.icon} isMobile={true} currentPath={location.pathname} isDesktopOpenState={true} />
+          ))}
+        </nav>
+
+        <div className="mt-auto pt-6 border-t border-gray-700/50">
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-3 py-2.5 px-3 rounded-lg text-gray-300 hover:bg-red-700/80 hover:text-white w-full text-base font-medium transition-colors duration-200"
+          >
+            <LogOut size={22} className="flex-shrink-0" />
+            <span>Sair</span>
+          </button>
+          <div className="mt-6 text-center">
+            <p className="text-xs text-gray-500 mb-2">© {new Date().getFullYear()} br14nfilmes</p>
+            <div className="flex justify-center space-x-4">
+              <a href="https://www.linkedin.com/in/brian-lucca-cardozo" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-sky-400 transition-colors" aria-label="LinkedIn">
+                <Linkedin size={20} />
               </a>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:text-[#333]"
-              >
-                <Github className="w-6 h-6" />
+              <a href="https://github.com/Brianlucca" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors" aria-label="GitHub">
+                <Github size={20} />
               </a>
             </div>
-            <p className="text-sm">
-              Entre em contato conosco via e-mail: <br />
-              <a
-                href="mailto:contatobr14nfilmes@gmail.com"
-                className="text-white hover:text-[#ffac33]"
-              >
-                contatobr14nfilmes@gmail.com
-              </a>
-            </p>
           </div>
         </div>
       </div>
 
-      {/* Menu Desktop */}
       <div
-        className={`hidden md:block transition-all duration-300 ${
-          isOpen ? "w-64 opacity-100" : "w-10 opacity-50"
-        }`}
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
+        className={`hidden md:fixed md:top-0 md:left-0 md:flex md:flex-col md:h-screen md:bg-[#101014] md:text-white md:shadow-xl md:border-r md:border-gray-800/50 transition-all duration-300 ease-in-out z-[999]
+                    ${isDesktopOpen ? "w-60 p-5" : "w-[72px] p-3 items-center"}`}
+        onMouseEnter={() => setIsDesktopOpen(true)}
+        onMouseLeave={() => setIsDesktopOpen(false)}
       >
-        <div className="flex flex-col items-start transition-all duration-300">
-          <div
-            className={`flex items-center mb-6 ${isOpen ? "w-64" : "w-16"} transition-all duration-300`}
-          >
-            <img src={Logo} alt="Logo" className="w-16 h-auto -ml-3" />
-            {isOpen && (
-              <span className="text-lg font-semibold ml-2">Br14nfilmes</span>
+        <div className={`flex items-center mb-10 ${isDesktopOpen ? "self-start" : "justify-center w-full"}`}>
+          <Link to="/" className="flex items-center gap-2.5 overflow-hidden">
+            <img src={Logo} alt="Logo Br14nfilmes" className={`${isDesktopOpen ? "h-9" : "h-8"} w-auto transition-all duration-200`} />
+            {isDesktopOpen && (
+              <span className="text-xl font-bold text-white whitespace-nowrap">Br14nfilmes</span>
             )}
-          </div>
-          <nav className="flex flex-col space-y-4">
-            <Link
-              to="/"
-              className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
-            >
-              <Home className="w-6 h-6" />
-              {isOpen && <span className="text-lg">Home</span>}
-            </Link>
-            <Link
-              to="/Join-session"
-              className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
-            >
-              <TvMinimalPlay className="w-6 h-6" />
-              {isOpen && <span className="text-lg">Assistir em Grupo</span>}
-            </Link>
-            <Link
-              to="/favorites"
-              className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
-            >
-              <Heart className="w-6 h-6" />
-              {isOpen && <span className="text-lg">Favoritos</span>}
-            </Link>
-            <Link
-              to={isAdmin ? "/admin" : "/recommendations"}
-              className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
-            >
-              {isAdmin ? (
-                <>
-                  <User className="w-6 h-6" />
-                  {isOpen && <span className="text-lg">Admin</span>}
-                </>
-              ) : (
-                <>
-                  <Star className="w-6 h-6" />
-                  {isOpen && <span className="text-lg">Recomendações</span>}
-                </>
-              )}
-            </Link>
-            <Link
-              to="/profile"
-              className="flex items-center space-x-2 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
-            >
-              <SquarePen className="w-6 h-6" />
-              {isOpen && <span className="text-lg">Usuário</span>}
-            </Link>
-          </nav>
+          </Link>
+        </div>
+
+        <nav className="flex-grow flex flex-col space-y-2 w-full">
+          {navLinks.map(link => (
+            <NavLinkItem key={link.to + "-desktop"} {...link} IconComponent={link.icon} isMobile={false} currentPath={location.pathname} isDesktopOpenState={isDesktopOpen} />
+          ))}
+        </nav>
+
+        <div className="mt-auto pt-6 border-t border-gray-700/50 w-full">
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-2 mt-6 hover:bg-[#333333] p-2 rounded-md transition-all duration-300"
+            className={`flex items-center space-x-3 py-2.5 px-3 rounded-lg text-gray-300 hover:bg-red-700/80 hover:text-white w-full transition-colors duration-200 ${isDesktopOpen ? "" : "justify-center"}`}
+            title={!isDesktopOpen ? "Sair" : undefined}
           >
-            <LogOut className="w-6 h-6" />
-            {isOpen && <span className="text-lg">Sair</span>}
+            <LogOut size={20} className="flex-shrink-0" />
+            {isDesktopOpen && <span className="text-sm font-medium whitespace-nowrap">Sair</span>}
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

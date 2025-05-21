@@ -16,6 +16,7 @@ export const registerUser = async (email, password) => {
     throw error;
   }
 };
+
 export const loginUser = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -27,19 +28,6 @@ export const loginUser = (email, password) => {
     })
 }
 
-export const loginAdmin = () => {
-  const adminEmail = import.meta.env.VITE_ADMIN_EMAIL
-  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD
-
-  return signInWithEmailAndPassword(auth, adminEmail, adminPassword)
-    .then((userCredential) => {
-      const user = userCredential.user
-      return user
-    })
-    .catch((error) => {
-      throw error
-    })
-}
 export const logout = () => {
   return signOut(auth)
     .then(() => {
