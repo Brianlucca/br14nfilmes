@@ -11,7 +11,7 @@ const Faq = () => {
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
   const [isInputVisible, setInputVisible] = useState(false);
-  const MAX_CHARS = 500; // Define o limite máximo de caracteres
+  const MAX_CHARS = 500;
   const [charsLeft, setCharsLeft] = useState(MAX_CHARS);
 
   useEffect(() => {
