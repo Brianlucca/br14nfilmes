@@ -1,10 +1,10 @@
-import { useContext, useState, useEffect } from "react";
-import { MessageSquarePlus, X, Send } from "lucide-react";
-import { ref, update, serverTimestamp } from "firebase/database";
-import { database } from "../../services/firebaseConfig/FirebaseConfig";
-import { AuthContext } from "../../contexts/authContext/AuthContext";
+import { ref, serverTimestamp, update } from "firebase/database";
+import { MessageSquarePlus, Send, X } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "../../contexts/authContext/AuthContext";
+import { database } from "../../services/firebaseConfig/FirebaseConfig";
 
 const Faq = () => {
   const { user } = useContext(AuthContext);
@@ -35,20 +35,21 @@ const Faq = () => {
 
     setSending(true);
     const faqRef = ref(database, `users/${user.uid}/faq/${Date.now()}`);
-    
+
     try {
       await update(faqRef, {
         message: message.trim(),
         timestamp: serverTimestamp(),
         email: user.email,
         userId: user.uid,
-        status: "pending"
+        status: "pending",
       });
-      toast.success("Sua dúvida foi enviada com sucesso! Responderemos em breve.");
+      toast.success(
+        "Sua dúvida foi enviada com sucesso! Responderemos em breve.",
+      );
       setMessage("");
       setInputVisible(false);
     } catch (error) {
-      console.error("Erro ao enviar FAQ:", error);
       toast.error("Erro ao enviar a dúvida. Tente novamente mais tarde.");
     } finally {
       setSending(false);
@@ -58,7 +59,7 @@ const Faq = () => {
   const handleToggleInput = () => {
     setInputVisible(!isInputVisible);
     if (isInputVisible) {
-      setMessage(""); 
+      setMessage("");
     }
   };
 
@@ -67,7 +68,6 @@ const Faq = () => {
     if (currentMessage.length <= MAX_CHARS) {
       setMessage(currentMessage);
     } else {
-      // Opcional: truncar a mensagem ou apenas impedir mais digitação
       setMessage(currentMessage.substring(0, MAX_CHARS));
       toast.warn(`Limite de ${MAX_CHARS} caracteres atingido.`);
     }
@@ -79,7 +79,7 @@ const Faq = () => {
         {!isInputVisible && (
           <button
             onClick={handleToggleInput}
-            className="p-4 bg-sky-600 text-white rounded-full shadow-2xl hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500/50 transform transition-all duration-200 ease-in-out hover:scale-110 active:scale-95"
+            className="p-3 md:p-4 bg-sky-600 text-white rounded-full shadow-2xl hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500/50 transform transition-all duration-200 ease-in-out hover:scale-110 active:scale-95"
             aria-label="Abrir chat de ajuda"
           >
             <MessageSquarePlus size={28} />
@@ -112,23 +112,43 @@ const Faq = () => {
                   value={message}
                   onChange={handleMessageChange}
                   disabled={sending}
-                  maxLength={MAX_CHARS} 
+                  maxLength={MAX_CHARS}
                 />
-                <div className={`absolute bottom-2 right-3 text-xs ${charsLeft < 0 ? 'text-red-500' : 'text-gray-400'}`}>
+                <div
+                  className={`absolute bottom-2 right-3 text-xs ${charsLeft < 0 ? "text-red-500" : "text-gray-400"}`}
+                >
                   {charsLeft} restantes
                 </div>
               </div>
               <div className="mt-5 flex justify-end">
                 <button
                   onClick={handleSendFaq}
-                  disabled={sending || !message.trim() || message.length > MAX_CHARS}
+                  disabled={
+                    sending || !message.trim() || message.length > MAX_CHARS
+                  }
                   className="px-6 py-2.5 rounded-lg bg-sky-600 text-white font-semibold hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center"
                 >
                   {sending ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-2.5 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin -ml-1 mr-2.5 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       Enviando...
                     </>
@@ -147,15 +167,29 @@ const Faq = () => {
       <ToastContainer />
       <style jsx global>{`
         @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
         @keyframes scaleUp {
-          from { transform: scale(0.95); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
+          from {
+            transform: scale(0.95);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
         }
-        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-        .animate-scaleUp { animation: scaleUp 0.3s ease-out forwards; }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+        .animate-scaleUp {
+          animation: scaleUp 0.3s ease-out forwards;
+        }
 
         .custom-scrollbar-thin::-webkit-scrollbar {
           width: 6px;
