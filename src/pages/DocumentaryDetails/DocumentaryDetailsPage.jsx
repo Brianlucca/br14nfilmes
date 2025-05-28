@@ -1,11 +1,21 @@
-import { Calendar, Clapperboard, Star, Heart, HeartOff, Popcorn, Share, PlayCircle, MessageSquare } from "lucide-react";
-import { useParams, useNavigate } from "react-router-dom";
+import {
+  Calendar,
+  Clapperboard,
+  Heart,
+  HeartOff,
+  MessageSquare,
+  PlayCircle,
+  Popcorn,
+  Share,
+  Star,
+} from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import Comments from "../../components/comments/Comments";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
 import Sidebar from "../../components/sidebar/Sidebar";
 import useDocumentaryDetails from "../../hooks/useDocumentaryDetails/useDocumentaryDetails";
-import { ToastContainer, toast } from "react-toastify";
 
 const DocumentaryDetailsPage = () => {
   const { id } = useParams();
@@ -37,7 +47,6 @@ const DocumentaryDetailsPage = () => {
           url: shareUrl,
         });
       } catch (error) {
-        console.error("Erro ao compartilhar:", error);
         toast.error("Erro ao compartilhar. Tente novamente.");
       }
     } else {
@@ -45,8 +54,9 @@ const DocumentaryDetailsPage = () => {
         await navigator.clipboard.writeText(`${message} ${shareUrl}`);
         toast.success("Link copiado para a área de transferência!");
       } catch (error) {
-        console.error("Erro ao copiar link:", error);
-        toast.error("A API de compartilhamento não é suportada neste navegador e houve um erro ao copiar o link.");
+        toast.error(
+          "A API de compartilhamento não é suportada neste navegador e houve um erro ao copiar o link.",
+        );
       }
     }
   };
@@ -64,11 +74,8 @@ const DocumentaryDetailsPage = () => {
     <div className="flex flex-col min-h-screen bg-black">
       <Sidebar />
       <div className="flex-grow md:ml-20 transition-all duration-300 ease-in-out">
-        
-        <div 
-          className="relative pt-16 md:pt-24 min-h-[calc(80vh)] md:min-h-[calc(90vh)] text-white bg-black"
-        >
-          <div 
+        <div className="relative pt-16 md:pt-24 min-h-[calc(80vh)] md:min-h-[calc(90vh)] text-white bg-black">
+          <div
             className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30"
             style={{ backgroundImage: `url(${documentary.imageUrl})` }}
           />
@@ -77,10 +84,10 @@ const DocumentaryDetailsPage = () => {
 
           <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center md:items-end h-full pb-12 md:pb-20 pt-10 md:pt-0">
             <div className="md:w-1/3 lg:w-1/4 w-2/3 max-w-xs md:max-w-none mb-6 md:mb-0 md:mr-8 lg:mr-12 flex-shrink-0">
-              <img 
-                src={documentary.imageUrl} 
-                alt={`Poster de ${documentary.name}`} 
-                className="rounded-lg shadow-2xl w-full h-auto object-cover aspect-[2/3]" 
+              <img
+                src={documentary.imageUrl}
+                alt={`Poster de ${documentary.name}`}
+                className="rounded-lg shadow-2xl w-full h-auto object-cover aspect-[2/3]"
               />
             </div>
 
@@ -88,10 +95,10 @@ const DocumentaryDetailsPage = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
                 {documentary.name}
               </h1>
-              
+
               <div className="flex items-center justify-center md:justify-start space-x-4 text-gray-300 text-sm sm:text-base">
                 <div className="flex items-center">
-                  <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 mr-1.5" /> 
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 mr-1.5" />
                   <span>{documentary.rating}/10</span>
                 </div>
                 <span className="opacity-50">|</span>
@@ -114,9 +121,10 @@ const DocumentaryDetailsPage = () => {
                 <button
                   onClick={handleToggleFavorite}
                   className={`w-full sm:w-auto px-6 py-3 font-semibold rounded-lg shadow-md flex items-center justify-center transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black
-                    ${isFavorite
-                      ? "bg-red-600 hover:bg-red-700 focus:ring-red-500"
-                      : "bg-gray-700 hover:bg-red-600 focus:ring-red-500"
+                    ${
+                      isFavorite
+                        ? "bg-red-600 hover:bg-red-700 focus:ring-red-500"
+                        : "bg-gray-700 hover:bg-red-600 focus:ring-red-500"
                     } text-white`}
                 >
                   {isFavorite ? (
@@ -149,7 +157,7 @@ const DocumentaryDetailsPage = () => {
           <section className="py-12 md:py-16 bg-black">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 flex items-center">
-                <PlayCircle size={28} className="mr-3 text-red-500"/>
+                <PlayCircle size={28} className="mr-3 text-red-500" />
                 Vídeo/Trailer
               </h2>
               <div className="aspect-video rounded-lg overflow-hidden shadow-2xl border-2 border-gray-800">
@@ -168,10 +176,10 @@ const DocumentaryDetailsPage = () => {
 
         <section className="py-12 md:py-16 bg-black">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 flex items-center">
-                <MessageSquare size={28} className="mr-3 text-sky-500"/>
-                Comentários e Discussões
-              </h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 flex items-center">
+              <MessageSquare size={28} className="mr-3 text-sky-500" />
+              Comentários e Discussões
+            </h2>
             <Comments
               comments={comments}
               onCommentSubmit={handleCommentSubmit}
@@ -179,19 +187,19 @@ const DocumentaryDetailsPage = () => {
             />
           </div>
         </section>
-        
+
         <Footer />
-        <ToastContainer 
-            position="bottom-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
         />
       </div>
     </div>

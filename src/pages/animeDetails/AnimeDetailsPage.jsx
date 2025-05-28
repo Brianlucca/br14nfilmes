@@ -1,4 +1,14 @@
-import { Calendar, Clapperboard, Heart, HeartOff, MessageSquare, PlayCircle, Popcorn, Share, Star } from "lucide-react";
+import {
+  Calendar,
+  Clapperboard,
+  Heart,
+  HeartOff,
+  MessageSquare,
+  PlayCircle,
+  Popcorn,
+  Share,
+  Star,
+} from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Comments from "../../components/comments/Comments";
@@ -37,7 +47,6 @@ const AnimeDetailsPage = () => {
           url: shareUrl,
         });
       } catch (error) {
-        console.error("Erro ao compartilhar:", error);
         toast.error("Erro ao compartilhar. Tente novamente.");
       }
     } else {
@@ -45,8 +54,9 @@ const AnimeDetailsPage = () => {
         await navigator.clipboard.writeText(`${message} ${shareUrl}`);
         toast.success("Link copiado para a área de transferência!");
       } catch (error) {
-        console.error("Erro ao copiar link:", error);
-        toast.error("A API de compartilhamento não é suportada neste navegador e houve um erro ao copiar o link.");
+        toast.error(
+          "A API de compartilhamento não é suportada neste navegador e houve um erro ao copiar o link.",
+        );
       }
     }
   };
@@ -64,10 +74,7 @@ const AnimeDetailsPage = () => {
     <div className="flex flex-col min-h-screen bg-black">
       <Sidebar />
       <div className="flex-grow md:ml-20 transition-all duration-300 ease-in-out">
-
-        <div
-          className="relative pt-16 md:pt-24 min-h-[calc(80vh)] md:min-h-[calc(90vh)] text-white bg-black"
-        >
+        <div className="relative pt-16 md:pt-24 min-h-[calc(80vh)] md:min-h-[calc(90vh)] text-white bg-black">
           <div
             className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30"
             style={{ backgroundImage: `url(${anime.imageUrl})` }}
@@ -114,9 +121,10 @@ const AnimeDetailsPage = () => {
                 <button
                   onClick={toggleFavorite}
                   className={`w-full sm:w-auto px-6 py-3 font-semibold rounded-lg shadow-md flex items-center justify-center transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black
-                    ${isFavorite
-                      ? "bg-red-600 hover:bg-red-700 focus:ring-red-500"
-                      : "bg-gray-700 hover:bg-red-600 focus:ring-red-500"
+                    ${
+                      isFavorite
+                        ? "bg-red-600 hover:bg-red-700 focus:ring-red-500"
+                        : "bg-gray-700 hover:bg-red-600 focus:ring-red-500"
                     } text-white`}
                 >
                   {isFavorite ? (
