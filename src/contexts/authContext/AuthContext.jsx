@@ -1,8 +1,14 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { getDatabase, ref, set, onValue, serverTimestamp, off } from "firebase/database";
+import {
+  getDatabase,
+  onValue,
+  ref,
+  serverTimestamp,
+  set,
+} from "firebase/database";
 import { createContext, useEffect, useState } from "react";
-import { auth } from "../../services/firebaseConfig/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../services/firebaseConfig/FirebaseConfig";
 
 export const AuthContext = createContext();
 
@@ -16,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
     const authUnsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (dbListenerUnsubscribe) {
-        dbListenerUnsubscribe(); 
+        dbListenerUnsubscribe();
         dbListenerUnsubscribe = null;
       }
       setLoading(true);
@@ -24,65 +30,84 @@ export const AuthProvider = ({ children }) => {
       if (currentUser) {
         try {
           await currentUser.reload();
-        } catch (reloadError) {
-          console.warn("Falha ao recarregar dados do usuário do Auth:", reloadError);
-        }
+        } catch (reloadError) {}
 
         if (!currentUser.emailVerified) {
           setUser(null);
           const currentPath = window.location.pathname;
-          if (!["/verify-email", "/login", "/register", "/reset-password"].includes(currentPath)) {
+          if (
+            ![
+              "/verify-email",
+              "/login",
+              "/register",
+              "/reset-password",
+            ].includes(currentPath)
+          ) {
             navigate("/verify-email");
           }
           setLoading(false);
-          return; 
+          return;
         }
 
         const db = getDatabase();
         const userDbRef = ref(db, `users/${currentUser.uid}`);
 
-        dbListenerUnsubscribe = onValue(userDbRef, (snapshot) => {
-          if (snapshot.exists()) {
-            const userDataFromDb = snapshot.val();
+        dbListenerUnsubscribe = onValue(
+          userDbRef,
+          (snapshot) => {
+            if (snapshot.exists()) {
+              const userDataFromDb = snapshot.val();
+              setUser({
+                ...currentUser,
+                nickname:
+                  userDataFromDb.nickname ||
+                  `Usuário_${currentUser.uid.substring(0, 5)}`,
+                role: userDataFromDb.role || "user",
+                photoURL:
+                  userDataFromDb.photoURL || currentUser.photoURL || null,
+                nicknameChangeCount: userDataFromDb.nicknameChangeCount || 0,
+              });
+            } else {
+              const defaultNickname = `Usuário_${currentUser.uid.substring(0, 5)}`;
+              const newUserProfileData = {
+                email: currentUser.email,
+                nickname: defaultNickname,
+                nicknameChangeCount: 0,
+                photoURL: currentUser.photoURL || null,
+                role: "user",
+                createdAt:
+                  currentUser.metadata.creationTime || serverTimestamp(),
+                dbCreatedAt: serverTimestamp(),
+              };
+              set(userDbRef, newUserProfileData)
+                .then(() => {
+                  setUser({
+                    ...currentUser,
+                    nickname: defaultNickname,
+                    role: "user",
+                    photoURL: newUserProfileData.photoURL,
+                    nicknameChangeCount: 0,
+                  });
+                })
+                .catch((dbError) => {
+                  setUser({
+                    ...currentUser,
+                    nickname: defaultNickname,
+                    role: "user",
+                  });
+                });
+            }
+            setLoading(false);
+          },
+          (error) => {
             setUser({
               ...currentUser,
-              nickname: userDataFromDb.nickname || `Usuário_${currentUser.uid.substring(0, 5)}`,
-              role: userDataFromDb.role || "user",
-              photoURL: userDataFromDb.photoURL || currentUser.photoURL || null,
-              nicknameChangeCount: userDataFromDb.nicknameChangeCount || 0,
-            });
-          } else {
-            const defaultNickname = `Usuário_${currentUser.uid.substring(0, 5)}`;
-            const newUserProfileData = {
-              email: currentUser.email,
-              nickname: defaultNickname,
-              nicknameChangeCount: 0,
-              photoURL: currentUser.photoURL || null,
+              nickname: `Usuário_${currentUser.uid.substring(0, 5)}`,
               role: "user",
-              createdAt: currentUser.metadata.creationTime || serverTimestamp(),
-              dbCreatedAt: serverTimestamp()
-            };
-            set(userDbRef, newUserProfileData)
-              .then(() => {
-                setUser({
-                  ...currentUser,
-                  nickname: defaultNickname,
-                  role: "user",
-                  photoURL: newUserProfileData.photoURL,
-                  nicknameChangeCount: 0,
-                });
-              })
-              .catch(dbError => {
-                console.error("Erro ao criar perfil do usuário no DB:", dbError);
-                setUser({ ...currentUser, nickname: defaultNickname, role: "user" });
-              });
-          }
-          setLoading(false);
-        }, (error) => {
-          console.error("Erro ao escutar dados do usuário no DB:", error);
-          setUser({ ...currentUser, nickname: `Usuário_${currentUser.uid.substring(0, 5)}`, role: "user" });
-          setLoading(false);
-        });
+            });
+            setLoading(false);
+          },
+        );
       } else {
         setUser(null);
         setLoading(false);
