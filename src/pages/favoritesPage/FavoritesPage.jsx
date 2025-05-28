@@ -1,5 +1,5 @@
 import { get, getDatabase, ref, remove } from "firebase/database";
-import { Eye, Film, HelpCircle, Tv, XCircle, Youtube } from "lucide-react"; // Added icons
+import { Eye, Film, HelpCircle, Tv, XCircle, Youtube } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EmptyMessage from "../../components/emptyMessage/EmptyMessage";
@@ -34,20 +34,18 @@ const FavoritesPage = () => {
                 formattedFavorites.push({
                   id: itemId,
                   ...favoritesData[category][itemId],
-                  category: category.toLowerCase(), // Ensure category is lowercase
+                  category: category.toLowerCase(),
                   gif: favoritesData[category][itemId].gif || null,
                 });
               });
             });
 
-            // Sort favorites, e.g., by title or a timestamp if available
             formattedFavorites.sort((a, b) => a.title.localeCompare(b.title));
             setFavorites(formattedFavorites);
           } else {
             setFavorites([]);
           }
         } catch (error) {
-          console.error("Error fetching favorites:", error);
           setFavorites([]);
         } finally {
           setLoading(false);
@@ -57,7 +55,7 @@ const FavoritesPage = () => {
       fetchFavorites();
     } else {
       setLoading(false);
-      setFavorites([]); // Clear favorites if no user
+      setFavorites([]);
     }
   }, [user]);
 
@@ -66,53 +64,55 @@ const FavoritesPage = () => {
     if (!user) return;
 
     const db = getDatabase();
-    const favoriteRef = ref(db, `users/${user.uid}/favorites/${favorite.category}/${favorite.id}`);
+    const favoriteRef = ref(
+      db,
+      `users/${user.uid}/favorites/${favorite.category}/${favorite.id}`,
+    );
 
     try {
       await remove(favoriteRef);
       setFavorites((prevFavorites) =>
-        prevFavorites.filter((item) => !(item.id === favorite.id && item.category === favorite.category))
+        prevFavorites.filter(
+          (item) =>
+            !(item.id === favorite.id && item.category === favorite.category),
+        ),
       );
-    } catch (error) {
-      console.error("Error removing favorite:", error);
-    }
+    } catch (error) {}
   };
 
   const handleNavigateToDetails = (favorite) => {
     switch (favorite.category) {
-      case 'movie':
+      case "movie":
         navigate(`/movie/${favorite.id}`);
         break;
-      case 'serie':
+      case "serie":
         navigate(`/serie/${favorite.id}`);
         break;
-      case 'anime':
+      case "anime":
         navigate(`/anime/${favorite.id}`);
         break;
-      case 'documentary': // Assuming you might have documentaries
+      case "documentary":
         navigate(`/documentary/${favorite.id}`);
         break;
       default:
-        console.warn("Unknown category for navigation:", favorite.category);
         break;
     }
   };
 
   const getCategoryIcon = (category) => {
     switch (category) {
-      case 'movie':
+      case "movie":
         return <Film size={18} className="text-sky-400" />;
-      case 'serie':
+      case "serie":
         return <Tv size={18} className="text-emerald-400" />;
-      case 'anime':
-        return <Youtube size={18} className="text-red-400" />; // Or a more specific anime icon
-      case 'documentary':
-        return <Info size={18} className="text-amber-400" />; // Example for documentary
+      case "anime":
+        return <Youtube size={18} className="text-red-400" />;
+      case "documentary":
+        return <Info size={18} className="text-amber-400" />;
       default:
         return <HelpCircle size={18} className="text-gray-400" />;
     }
   };
-
 
   if (loading) {
     return (
@@ -133,7 +133,8 @@ const FavoritesPage = () => {
               Seus Favoritos
             </h1>
             <p className="mt-3 text-lg text-gray-400 max-w-2xl mx-auto">
-              Aqui estão todos os filmes, séries e animes que você marcou como favoritos.
+              Aqui estão todos os filmes, séries e animes que você marcou como
+              favoritos.
             </p>
           </div>
 
@@ -158,12 +159,11 @@ const FavoritesPage = () => {
                       />
                     ) : (
                       <img
-                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${hoveredFavoriteId === favorite.id && favorite.gif ? 'opacity-0' : 'opacity-100'}`}
+                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${hoveredFavoriteId === favorite.id && favorite.gif ? "opacity-0" : "opacity-100"}`}
                         src={favorite.imageUrl}
                         alt={favorite.title}
                       />
                     )}
-                    {/* Overlay para o botão de ver detalhes */}
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                       <Eye size={48} className="text-white opacity-80" />
                     </div>

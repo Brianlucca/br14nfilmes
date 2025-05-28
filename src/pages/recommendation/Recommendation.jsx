@@ -1,13 +1,20 @@
-import { useState, useEffect, useContext } from "react";
-import { getDatabase, ref, set, get } from "firebase/database";
-import { auth } from "../../services/firebaseConfig/FirebaseConfig";
+import { get, getDatabase, ref, set } from "firebase/database";
+import {
+  Clapperboard,
+  Film,
+  Image as ImageIcon,
+  Link2,
+  MessageSquareText,
+  Send,
+} from "lucide-react";
+import { useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Footer from "../../components/footer/Footer";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Clapperboard, Film, Image as ImageIcon, Link2, MessageSquareText, Send } from "lucide-react";
+import { auth } from "../../services/firebaseConfig/FirebaseConfig";
 
 const Recommendations = () => {
   const [imageUrl, setImageUrl] = useState("");
@@ -45,8 +52,12 @@ const Recommendations = () => {
       const userProfileData = userProfileSnapshot.val();
 
       if (!userProfileData || !userProfileData.nickname) {
-        toast.warn("Por favor, crie um nickname no seu perfil antes de enviar uma recomendação.");
-        navigate("/profile", { state: { from: location.pathname, needsNickname: true } });
+        toast.warn(
+          "Por favor, crie um nickname no seu perfil antes de enviar uma recomendação.",
+        );
+        navigate("/profile", {
+          state: { from: location.pathname, needsNickname: true },
+        });
         setIsSubmitting(false);
         return;
       }
@@ -63,17 +74,18 @@ const Recommendations = () => {
         userName: userProfileData.nickname,
         userPhotoURL: auth.currentUser.photoURL || null,
         createdAt: new Date().toISOString(),
-        status: "pending", 
+        status: "pending",
       });
 
-      toast.success("Recomendação enviada com sucesso! Obrigado por contribuir.");
+      toast.success(
+        "Recomendação enviada com sucesso! Obrigado por contribuir.",
+      );
 
       setImageUrl("");
       setVideoUrl("");
       setName("");
       setDescription("");
     } catch (error) {
-      console.error("Erro ao enviar recomendação:", error);
       toast.error("Erro ao enviar recomendação. Tente novamente mais tarde.");
     } finally {
       setIsSubmitting(false);
@@ -88,13 +100,20 @@ const Recommendations = () => {
           <div className="w-full max-w-xl p-6 sm:p-8 bg-[#1c1c1c] shadow-2xl rounded-xl border border-gray-800">
             <div className="text-center mb-8">
               <Film size={48} className="mx-auto text-sky-500 mb-3" />
-              <h1 className="text-3xl font-bold text-white">Recomendar um Conteúdo</h1>
-              <p className="text-gray-400 mt-2">Compartilhe seus achados favoritos com a comunidade!</p>
+              <h1 className="text-3xl font-bold text-white">
+                Recomendar um Conteúdo
+              </h1>
+              <p className="text-gray-400 mt-2">
+                Compartilhe seus achados favoritos com a comunidade!
+              </p>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1.5">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-300 mb-1.5"
+                >
                   Título do Conteúdo
                 </label>
                 <div className="relative">
@@ -114,7 +133,10 @@ const Recommendations = () => {
               </div>
 
               <div>
-                <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-300 mb-1.5">
+                <label
+                  htmlFor="imageUrl"
+                  className="block text-sm font-medium text-gray-300 mb-1.5"
+                >
                   URL da Imagem (Poster/Capa)
                 </label>
                 <div className="relative">
@@ -134,7 +156,10 @@ const Recommendations = () => {
               </div>
 
               <div>
-                <label htmlFor="videoUrl" className="block text-sm font-medium text-gray-300 mb-1.5">
+                <label
+                  htmlFor="videoUrl"
+                  className="block text-sm font-medium text-gray-300 mb-1.5"
+                >
                   URL do Vídeo (Trailer no YouTube - Link de Embed)
                 </label>
                 <div className="relative">
@@ -154,22 +179,25 @@ const Recommendations = () => {
               </div>
 
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-300 mb-1.5">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-300 mb-1.5"
+                >
                   Breve Descrição / Por que você recomenda?
                 </label>
                 <div className="relative">
-                    <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none">
-                        <MessageSquareText size={18} className="text-gray-500" />
-                    </div>
-                    <textarea
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Conte um pouco sobre o filme, série ou anime e por que outros deveriam assistir..."
-                        rows="4"
-                        className="w-full pl-10 pr-4 py-2.5 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 resize-none"
-                        required
-                    />
+                  <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none">
+                    <MessageSquareText size={18} className="text-gray-500" />
+                  </div>
+                  <textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Conte um pouco sobre o filme, série ou anime e por que outros deveriam assistir..."
+                    rows="4"
+                    className="w-full pl-10 pr-4 py-2.5 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 resize-none"
+                    required
+                  />
                 </div>
               </div>
 
@@ -180,9 +208,25 @@ const Recommendations = () => {
               >
                 {isSubmitting ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Enviando...
                   </>
@@ -198,16 +242,16 @@ const Recommendations = () => {
         </div>
         <Footer />
         <ToastContainer
-            position="bottom-right"
-            autoClose={4000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
+          position="bottom-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../../components/footer/Footer";
 import MovieList from "../../components/movies/MovieList";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -36,53 +36,74 @@ import MovieSuspenseList from "../../components/category/suspenseList/MovieSuspe
 import SerieSuspenseList from "../../components/category/suspenseList/SerieSuspenseList";
 import MovieTerrorList from "../../components/category/terrorList/MovieTerrorList";
 import SerieTerrorList from "../../components/category/terrorList/SerieTerrorList";
+import SearchOverlay from "../../components/search/SearchOverlay";
+import { Search as SearchIconLucide } from "lucide-react";
+
 
 const HomePage = () => {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <div>
-      <Sidebar />
-      <div className="bg-black">
-        <main>
-          <Slide />
-          <MovieList />
-          <SeriesList />
-          <AnimeList />
-          <DocumentaryList />
-          <MovieComediaList />
-          <SerieComediaList />
-          <MovieActionList />
-          <SerieActionList />
-          <MovieAdventureList />
-          <SerieAdventureList />
-          <MovieCrimeList />
-          <SerieCrimeList />
-          <MovieDramaList />
-          <SerieDramaList />
-          <MovieFantasyList />
-          <SerieFantasyList />
-          <MovieHorrorList />
-          <SerieHorrorList />
-          <MovieMysteryList />
-          <SerieMysteryList />
-          <MovieRomanceList />
-          <SerieRomanceList />
-          <MovieScienceFictionList />
-          <SerieScienceFictionList />
-          <MovieSciFiList />
-          <SerieSciFiList />
-          <MovieSuperHeroList />
-          <SerieSuperHeroList />
-          <MovieSuspenseList />
-          <SerieSuspenseList />
-          <MovieTerrorList />
-          <SerieTerrorList />
-          <RecommendationPreview />
-          <Faq />
-        </main>
+      <div>
+        <Sidebar />
+        <div className='bg-black'>
+          <div>
+            <main className="">
+              <Slide />
+              <MovieList />
+              <SeriesList />
+              <AnimeList />
+              <RecommendationPreview />
+              <DocumentaryList />
+              <MovieComediaList />
+              <SerieComediaList />
+              <MovieActionList />
+              <SerieActionList />
+              <MovieAdventureList />
+              <SerieAdventureList />
+              <MovieCrimeList />
+              <SerieCrimeList />
+              <MovieDramaList />
+              <SerieDramaList />
+              <MovieFantasyList />
+              <SerieFantasyList />
+              <MovieHorrorList />
+              <SerieHorrorList />
+              <MovieMysteryList />
+              <SerieMysteryList />
+              <MovieRomanceList />
+              <SerieRomanceList />
+              <MovieScienceFictionList />
+              <SerieScienceFictionList />
+              <MovieSciFiList />
+              <SerieSciFiList />
+              <MovieSuperHeroList />
+              <SerieSuperHeroList />
+              <MovieSuspenseList />
+              <SerieSuspenseList />
+              <MovieTerrorList />
+              <SerieTerrorList />
+              <Faq />
+            </main>
+          </div>
+        </div>
       </div>
       <Footer />
+
+      <button
+        onClick={() => setIsSearchOpen(true)}
+        aria-label="Buscar conteúdo"
+        title="Buscar conteúdo"
+        className="fixed bottom-24 right-6 md:bottom-auto md:top-3 md:right-8 z-40 flex items-center justify-center p-4 bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white rounded-full shadow-xl hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75 transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-100 md:rounded-lg md:px-4 md:py-3"
+      >
+        <SearchIconLucide size={20} className="md:mr-2 flex-shrink-0" />
+        <span className="hidden md:inline font-semibold text-sm tracking-wide">Buscar conteúdo</span>
+      </button>
+
+      <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </div>
-  );};
+  );
+};
 
 export default HomePage;
