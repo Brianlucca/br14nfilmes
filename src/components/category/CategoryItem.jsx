@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { getDatabase, ref, get } from 'firebase/database';
-import { useNavigate } from 'react-router-dom';
-import MovieItem from '../movies/MovieItem';
-import SeriesItem from '../seriesList/SeriesItem';
-import AnimeItem from '../animeList/AnimeItem';
-import DocumentaryItem from '../documentaryList/DocumentaryItem'; // Assumindo que este componente existe
-import Carousel from '../carousel/Carousel';
-import Loading from '../loading/Loading'; // Assumindo que você tem este componente
-import { LayoutGrid } from 'lucide-react'; // Ícone genérico para categoria vazia
+import { get, getDatabase, ref } from "firebase/database";
+import { LayoutGrid } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AnimeItem from "../animeList/AnimeItem";
+import Carousel from "../carousel/Carousel";
+import DocumentaryItem from "../documentaryList/DocumentaryItem";
+import Loading from "../loading/Loading";
+import MovieItem from "../movies/MovieItem";
+import SeriesItem from "../seriesList/SeriesItem";
 
 const CategoryItem = ({ category, type, title }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Removido handleItemClick, pois os itens são Links
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getItemsByCategory = async () => {
       setLoading(true);
       try {
         const db = getDatabase();
-        const itemsRefPath = `${type}s`; // ex: 'movies', 'series', 'animes', 'documentarys'
+        const itemsRefPath = `${type}s`;
         const categoryRef = ref(db, itemsRefPath);
         const snapshot = await get(categoryRef);
 
@@ -28,19 +28,20 @@ const CategoryItem = ({ category, type, title }) => {
           const filteredItems = [];
 
           Object.entries(data).forEach(([id, item]) => {
-            if (item.category && item.category.toLowerCase() === category.toLowerCase()) {
+            if (
+              item.category &&
+              item.category.toLowerCase() === category.toLowerCase()
+            ) {
               filteredItems.push({ id, ...item });
             }
           });
-          
-          // Opcional: Ordenar os itens, por exemplo, por nome
-          filteredItems.sort((a, b) => a.name?.localeCompare(b.name || ''));
+
+          filteredItems.sort((a, b) => a.name?.localeCompare(b.name || ""));
           setItems(filteredItems);
         } else {
           setItems([]);
         }
       } catch (error) {
-        console.error(`Erro ao buscar itens para categoria ${category} e tipo ${type}:`, error);
         setItems([]);
       } finally {
         setLoading(false);
@@ -57,12 +58,12 @@ const CategoryItem = ({ category, type, title }) => {
 
   const getItemWrapperClass = (itemType) => {
     switch (itemType) {
-      case 'movie':
-      case 'documentary': 
+      case "movie":
+      case "documentary":
         return "w-40 h-60 sm:w-48 sm:h-72 md:w-[200px] md:h-[300px] lg:w-[230px] lg:h-[345px] flex-shrink-0 px-2 py-1";
-      case 'serie':
+      case "serie":
         return "w-44 h-[275px] sm:w-48 sm:h-[300px] md:w-[190px] md:h-[300px] lg:w-[210px] lg:h-[330px] xl:w-[220px] xl:h-[350px] flex-shrink-0 px-2 py-2";
-      case 'anime':
+      case "anime":
         return "w-44 h-[275px] sm:w-48 sm:h-[300px] md:w-[190px] md:h-[300px] lg:w-[210px] lg:h-[330px] xl:w-[220px] xl:h-[350px] flex-shrink-0 px-2.5 py-2";
       default:
         return "w-40 sm:w-60 flex-shrink-0 px-2 py-1";
@@ -74,16 +75,16 @@ const CategoryItem = ({ category, type, title }) => {
     let ItemComponent;
 
     switch (type) {
-      case 'movie':
+      case "movie":
         ItemComponent = <MovieItem movie={item} {...commonProps} />;
         break;
-      case 'serie':
+      case "serie":
         ItemComponent = <SeriesItem series={item} {...commonProps} />;
         break;
-      case 'anime':
+      case "anime":
         ItemComponent = <AnimeItem anime={item} {...commonProps} />;
         break;
-      case 'documentary':
+      case "documentary":
         ItemComponent = <DocumentaryItem documentary={item} {...commonProps} />;
         break;
       default:
@@ -101,7 +102,7 @@ const CategoryItem = ({ category, type, title }) => {
       <div className="flex-grow md:ml-20 py-10 text-center text-gray-400 transition-all duration-300 ease-in-out">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold mb-6 text-gray-500 animate-pulse">
-            Carregando {title || 'Itens'}...
+            Carregando {title || "Itens"}...
           </h2>
           <div className="h-72 flex items-center justify-center text-gray-600">
             <Loading />
@@ -115,11 +116,13 @@ const CategoryItem = ({ category, type, title }) => {
     return (
       <div className="flex-grow md:ml-20 py-10 text-center transition-all duration-300 ease-in-out">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <LayoutGrid size={56} className="mx-auto text-gray-700 mb-5" />
-            <h2 className="text-2xl font-semibold mb-2 text-gray-500">
-                Nenhum item encontrado em "{title || category}"
-            </h2>
-            <p className="text-gray-600">Explore outras categorias ou volte mais tarde.</p>
+          <LayoutGrid size={56} className="mx-auto text-gray-700 mb-5" />
+          <h2 className="text-2xl font-semibold mb-2 text-gray-500">
+            Nenhum item encontrado em "{title || category}"
+          </h2>
+          <p className="text-gray-600">
+            Explore outras categorias ou volte mais tarde.
+          </p>
         </div>
       </div>
     );
@@ -131,7 +134,7 @@ const CategoryItem = ({ category, type, title }) => {
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-5 sm:mb-8 text-white">
           {title || category}
         </h2>
-          <Carousel items={itemComponents} />
+        <Carousel items={itemComponents} />
       </div>
     </div>
   );
