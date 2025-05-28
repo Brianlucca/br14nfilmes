@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }) => {
 
         if (!currentUser.emailVerified) {
           setUser(null);
-          // Só redireciona se não estiver já numa página de autenticação/verificação
           const currentPath = window.location.pathname;
           if (!["/verify-email", "/login", "/register", "/reset-password"].includes(currentPath)) {
             navigate("/verify-email");
