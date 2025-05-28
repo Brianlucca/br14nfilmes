@@ -1,9 +1,9 @@
+import { Film } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { fetchMovies } from '../../services/movieService/MovieService';
-import MovieItem from './MovieItem';
 import Carousel from '../carousel/Carousel';
 import Loading from '../loading/Loading';
-import { Film } from 'lucide-react';
+import MovieItem from './MovieItem';
 
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
@@ -18,7 +18,6 @@ const MovieList = () => {
         const moviesData = await fetchMovies();
         if (moviesData && typeof moviesData === 'object') {
           const sortedMovies = Object.entries(moviesData).sort(([, movieA], [, movieB]) => {
-            // Prioritize movies with a name, then sort by name
             if (movieA.name && movieB.name) {
               return movieA.name.localeCompare(movieB.name);
             }
@@ -29,10 +28,10 @@ const MovieList = () => {
           setMovies(sortedMovies);
         } else {
           setMovies([]);
-          console.warn("Movies data is not in the expected format or is empty:", moviesData);
+          
         }
       } catch (err) {
-        console.error("Failed to fetch movies:", err);
+        
         setError("Não foi possível carregar os filmes no momento. Tente novamente mais tarde.");
         setMovies([]);
       } finally {
@@ -43,7 +42,6 @@ const MovieList = () => {
     getMovies();
   }, []);
 
-  // Dentro de MovieList.jsx
   const movieItems = movies.map(([id, movie]) => (
     <div
       key={id}
