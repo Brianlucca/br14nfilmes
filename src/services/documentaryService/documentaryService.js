@@ -1,18 +1,6 @@
 import { get, push, ref, set } from 'firebase/database'
 import { database } from '../firebaseConfig/FirebaseConfig'
 
-export const addDocumentary = async (documentaryData) => {
-  try {
-    const docRef = push(ref(database, 'documentaries'))
-    await set(docRef, documentaryData)
-    return docRef.key
-  } catch (error) {
-    throw new Error(
-      'Não foi possível adicionar o documentário. Tente novamente mais tarde.',
-    )
-  }
-}
-
 export const fetchDocumentary = async () => {
   try {
     const docRef = ref(database, 'documentaries')
