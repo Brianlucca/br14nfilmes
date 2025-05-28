@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowDown, ChevronLeft, ChevronRight } // Ícones para navegação
+import { ArrowDown, ChevronLeft, ChevronRight }
 from 'lucide-react';
 
 const slideContent = [
@@ -62,13 +62,13 @@ const Slide = () => {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(goToNext, 7000); // Aumentei o tempo para 7 segundos
+    const timer = setInterval(goToNext, 7000);
     return () => clearInterval(timer);
   }, [goToNext]);
 
   const handleScrollDown = () => {
     window.scrollBy({
-      top: window.innerHeight * 0.85, // Rola quase uma tela inteira
+      top: window.innerHeight * 0.85,
       behavior: 'smooth'
     });
   };
@@ -105,7 +105,7 @@ const Slide = () => {
                             ? 'opacity-100 translate-y-0 delay-300' 
                             : 'opacity-0 translate-y-10 pointer-events-none'
                         }`}
-            style={{ position: index === currentIndex ? 'relative' : 'absolute' }} // Garante que só o texto ativo ocupe espaço
+            style={{ position: index === currentIndex ? 'relative' : 'absolute' }}
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 tracking-tight shadow-text">
               {slide.title}
@@ -113,12 +113,6 @@ const Slide = () => {
             <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 max-w-xl mx-auto shadow-text line-clamp-2 sm:line-clamp-3">
               {slide.description}
             </p>
-            {/* <Link 
-              to={slide.ctaLink || "/"}
-              className="px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105 text-sm sm:text-base"
-            >
-              {slide.ctaText || "Ver Mais"}
-            </Link> */}
           </div>
         ))}
       </div>

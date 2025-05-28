@@ -1,9 +1,20 @@
-import { Github, Heart, Home, Linkedin, LogOut, Menu as MenuIcon, X, Star, TvMinimalPlay, UserCircle as ProfileIcon, Users } from "lucide-react";
-import { useState, useContext } from "react";
+import {
+  Github,
+  Heart,
+  Home,
+  Linkedin,
+  LogOut,
+  Menu as MenuIcon,
+  UserCircle as ProfileIcon,
+  Star,
+  Users,
+  X,
+} from "lucide-react";
+import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { logout } from "../../services/authService/AuthService";
 import Logo from "../../../public/logo.png";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
+import { logout } from "../../services/authService/AuthService";
 
 const Sidebar = () => {
   const [isDesktopOpen, setIsDesktopOpen] = useState(false);
@@ -15,9 +26,7 @@ const Sidebar = () => {
     try {
       await logout();
       setIsMobileMenuOpen(false);
-    } catch (error) {
-      console.error("Erro ao fazer logout:", error);
-    }
+    } catch (error) {}
   };
 
   const navLinks = [
@@ -28,27 +37,44 @@ const Sidebar = () => {
     { to: "/profile", text: "Perfil", icon: ProfileIcon },
   ];
 
-  const NavLinkItem = ({ to, text, IconComponent, isMobile = false, currentPath, isDesktopOpenState }) => (
+  const NavLinkItem = ({
+    to,
+    text,
+    IconComponent,
+    isMobile = false,
+    currentPath,
+    isDesktopOpenState,
+  }) => (
     <Link
       to={to}
       onClick={() => isMobile && setIsMobileMenuOpen(false)}
       className={`flex items-center space-x-3 py-2.5 px-3 rounded-lg transition-all duration-200 ease-in-out group
-                  ${currentPath === to
-          ? "bg-sky-600 text-white shadow-md"
-          : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
-        }
-                  ${isMobile ? "text-lg w-full justify-start" : (isDesktopOpenState ? "w-full" : "justify-center")}`}
+                  ${
+                    currentPath === to
+                      ? "bg-sky-600 text-white shadow-md"
+                      : "text-gray-400 hover:bg-gray-700/50 hover:text-white"
+                  }
+                  ${isMobile ? "text-lg w-full justify-start" : isDesktopOpenState ? "w-full" : "justify-center"}`}
       title={!isDesktopOpenState && !isMobile ? text : undefined}
     >
-      <IconComponent size={isMobile ? 24 : 22} className="flex-shrink-0 transition-colors duration-200 group-hover:text-sky-300" />
-      {(isDesktopOpenState || isMobile) && <span className="whitespace-nowrap text-sm font-medium">{text}</span>}
+      <IconComponent
+        size={isMobile ? 24 : 22}
+        className="flex-shrink-0 transition-colors duration-200 group-hover:text-sky-300"
+      />
+      {(isDesktopOpenState || isMobile) && (
+        <span className="whitespace-nowrap text-sm font-medium">{text}</span>
+      )}
     </Link>
   );
 
   return (
     <>
       <div className="md:hidden fixed top-0 left-0 right-0 z-[1001] bg-[#101014] text-white shadow-lg flex justify-between items-center px-4 h-16 border-b border-gray-800">
-        <Link to="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+        <Link
+          to="/"
+          className="flex items-center gap-2"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
           <img src={Logo} alt="Logo Br14nfilmes" className="h-8 w-auto" />
           <span className="text-xl font-bold text-white">Br14nfilmes</span>
         </Link>
@@ -71,7 +97,11 @@ const Sidebar = () => {
                     ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex justify-between items-center mb-8">
-          <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
+          <Link
+            to="/"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex items-center gap-2"
+          >
             <img src={Logo} alt="Logo Br14nfilmes" className="h-9 w-auto" />
             <span className="text-xl font-bold text-white">Br14nfilmes</span>
           </Link>
@@ -85,8 +115,15 @@ const Sidebar = () => {
         </div>
 
         <nav className="flex-grow space-y-2.5">
-          {navLinks.map(link => (
-            <NavLinkItem key={link.to + "-mobile"} {...link} IconComponent={link.icon} isMobile={true} currentPath={location.pathname} isDesktopOpenState={true} />
+          {navLinks.map((link) => (
+            <NavLinkItem
+              key={link.to + "-mobile"}
+              {...link}
+              IconComponent={link.icon}
+              isMobile={true}
+              currentPath={location.pathname}
+              isDesktopOpenState={true}
+            />
           ))}
         </nav>
 
@@ -99,12 +136,26 @@ const Sidebar = () => {
             <span>Sair</span>
           </button>
           <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500 mb-2">© {new Date().getFullYear()} br14nfilmes</p>
+            <p className="text-xs text-gray-500 mb-2">
+              © {new Date().getFullYear()} br14nfilmes
+            </p>
             <div className="flex justify-center space-x-4">
-              <a href="https://www.linkedin.com/in/brian-lucca-cardozo" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-sky-400 transition-colors" aria-label="LinkedIn">
+              <a
+                href="https://www.linkedin.com/in/brian-lucca-cardozo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-sky-400 transition-colors"
+                aria-label="LinkedIn"
+              >
                 <Linkedin size={20} />
               </a>
-              <a href="https://github.com/Brianlucca" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors" aria-label="GitHub">
+              <a
+                href="https://github.com/Brianlucca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-white transition-colors"
+                aria-label="GitHub"
+              >
                 <Github size={20} />
               </a>
             </div>
@@ -118,18 +169,33 @@ const Sidebar = () => {
         onMouseEnter={() => setIsDesktopOpen(true)}
         onMouseLeave={() => setIsDesktopOpen(false)}
       >
-        <div className={`flex items-center mb-10 ${isDesktopOpen ? "self-start" : "justify-center w-full"}`}>
+        <div
+          className={`flex items-center mb-10 ${isDesktopOpen ? "self-start" : "justify-center w-full"}`}
+        >
           <Link to="/" className="flex items-center gap-2.5 overflow-hidden">
-            <img src={Logo} alt="Logo Br14nfilmes" className={`${isDesktopOpen ? "h-9" : "h-8"} w-auto transition-all duration-200`} />
+            <img
+              src={Logo}
+              alt="Logo Br14nfilmes"
+              className={`${isDesktopOpen ? "h-9" : "h-8"} w-auto transition-all duration-200`}
+            />
             {isDesktopOpen && (
-              <span className="text-xl font-bold text-white whitespace-nowrap">Br14nfilmes</span>
+              <span className="text-xl font-bold text-white whitespace-nowrap">
+                Br14nfilmes
+              </span>
             )}
           </Link>
         </div>
 
         <nav className="flex-grow flex flex-col space-y-2 w-full">
-          {navLinks.map(link => (
-            <NavLinkItem key={link.to + "-desktop"} {...link} IconComponent={link.icon} isMobile={false} currentPath={location.pathname} isDesktopOpenState={isDesktopOpen} />
+          {navLinks.map((link) => (
+            <NavLinkItem
+              key={link.to + "-desktop"}
+              {...link}
+              IconComponent={link.icon}
+              isMobile={false}
+              currentPath={location.pathname}
+              isDesktopOpenState={isDesktopOpen}
+            />
           ))}
         </nav>
 
@@ -140,7 +206,11 @@ const Sidebar = () => {
             title={!isDesktopOpen ? "Sair" : undefined}
           >
             <LogOut size={20} className="flex-shrink-0" />
-            {isDesktopOpen && <span className="text-sm font-medium whitespace-nowrap">Sair</span>}
+            {isDesktopOpen && (
+              <span className="text-sm font-medium whitespace-nowrap">
+                Sair
+              </span>
+            )}
           </button>
         </div>
       </div>

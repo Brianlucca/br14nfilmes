@@ -6,7 +6,7 @@ const WarningModal = () => {
   const [showModal, setShowModal] = useState(false);
   const [scrolledToEnd, setScrolledToEnd] = useState(false);
   const scrollContainerRef = useRef(null);
-  const scrollIntervalRef = useRef(null); // Para guardar a referência do intervalo
+  const scrollIntervalRef = useRef(null); 
 
   const warnings = [
     {
@@ -34,10 +34,10 @@ const WarningModal = () => {
       type: "warning",
     },
     {
-      id: "maintenance-20250129",
-      title: "Manutenção Finalizada - 29/01/2025!",
+      id: "update-20250528",
+      title: "Versão Nova 1.1.0 - 28/05/2025!",
       content:
-        "Atenção, usuário! A manutenção foi concluída com sucesso! Agora, o site está mais rápido e com uma experiência muito mais fluida. Também aprimoramos a segurança e a privacidade dos seus dados. A partir de agora, novos conteúdos serão adicionados gradualmente ao longo das próximas semanas. Caso tenha algum problema ou sugestão, sinta-se à vontade para nos enviar uma mensagem pelo chat. Alguns componentes podem apresentar um design diferente, mas isso será ajustado em breve para alinhar com a identidade visual do site. Agradecemos pela paciência e confiança!",
+        "Novo visual, novas funcionalidades! O site está de cara nova: mais moderno, rápido e interativo. Agora você pode comentar, enviar vídeos do YouTube, atualizar seu nickname e muito mais — tudo de forma simples e otimizada. Esperamos que você aproveite a nova experiência!",
       icon: <Wrench size={24} className="text-blue-400" />,
       type: "update",
     },
@@ -82,7 +82,7 @@ const WarningModal = () => {
     if (showModal && container) {
       if (visibleWarnings.length <= 1 || container.scrollHeight <= container.clientHeight) {
         setScrolledToEnd(true);
-        return; // Não precisa de auto-scroll nem listener
+        return;
       }
 
       if (visibleWarnings.length > 1 && !scrolledToEnd) {
