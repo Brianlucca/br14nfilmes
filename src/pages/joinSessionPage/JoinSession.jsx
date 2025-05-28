@@ -25,7 +25,7 @@ const JoinSession = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-gray-300">
       <Sidebar />
-      <main className="flex-grow md:ml-20 p-4 sm:p-6 md:p-8 transition-all duration-300 ease-in-out flex flex-col items-center">
+      <main className="flex-grow md:ml-20 p-4 sm:p-6 md:p-8 transition-all duration-300 ease-in-out flex flex-col items-center md:mt-0 mt-16">
         <div className="w-full max-w-4xl space-y-8">
           <div className="bg-[#1c1c1c] p-6 sm:p-8 shadow-2xl rounded-xl border border-gray-800/70">
             <div className="flex flex-col items-center text-center mb-6">
