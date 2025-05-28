@@ -1,4 +1,4 @@
-import { get, onValue, push, ref, remove, set } from 'firebase/database'
+import { get, onValue, push, ref, remove, set, off } from 'firebase/database'
 import { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -9,7 +9,7 @@ const useSeriesDetails = (id) => {
   const [series, setSeries] = useState(null)
   const [comments, setComments] = useState([])
   const [isFavorite, setIsFavorite] = useState(false)
-  const { user } = useContext(AuthContext)
+  const { user, loading: authLoading } = useContext(AuthContext)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -33,50 +33,57 @@ const useSeriesDetails = (id) => {
 
   useEffect(() => {
     const commentsRef = ref(database, `series/${id}/comments`)
-    onValue(commentsRef, (snapshot) => {
+    const unsubscribe = onValue(commentsRef, (snapshot) => {
       const commentsData = snapshot.val()
-      if (commentsData) {
-        setComments(Object.entries(commentsData))
-      } else {
-        setComments([])
-      }
+      setComments(commentsData ? Object.entries(commentsData) : [])
     })
+
+    return () => off(commentsRef, 'value', unsubscribe)
   }, [id])
 
   useEffect(() => {
-    if (user) {
+    if (user && user.uid) {
       const favoritesRef = ref(
         database,
         `users/${user.uid}/favorites/serie/${id}`,
       )
-      onValue(favoritesRef, (snapshot) => {
+      const unsubscribe = onValue(favoritesRef, (snapshot) => {
         setIsFavorite(snapshot.exists())
       })
+
+      return () => off(favoritesRef, 'value', unsubscribe)
     }
   }, [id, user])
 
   const handleCommentSubmit = async (commentText, replyingTo) => {
-    if (!user) {
-      toast.error('Usuário não autenticado')
+    if (authLoading) {
+      toast.info('Aguardando informações do perfil...')
+      return
+    }
+    if (!user || !user.uid) {
+      toast.error('Você precisa estar logado para comentar.')
+      navigate('/login', { state: { from: location.pathname } })
       return
     }
 
-    const roleRef = ref(database, `users/${user.uid}/updateNick/${user.uid}`)
-    const roleSnapshot = await get(roleRef)
-    const roleData = roleSnapshot.val()
+    const defaultNicknamePattern = `Usuário_${user.uid.substring(0, 5)}`
 
-    if (!roleData || !roleData.nickname) {
-      toast.warn('Por favor, crie um nickname antes de comentar.')
-      navigate('/profile', { state: { from: location.pathname } })
+    if (!user.nickname || user.nickname === defaultNicknamePattern) {
+      toast.warn('Por favor, defina um nickname no seu perfil para comentar.')
+      navigate('/profile', {
+        state: { from: location.pathname, needsNickname: true },
+      })
       return
     }
 
     const comment = {
       text: commentText,
-      userName: roleData.nickname,
+      userName: user.nickname,
+      userId: user.uid,
+      userPhotoURL: user.photoURL,
       createdAt: new Date().toISOString(),
       replyingToName: replyingTo
-        ? comments.find(([key]) => key === replyingTo)[1].userName
+        ? comments.find(([key]) => key === replyingTo)?.[1]?.userName
         : null,
     }
 
@@ -89,6 +96,14 @@ const useSeriesDetails = (id) => {
   }
 
   const handleDeleteComment = async (commentKey) => {
+    if (authLoading) {
+      toast.info('Aguardando informações do perfil...')
+      return
+    }
+    if (!user || !user.uid) {
+      toast.error('Você precisa estar logado para deletar um comentário.')
+      return
+    }
     try {
       await remove(ref(database, `series/${id}/comments/${commentKey}`))
       toast.success('Comentário deletado com sucesso!')
@@ -98,8 +113,13 @@ const useSeriesDetails = (id) => {
   }
 
   const toggleFavorite = async () => {
-    if (!user) {
-      toast.error('Usuário não autenticado')
+    if (authLoading) {
+      toast.info('Aguardando informações do perfil...')
+      return
+    }
+    if (!user || !user.uid) {
+      toast.error('Você precisa estar logado para adicionar aos favoritos')
+      navigate('/login', { state: { from: location.pathname } })
       return
     }
 

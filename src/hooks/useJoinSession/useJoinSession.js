@@ -1,15 +1,15 @@
 import {
+  equalTo,
   get,
   limitToLast,
+  orderByChild,
   query,
   ref,
+  serverTimestamp,
   set,
-  orderByChild,
-  equalTo,
-  push,
 } from "firebase/database";
-import { useContext, useEffect, useState, useCallback } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { database } from "../../services/firebaseConfig/FirebaseConfig";
@@ -34,7 +34,7 @@ export const useJoinSession = () => {
       const recentSessionsQuery = query(
         ref(database, "sessions"),
         orderByChild("createdAt"),
-        limitToLast(10), // Pode aumentar o limite se desejar
+        limitToLast(10),
       );
       const snapshot = await get(recentSessionsQuery);
       if (snapshot.exists()) {
@@ -48,7 +48,6 @@ export const useJoinSession = () => {
         setRecentSessions([]);
       }
     } catch (error) {
-      console.error("Erro ao buscar sessões recentes da comunidade:", error);
       setRecentSessions([]);
     } finally {
       setLoadingGlobalSessions(false);
@@ -61,7 +60,7 @@ export const useJoinSession = () => {
     try {
       const userSessionsQuery = query(
         ref(database, "sessions"),
-        orderByChild("createdByUid"), // Agora busca pelo UID do criador
+        orderByChild("createdByUid"),
         equalTo(user.uid),
       );
       const snapshot = await get(userSessionsQuery);
@@ -78,7 +77,6 @@ export const useJoinSession = () => {
         setMySessions([]);
       }
     } catch (error) {
-      console.error("Erro ao buscar suas sessões criadas:", error);
       setMySessions([]);
     } finally {
       setLoadingMySessions(false);
@@ -146,7 +144,7 @@ export const useJoinSession = () => {
         const currentParticipantRef = ref(
           database,
           `sessions/${codeToJoin}/participants/${user.uid}`,
-        ); // Referência direta ao participante pelo UID
+        );
         const participantSnapshot = await get(currentParticipantRef);
 
         if (!participantSnapshot.exists()) {
@@ -164,7 +162,6 @@ export const useJoinSession = () => {
         return false;
       }
     } catch (error) {
-      console.error("Erro ao entrar na sessão:", error);
       toast.error("Erro ao tentar entrar na sessão.");
       return false;
     } finally {

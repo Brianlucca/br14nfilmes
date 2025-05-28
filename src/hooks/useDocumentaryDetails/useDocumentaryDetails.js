@@ -1,4 +1,4 @@
-import { get, onValue, push, ref, remove, set } from 'firebase/database'
+import { get, onValue, push, ref, remove, set, off } from 'firebase/database'
 import { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -9,7 +9,7 @@ const useDocumentaryDetails = (id) => {
   const [documentary, setDocumentary] = useState(null)
   const [comments, setComments] = useState([])
   const [isFavorite, setIsFavorite] = useState(false)
-  const { user } = useContext(AuthContext)
+  const { user, loading: authLoading } = useContext(AuthContext)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -23,7 +23,7 @@ const useDocumentaryDetails = (id) => {
         } else {
           toast.error('Documentário não encontrado')
         }
-      } catch {
+      } catch (error) {
         toast.error('Erro ao buscar detalhes do documentário')
       }
     }
@@ -42,11 +42,11 @@ const useDocumentaryDetails = (id) => {
       }
     })
 
-    return () => unsubscribe()
+    return () => off(commentsRef, 'value', unsubscribe)
   }, [id])
 
   useEffect(() => {
-    if (user) {
+    if (user && user.uid) {
       const favoritesRef = ref(
         database,
         `users/${user.uid}/favorites/documentary/${id}`,
@@ -55,55 +55,75 @@ const useDocumentaryDetails = (id) => {
         setIsFavorite(snapshot.exists())
       })
 
-      return () => unsubscribe()
+      return () => off(favoritesRef, 'value', unsubscribe)
     }
   }, [id, user])
 
   const handleCommentSubmit = async (commentText, replyingTo) => {
-    if (!user) {
-      toast.error('Usuário não autenticado')
+    if (authLoading) {
+      toast.info('Aguardando informações do perfil...')
+      return
+    }
+    if (!user || !user.uid) {
+      toast.error('Você precisa estar logado para comentar.')
+      navigate('/login', { state: { from: location.pathname } })
       return
     }
 
-    const roleRef = ref(database, `users/${user.uid}/updateNick/${user.uid}`)
-    const roleSnapshot = await get(roleRef)
-    const roleData = roleSnapshot.val()
+    const defaultNicknamePattern = `Usuário_${user.uid.substring(0, 5)}`
 
-    if (!roleData || !roleData.nickname) {
-      toast.warn('Por favor, crie um nickname antes de comentar.')
-      navigate('/profile', { state: { from: location.pathname } })
+    if (!user.nickname || user.nickname === defaultNicknamePattern) {
+      toast.warn('Por favor, defina um nickname no seu perfil para comentar.')
+      navigate('/profile', {
+        state: { from: location.pathname, needsNickname: true },
+      })
       return
     }
 
     const comment = {
       text: commentText,
-      userName: roleData.nickname,
+      userName: user.nickname,
+      userId: user.uid,
+      userPhotoURL: user.photoURL,
       createdAt: new Date().toISOString(),
       replyingToName: replyingTo
-        ? comments.find(([key]) => key === replyingTo)[1].userName
+        ? comments.find(([key]) => key === replyingTo)?.[1]?.userName
         : null,
     }
 
     try {
       await push(ref(database, `documentaries/${id}/comments`), comment)
       toast.success('Comentário enviado com sucesso!')
-    } catch {
+    } catch (error) {
       toast.error('Erro ao enviar comentário')
     }
   }
 
   const handleDeleteComment = async (commentKey) => {
+    if (authLoading) {
+      toast.info('Aguardando informações do perfil...')
+      return
+    }
+    if (!user || !user.uid) {
+      toast.error('Você precisa estar logado para deletar um comentário.')
+      return
+    }
     try {
       await remove(ref(database, `documentaries/${id}/comments/${commentKey}`))
       toast.success('Comentário deletado com sucesso!')
-    } catch {
+    } catch (error) {
       toast.error('Erro ao deletar comentário')
     }
   }
 
   const handleToggleFavorite = async () => {
-    if (!user) {
-      toast.error('Usuário não autenticado')
+    if (authLoading) {
+      toast.info('Aguardando informações do perfil...')
+      return
+    }
+    if (!user || !user.uid) {
+      toast.error('Você precisa estar logado para adicionar aos favoritos')
+      navigate('/login', { state: { from: location.pathname } })
       return
     }
 
@@ -128,7 +148,7 @@ const useDocumentaryDetails = (id) => {
         setIsFavorite(true)
         toast.success('Documentário adicionado aos favoritos')
       }
-    } catch {
+    } catch (error) {
       toast.error('Erro ao atualizar favoritos')
     }
   }
