@@ -1,5 +1,5 @@
-import { Github, Linkedin, Mail, MapPin, Phone, Home, Users, Heart, UserCircle } from "lucide-react"; // Adicionando mais ícones para links e contato
-import { Link } from "react-router-dom"; // Usar Link do react-router-dom para navegação interna
+import { Github, Linkedin, Mail, MapPin, Phone, Home, Users, Heart, UserCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const quickLinks = [
@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#101014] text-gray-400 border-t border-gray-800/50">
       <div className="container mx-auto px-6 py-12 md:py-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 md:ml-20"> {/* md:ml-20 para alinhar com sidebar */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 md:ml-20">
           
           <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
             <Link to="/" className="inline-block mb-4">
@@ -55,16 +55,6 @@ const Footer = () => {
                   contatobr14nfilmes@gmail.com
                 </a>
               </li>
-              {/* Exemplo de outros contatos, se aplicável */}
-              {/* <li className="flex items-start">
-                <Phone size={16} className="mr-2.5 mt-1 text-sky-400 flex-shrink-0" />
-                <span>+55 (XX) XXXXX-XXXX</span>
-              </li>
-              <li className="flex items-start">
-                <MapPin size={16} className="mr-2.5 mt-1 text-sky-400 flex-shrink-0" />
-                <span>Sua Cidade, Seu Estado</span>
-              </li>
-              */}
             </ul>
           </div>
 
@@ -87,7 +77,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-10 md:mt-12 pt-8 border-t border-gray-800/50 text-center text-xs md:ml-20"> {/* md:ml-20 para alinhar com sidebar */}
+        <div className="mt-10 md:mt-12 pt-8 border-t border-gray-800/50 text-center text-xs md:ml-20">
           <p>&copy; {new Date().getFullYear()} br14nfilmes. Todos os direitos reservados.</p>
           <p className="mt-1">
             Desenvolvido por <a href="https://github.com/Brianlucca" target="_blank" rel="noopener noreferrer" className="font-medium text-sky-400 hover:underline">Brian Lucca</a>.
