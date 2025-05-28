@@ -64,7 +64,6 @@ const Register = () => {
                {apiError}
             </Message>
           )}
-          {/* Mantido para erros gerais do Formik, caso use setErrors({general: ...}) no futuro */}
           {formik.errors.general && ( 
              <Message type="error" closable className="mb-4 !bg-red-700 !text-white">
                 {formik.errors.general}

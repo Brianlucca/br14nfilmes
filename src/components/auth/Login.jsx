@@ -1,8 +1,8 @@
-import { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Message } from "rsuite";
 import { AuthContext } from "../../contexts/authContext/AuthContext";
 import { loginUser } from "../../services/authService/AuthService";
-import { Message } from 'rsuite';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -21,24 +21,27 @@ const Login = () => {
       }
       navigate("/");
     } catch (err) {
-      setError(`Email ou senha incorretos. Tente novamente. Caso o problema persista, entre em contato - contatobr14nfilmes@gmail.com`);
-      console.error("Erro no login:", err);
+      setError(
+        `Email ou senha incorretos. Tente novamente. Caso o problema persista, entre em contato - contatobr14nfilmes@gmail.com`,
+      );
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-black text-gray-300 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col md:flex-row w-full max-w-4xl bg-[#1c1c1c] shadow-2xl rounded-xl overflow-hidden">
-        
         <div className="hidden md:flex md:w-1/2 p-8 sm:p-12 flex-col items-center justify-center bg-gradient-to-br from-[#2a2a2a] to-[#111111] relative">
-          <img 
-            src="/logo.png" 
-            alt="Logo br14nfilmes" 
-            className="w-40 h-40 mb-6 rounded-full shadow-lg" 
+          <img
+            src="/logo.png"
+            alt="Logo br14nfilmes"
+            className="w-40 h-40 mb-6 rounded-full shadow-lg"
           />
-          <h2 className="text-3xl font-bold text-white mb-3 text-center">br14nfilmes</h2>
+          <h2 className="text-3xl font-bold text-white mb-3 text-center">
+            br14nfilmes
+          </h2>
           <p className="text-gray-400 text-center text-sm">
-            Explore, avalie e organize suas sessões de filmes e séries. <br /> Acesse sua conta para começar!
+            Explore, avalie e organize suas sessões de filmes e séries. <br />{" "}
+            Acesse sua conta para começar!
           </p>
           <div className="absolute bottom-4 left-4 text-xs text-gray-500">
             &copy; {new Date().getFullYear()} br14nfilmes
@@ -47,20 +50,35 @@ const Login = () => {
 
         <div className="w-full md:w-1/2 p-8 sm:p-12 bg-[#1a1a1a]">
           <div className="flex flex-col items-center mb-6 md:hidden">
-            <img src="/logo.png" alt="Logo br14nfilmes" className="w-20 h-20 mb-3" />
+            <img
+              src="/logo.png"
+              alt="Logo br14nfilmes"
+              className="w-20 h-20 mb-3"
+            />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white text-center mb-2">Bem-vindo de Volta!</h1>
-          <h2 className="text-lg sm:text-xl font-semibold mb-6 text-center text-gray-400">Acesse sua conta</h2>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white text-center mb-2">
+            Bem-vindo de Volta!
+          </h1>
+          <h2 className="text-lg sm:text-xl font-semibold mb-6 text-center text-gray-400">
+            Acesse sua conta
+          </h2>
 
           {error && (
-            <Message type="error" closable className="mb-4 !bg-red-700 !text-white">
-               {error}
+            <Message
+              type="error"
+              closable
+              className="mb-4 !bg-red-700 !text-white"
+            >
+              {error}
             </Message>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
                 Email
               </label>
               <input
@@ -75,7 +93,10 @@ const Login = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
                 Senha
               </label>
               <input
@@ -98,13 +119,19 @@ const Login = () => {
           </form>
           <p className="mt-6 text-center text-sm">
             Não tem uma conta?{" "}
-            <Link to="/register" className="font-medium text-[#41b9dd] hover:text-[#63c9e7] hover:underline">
+            <Link
+              to="/register"
+              className="font-medium text-[#41b9dd] hover:text-[#63c9e7] hover:underline"
+            >
               Faça o cadastro
             </Link>
           </p>
           <p className="mt-2 text-center text-sm">
             Esqueceu sua senha?{" "}
-            <Link to="/reset-password" className="font-medium text-[#41b9dd] hover:text-[#63c9e7] hover:underline">
+            <Link
+              to="/reset-password"
+              className="font-medium text-[#41b9dd] hover:text-[#63c9e7] hover:underline"
+            >
               Clique aqui
             </Link>
           </p>
