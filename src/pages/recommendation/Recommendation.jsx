@@ -92,6 +92,11 @@ const Recommendations = () => {
     }
   };
 
+  const nameMaxLength = 150;
+  const imageUrlMaxLength = 2000;
+  const videoUrlMaxLength = 500;
+  const descriptionMaxLength = 1000;
+
   return (
     <div className="flex flex-col min-h-screen bg-black">
       <Sidebar />
@@ -128,7 +133,11 @@ const Recommendations = () => {
                     placeholder="Ex: Interestelar, Breaking Bad"
                     className="w-full pl-10 pr-4 py-2.5 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200"
                     required
+                    maxLength={nameMaxLength}
                   />
+                </div>
+                <div className="text-right text-xs text-gray-500 mt-1">
+                  {name.length}/{nameMaxLength}
                 </div>
               </div>
 
@@ -151,7 +160,11 @@ const Recommendations = () => {
                     placeholder="https://exemplo.com/imagem.jpg"
                     className="w-full pl-10 pr-4 py-2.5 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200"
                     required
+                    maxLength={imageUrlMaxLength}
                   />
+                </div>
+                <div className="text-right text-xs text-gray-500 mt-1">
+                  {imageUrl.length}/{imageUrlMaxLength}
                 </div>
               </div>
 
@@ -174,7 +187,11 @@ const Recommendations = () => {
                     placeholder="Ex: https://www.youtube.com/embed/VIDEO_ID"
                     className="w-full pl-10 pr-4 py-2.5 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200"
                     required
+                    maxLength={videoUrlMaxLength}
                   />
+                </div>
+                <div className="text-right text-xs text-gray-500 mt-1">
+                  {videoUrl.length}/{videoUrlMaxLength}
                 </div>
               </div>
 
@@ -197,7 +214,11 @@ const Recommendations = () => {
                     rows="4"
                     className="w-full pl-10 pr-4 py-2.5 border border-gray-700 bg-[#2d2d2d] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 resize-none"
                     required
+                    maxLength={descriptionMaxLength}
                   />
+                </div>
+                <div className="text-right text-xs text-gray-500 mt-1">
+                  {description.length}/{descriptionMaxLength}
                 </div>
               </div>
 
