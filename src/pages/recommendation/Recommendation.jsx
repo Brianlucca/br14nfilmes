@@ -46,18 +46,11 @@ const Recommendations = () => {
         setIsSubmitting(false);
         return;
       }
-
-      const userProfileRef = ref(db, `users/${userId}/updateNick/${userId}`);
+      const userProfileRef = ref(db, `users/${userId}`);
       const userProfileSnapshot = await get(userProfileRef);
       const userProfileData = userProfileSnapshot.val();
-
-      if (!userProfileData || !userProfileData.nickname) {
-        toast.warn(
-          "Por favor, crie um nickname no seu perfil antes de enviar uma recomendação.",
-        );
-        navigate("/profile", {
-          state: { from: location.pathname, needsNickname: true },
-        });
+      if (!userProfileData) {
+        toast.error("Perfil de usuário não encontrado.");
         setIsSubmitting(false);
         return;
       }
